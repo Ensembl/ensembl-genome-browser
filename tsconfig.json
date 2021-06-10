@@ -8,16 +8,16 @@
       "lib": ["es6", "es2015", "es2016", "dom"],
       "types": ["node"],
       "declaration": true,
-      "outDir": "lib",
+      "outDir": "dist",
       "rootDir": "src",
       "strict": true,
     },
     "exclude": [
-      "lib",
+      "dist",
       "node_modules",
-      "lib/**/*.spec.ts"
+      "dist/**/*.spec.ts"
     ],
     "include": [
       "src/*",
-      "index.js"]
+      "index.js", "index.d.ts"]
   }
