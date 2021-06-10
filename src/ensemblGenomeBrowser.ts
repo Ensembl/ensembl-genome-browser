@@ -3,7 +3,7 @@ import init, {
   GenomeBrowser
 } from './peregrine/peregrine_ensembl.js';
 
-const subscriptions = new Map<string, Set<Function>>();
+const subscriptions = new Map<string, Set<() => MessageEvent>>();
 
 type GenomeBrowserType = {
   go: () => void,
@@ -16,15 +16,9 @@ type GenomeBrowserType = {
   set_message_reporter: ( callback: (x: any) => void) => void
 }
 
-
-// type IncomingMessageEventData = {
-//   type: BrowserMessagingType.BPANE_OUT;
-// } & IncomingAction;
-
-
 class EnsemblGenomeBrowser {
 
-  private elementId: string = '';
+  private elementId = '';
   genomeBrowser: GenomeBrowserType | null = null;
   bpPerScreen = 1000000;
   x = 2500000;
@@ -34,7 +28,7 @@ class EnsemblGenomeBrowser {
    constructor (elementId: string) {
     this.elementId = elementId;
     this.subscribeToActions();
-  };
+  }
 
   public async init() {
 
@@ -66,7 +60,7 @@ class EnsemblGenomeBrowser {
     // subscriptionsToAction?.forEach(fn => fn(payload));
   }
 
-  public handleIncoming = (message: any) => {
+  public handleIncoming = (message: unknown) => {
 
     console.log(message);
   }
@@ -77,7 +71,7 @@ class EnsemblGenomeBrowser {
 
     console.log(action);
     
-    let type: any = action.type;
+    const type: any = action.type;
 
     if( type === OutgoingActionType.ACTIVATE_BROWSER ) {
       
@@ -102,21 +96,21 @@ class EnsemblGenomeBrowser {
 
     
     } else if(action.type === OutgoingActionType.TURN_ON_TRACKS){
-      for(let track_id of action.payload.track_ids) {
+      for(const track_id of action.payload.track_ids) {
         this.genomeBrowser?.set_switch(["track",track_id])
         this.genomeBrowser?.set_switch(["track",track_id,"label"])
       }
     } else if(action.type === OutgoingActionType.TURN_OFF_TRACKS){
-      for(let track_id of action.payload.track_ids) {
+      for(const track_id of action.payload.track_ids) {
         this.genomeBrowser?.clear_switch(["track",track_id])
         this.genomeBrowser?.clear_switch(["track",track_id,"label"])
       }
     }  else if(action.type === OutgoingActionType.TURN_ON_LABELS){
-      for(let track_id of action.payload.track_ids) {
+      for(const track_id of action.payload.track_ids) {
         this.genomeBrowser?.set_switch(["track",track_id,"label"])
       }
     } else if(action.type === OutgoingActionType.TURN_OFF_LABELS){
-      for(let track_id of action.payload.track_ids) {
+      for(const track_id of action.payload.track_ids) {
         this.genomeBrowser?.clear_switch(["track",track_id,"label"])
       }
     } else if(action.type === OutgoingActionType.ZOOM_IN){
@@ -154,7 +148,7 @@ class EnsemblGenomeBrowser {
 
   };
   
-  public subscribe = (action: string, callback: Function) => {
+  public subscribe = (action: string, callback: () => MessageEvent) => {
     
     const subscriptionsToAction = subscriptions.get(`${this.elementId}-${action}`);
     if (subscriptionsToAction) {

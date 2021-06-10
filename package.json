@@ -2,14 +2,15 @@
   "name": "ensembl-genome-browser",
   "version": "1.0.0",
   "description": "Ensembl standalone genome browser",
-  "main": "index.js",
-  "types": "./src/index.d.ts",
+  "main": "index.d.ts",
+  "types": "./index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "copy-perigrine-files": "cp -r ./src/peregrine ./lib/",
-    "build": "tsc && npm run copy-perigrine-files",
+    "build": "npm run lint && tsc && npm run copy-perigrine-files",
     "build:check": "tsc --noEmit",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "lint": "eslint ./src"
   },
   "repository": {
     "type": "git",
