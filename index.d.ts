@@ -1,6 +1,6 @@
-import EnsemblGenomeBrowser from './src/ensemblGenomeBrowser';
+import EnsemblGenomeBrowser from './dist/ensemblGenomeBrowser';
 
-import { OutgoingAction, OutgoingActionType, IncomingAction, IncomingActionType } from './src/action';
+import { OutgoingAction, OutgoingActionType, IncomingAction, IncomingActionType } from './dist/action';
 
 export {
     OutgoingAction, 
