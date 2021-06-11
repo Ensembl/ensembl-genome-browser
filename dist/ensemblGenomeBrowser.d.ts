@@ -1,4 +1,4 @@
-import { OutgoingAction } from './action';
+import { IncomingAction, IncomingActionType, OutgoingAction } from './action';
 declare type GenomeBrowserType = {
     go: () => void;
     set_stick: (stickId: string) => void;
@@ -10,21 +10,16 @@ declare type GenomeBrowserType = {
     set_message_reporter: (callback: (x: any) => void) => void;
 };
 declare class EnsemblGenomeBrowser {
-    private elementId;
     genomeBrowser: GenomeBrowserType | null;
     bpPerScreen: number;
     x: number;
     y: number;
     inited: boolean;
-    constructor(elementId: string);
     init(): Promise<void>;
-    private subscribeToActions;
-    private handleAction;
     handleIncoming: (message: unknown) => void;
     send: (action: OutgoingAction) => Promise<void>;
-    subscribe: (action: string, callback: () => MessageEvent) => {
+    subscribe: (action: IncomingActionType[], callback: (action: IncomingAction) => void) => {
         unsubscribe(): void;
     };
-    getElementId: () => string;
 }
 export default EnsemblGenomeBrowser;

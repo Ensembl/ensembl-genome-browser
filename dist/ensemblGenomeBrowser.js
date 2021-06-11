@@ -59,20 +59,13 @@ var action_1 = require("./action");
 var peregrine_ensembl_js_1 = __importStar(require("./peregrine/peregrine_ensembl.js"));
 var subscriptions = new Map();
 var EnsemblGenomeBrowser = /** @class */ (function () {
-    function EnsemblGenomeBrowser(elementId) {
+    function EnsemblGenomeBrowser() {
         var _this = this;
-        this.elementId = '';
         this.genomeBrowser = null;
         this.bpPerScreen = 1000000;
         this.x = 2500000;
         this.y = 0;
         this.inited = false;
-        this.handleAction = function (event) {
-            // const { action, payload } = event.data as IncomingMessageEventData;
-            // const type = action;
-            // const subscriptionsToAction = subscriptions.get(`${this.elementId}-${type}`);
-            // subscriptionsToAction?.forEach(fn => fn(payload));
-        };
         this.handleIncoming = function (message) {
             console.log(message);
         };
@@ -80,7 +73,6 @@ var EnsemblGenomeBrowser = /** @class */ (function () {
             var type, _a, startBp, endBp, _i, _b, track_id, _c, _d, track_id, _e, _f, track_id, _g, _h, track_id;
             var _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
             return __generator(this, function (_z) {
-                console.log(action);
                 type = action.type;
                 if (type === action_1.OutgoingActionType.ACTIVATE_BROWSER) {
                     this.init();
@@ -151,7 +143,7 @@ var EnsemblGenomeBrowser = /** @class */ (function () {
             });
         }); };
         this.subscribe = function (action, callback) {
-            var subscriptionsToAction = subscriptions.get(_this.elementId + "-" + action);
+            var subscriptionsToAction = subscriptions.get(action);
             if (subscriptionsToAction) {
                 subscriptionsToAction.add(callback);
             }
@@ -164,9 +156,6 @@ var EnsemblGenomeBrowser = /** @class */ (function () {
                 }
             };
         };
-        this.getElementId = function () { return _this.elementId; };
-        this.elementId = elementId;
-        this.subscribeToActions();
     }
     EnsemblGenomeBrowser.prototype.init = function () {
         var _a, _b, _c, _d, _e, _f;
@@ -192,9 +181,6 @@ var EnsemblGenomeBrowser = /** @class */ (function () {
                 }
             });
         });
-    };
-    EnsemblGenomeBrowser.prototype.subscribeToActions = function () {
-        window.addEventListener('message', this.handleAction);
     };
     return EnsemblGenomeBrowser;
 }());

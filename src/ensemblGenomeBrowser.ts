@@ -1,9 +1,9 @@
-import { OutgoingAction, OutgoingActionType } from './action';
+import { IncomingAction, IncomingActionType, OutgoingAction, OutgoingActionType } from './action';
 import init, { 
   GenomeBrowser
 } from './peregrine/peregrine_ensembl.js';
 
-const subscriptions = new Map<string, Set<() => MessageEvent>>();
+const subscriptions = new Map<IncomingActionType[], Set<(action: IncomingAction) => void>>();
 
 type GenomeBrowserType = {
   go: () => void,
@@ -18,17 +18,11 @@ type GenomeBrowserType = {
 
 class EnsemblGenomeBrowser {
 
-  private elementId = '';
   genomeBrowser: GenomeBrowserType | null = null;
   bpPerScreen = 1000000;
   x = 2500000;
   y = 0;
   inited = false;
-
-   constructor (elementId: string) {
-    this.elementId = elementId;
-    this.subscribeToActions();
-  }
 
   public async init() {
 
@@ -46,20 +40,6 @@ class EnsemblGenomeBrowser {
     this.genomeBrowser?.set_message_reporter(this.handleIncoming);
   }
 
-  private subscribeToActions() {
-    window.addEventListener('message', this.handleAction);
-  }
-
-  private handleAction = (event: MessageEvent) => {
-
-    // const { action, payload } = event.data as IncomingMessageEventData;
-
-    // const type = action;
-    // const subscriptionsToAction = subscriptions.get(`${this.elementId}-${type}`);
-
-    // subscriptionsToAction?.forEach(fn => fn(payload));
-  }
-
   public handleIncoming = (message: unknown) => {
 
     console.log(message);
@@ -68,8 +48,6 @@ class EnsemblGenomeBrowser {
 
 
   public send = async (action: OutgoingAction) => {
-
-    console.log(action);
     
     const type: any = action.type;
 
@@ -148,9 +126,9 @@ class EnsemblGenomeBrowser {
 
   };
   
-  public subscribe = (action: string, callback: () => MessageEvent) => {
+  public subscribe = (action: IncomingActionType[], callback: (action: IncomingAction) => void) => {
     
-    const subscriptionsToAction = subscriptions.get(`${this.elementId}-${action}`);
+    const subscriptionsToAction = subscriptions.get(action);
     if (subscriptionsToAction) {
       subscriptionsToAction.add(callback);
     } else {
@@ -163,8 +141,6 @@ class EnsemblGenomeBrowser {
       }
     }
   };
-
-  public getElementId = () => this.elementId;
 
   
 }
