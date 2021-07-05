@@ -1,4 +1,4 @@
-import { CogScrollPayload, CogTrackScrollPayload, ChrLocation, BrowserNavStates, AnchorCoordinates, ZmenuContentFeature } from "./types";
+import { CogScrollPayload, CogTrackScrollPayload, ChrLocation, BrowserNavStates, AnchorCoordinates, ZmenuContentFeature } from './types';
 export declare enum OutgoingActionType {
     PING = "ping",
     ACTIVATE_BROWSER = "activate_browser",
@@ -36,9 +36,9 @@ export declare type BrowserLocationUpdateAction = {
     type: IncomingActionType.UPDATE_LOCATION;
     payload: {
         bumper?: BrowserNavStates;
-        "intended-location"?: ChrLocation;
-        "actual-location"?: ChrLocation;
-        "is-focus-position"?: boolean;
+        'intended-location'?: ChrLocation;
+        'actual-location'?: ChrLocation;
+        'is-focus-position'?: boolean;
     };
 };
 export declare type UpdateCogPositionAction = {

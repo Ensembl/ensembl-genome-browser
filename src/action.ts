@@ -4,31 +4,29 @@ import {
   ChrLocation,
   BrowserNavStates,
   AnchorCoordinates,
-  ZmenuContentFeature,
-} from "./types";
+  ZmenuContentFeature
+} from './types';
 
 export enum OutgoingActionType {
-  PING = "ping",
-  ACTIVATE_BROWSER = "activate_browser",
-  MOVE_DOWN = "move_down",
-  MOVE_LEFT = "move_left",
-  MOVE_RIGHT = "move_right",
-  MOVE_UP = "move_up",
-  SET_FOCUS = "set_focus",
-  SET_FOCUS_LOCATION = "set_focus_location",
-  TOGGLE_TRACKS = "toggle_tracks",
-  TURN_ON_TRACKS = "turn_on_tracks",
-  TURN_OFF_TRACKS = "turn_off_tracks",
-  TURN_ON_LABELS = "turn_on_labels",
-  TURN_OFF_LABELS = "turn_off_labels",
-  ZMENU_ACTIVITY_OUTSIDE = "zmenu-activity-outside", // TODO: sometime later, unify underscores vs hyphens (together with Genome Browser)
-  ZMENU_ENTER = "zmenu-enter",
-  ZMENU_LEAVE = "zmenu-leave",
-  ZOOM_IN = "zoom_in",
-  ZOOM_OUT = "zoom_out"
+  PING = 'ping',
+  ACTIVATE_BROWSER = 'activate_browser',
+  MOVE_DOWN = 'move_down',
+  MOVE_LEFT = 'move_left',
+  MOVE_RIGHT = 'move_right',
+  MOVE_UP = 'move_up',
+  SET_FOCUS = 'set_focus',
+  SET_FOCUS_LOCATION = 'set_focus_location',
+  TOGGLE_TRACKS = 'toggle_tracks',
+  TURN_ON_TRACKS = 'turn_on_tracks',
+  TURN_OFF_TRACKS = 'turn_off_tracks',
+  TURN_ON_LABELS = 'turn_on_labels',
+  TURN_OFF_LABELS = 'turn_off_labels',
+  ZMENU_ACTIVITY_OUTSIDE = 'zmenu-activity-outside', // TODO: sometime later, unify underscores vs hyphens (together with Genome Browser)
+  ZMENU_ENTER = 'zmenu-enter',
+  ZMENU_LEAVE = 'zmenu-leave',
+  ZOOM_IN = 'zoom_in',
+  ZOOM_OUT = 'zoom_out'
 }
-
-
 
 export enum IncomingActionType {
   GENOME_BROWSER_READY = 'genome_browser_ready',
@@ -49,9 +47,9 @@ export type BrowserLocationUpdateAction = {
   type: IncomingActionType.UPDATE_LOCATION;
   payload: {
     bumper?: BrowserNavStates;
-    "intended-location"?: ChrLocation;
-    "actual-location"?: ChrLocation;
-    "is-focus-position"?: boolean;
+    'intended-location'?: ChrLocation;
+    'actual-location'?: ChrLocation;
+    'is-focus-position'?: boolean;
   };
 };
 
@@ -98,7 +96,6 @@ export type BrowserToggleTracksAction = {
   };
 };
 
-
 export type TurnOnTracksAction = {
   type: OutgoingActionType.TURN_ON_TRACKS;
   payload: {
@@ -113,8 +110,6 @@ export type TurnOffTracksAction = {
   };
 };
 
-
-
 export type TurnOnLabelsAction = {
   type: OutgoingActionType.TURN_ON_LABELS;
   payload: {
@@ -123,7 +118,7 @@ export type TurnOnLabelsAction = {
 };
 
 export type TurnOffLabelsAction = {
-  type: OutgoingActionType.TURN_OFF_LABELS
+  type: OutgoingActionType.TURN_OFF_LABELS;
   payload: {
     track_ids: string[];
   };
@@ -139,8 +134,8 @@ export type BrowserSetFocusAction = {
 export type BrowserSetFocusLocationAction = {
   type: OutgoingActionType.SET_FOCUS_LOCATION;
   payload: {
-    endBp: number,
-    startBp: number
+    endBp: number;
+    startBp: number;
     // stick: string;
     // goto: string;
     // focus?: string | undefined;
@@ -226,18 +221,14 @@ export type OutgoingAction =
   | ZoomInAction
   | ZoomOutAction;
 
-
-export type IncomingAction = 
+export type IncomingAction =
   | GenomeBrowserReadyAction
   | BrowserLocationUpdateAction
   | UpdateCogPositionAction
   | UpdateCogTrackPositionAction
   | ZmenuCreateAction
   | ZmenuDestroyAction
-  | ZmenuRepositionAction
-
-
-
+  | ZmenuRepositionAction;
 
 export const createOutgoingAction = (action: OutgoingAction) => {
   return { ...action };

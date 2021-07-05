@@ -1,23 +1,13 @@
 {
-    "compilerOptions": {
-      "target": "es5",
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "esModuleInterop": true,
-      "resolveJsonModule": true,
-      "lib": ["es6", "es2015", "es2016", "dom"],
-      "types": ["node"],
-      "declaration": true,
-      "outDir": "dist",
-      "rootDir": "src",
-      "strict": true,
-    },
-    "exclude": [
-      "dist",
-      "node_modules",
-      "dist/**/*.spec.ts"
-    ],
-    "include": [
-      "src/*",
-      "index.js", "index.d.ts"]
-  }
+  "compilerOptions": {
+    "declaration": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "rootDir": "src",
+    "removeComments": true,
+    "strict": true
+  },
+  "exclude": ["dist", "node_modules"],
+  "include": ["src/*"]
+}
