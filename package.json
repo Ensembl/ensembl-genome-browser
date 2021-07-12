@@ -1,5 +1,5 @@
 {
-  "name": "ensembl-genome-browser",
+  "name": "@ensembl-web/ensembl-genome-browser",
   "version": "1.0.0",
   "description": "Ensembl standalone genome browser",
   "type": "module",
@@ -15,6 +15,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Ensembl/ensembl-genome-browser.git"
+  },
+  "publishConfig": {
+    "@ensembl-web:registry": "https://gitlab.ebi.ac.uk/api/v4/projects/3258/packages/npm/"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.2.1",
