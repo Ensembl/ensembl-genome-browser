@@ -22,6 +22,9 @@ export declare enum OutgoingActionType {
 export declare enum IncomingActionType {
     GENOME_BROWSER_READY = "genome_browser_ready",
     UPDATE_LOCATION = "update_location",
+    CURRENT = "current",
+    TARGET = "target",
+    READY = "ready",
     UPDATE_SCROLL_POSITION = "update_scroll_position",
     UPDATE_TRACK_POSITION = "upadte_track_position",
     ZMENU_CREATE = "create_zmenu",
@@ -31,6 +34,14 @@ export declare enum IncomingActionType {
 export declare type GenomeBrowserReadyAction = {
     type: IncomingActionType.GENOME_BROWSER_READY;
     payload: never;
+};
+export declare type BrowserCurrentLocationUpdateAction = {
+    type: IncomingActionType.CURRENT;
+    payload: [stickId: string, start: number, end: number];
+};
+export declare type BrowserTargetLocationUpdateAction = {
+    type: IncomingActionType.TARGET;
+    payload: [stickId: string, start: number, end: number];
 };
 export declare type BrowserLocationUpdateAction = {
     type: IncomingActionType.UPDATE_LOCATION;
@@ -115,6 +126,7 @@ export declare type BrowserSetFocusLocationAction = {
     payload: {
         endBp: number;
         startBp: number;
+        stick: string;
     };
 };
 export declare type ActivateBrowserAction = {
@@ -178,7 +190,7 @@ export declare type PingAction = {
     type: OutgoingActionType.PING;
 };
 export declare type OutgoingAction = PingAction | ActivateBrowserAction | BrowserToggleTracksAction | TurnOnTracksAction | TurnOffTracksAction | TurnOnLabelsAction | TurnOffLabelsAction | ZmenuEnterAction | ZmenuLeaveAction | ZmenuOutsideActivityAction | BrowserSetFocusLocationAction | BrowserSetFocusAction | MoveUpAction | MoveDownAction | MoveLeftAction | MoveRightAction | ZoomInAction | ZoomOutAction;
-export declare type IncomingAction = GenomeBrowserReadyAction | BrowserLocationUpdateAction | UpdateCogPositionAction | UpdateCogTrackPositionAction | ZmenuCreateAction | ZmenuDestroyAction | ZmenuRepositionAction;
+export declare type IncomingAction = GenomeBrowserReadyAction | BrowserCurrentLocationUpdateAction | BrowserTargetLocationUpdateAction | UpdateCogPositionAction | UpdateCogTrackPositionAction | ZmenuCreateAction | ZmenuDestroyAction | ZmenuRepositionAction;
 export declare const createOutgoingAction: (action: OutgoingAction) => {
     type: OutgoingActionType.TOGGLE_TRACKS;
     payload: {
@@ -215,6 +227,7 @@ export declare const createOutgoingAction: (action: OutgoingAction) => {
     payload: {
         endBp: number;
         startBp: number;
+        stick: string;
     };
 } | {
     type: OutgoingActionType.ACTIVATE_BROWSER;

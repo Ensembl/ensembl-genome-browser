@@ -56,7 +56,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var action_1 = require("./action");
-var peregrine_ensembl_js_1 = __importStar(require("./peregrine/peregrine_ensembl.js"));
+var peregrine_generic_js_1 = __importStar(require("./peregrine/peregrine_generic.js"));
 var subscriptions = new Map();
 var EnsemblGenomeBrowser = /** @class */ (function () {
     function EnsemblGenomeBrowser() {
@@ -66,117 +66,143 @@ var EnsemblGenomeBrowser = /** @class */ (function () {
         this.x = 2500000;
         this.y = 0;
         this.inited = false;
-        this.handleIncoming = function (message) {
-            console.log(message);
+        this.handleIncoming = function (actionType) {
+            var more = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                more[_i - 1] = arguments[_i];
+            }
+            var subscriptionsToAction = subscriptions.get(actionType);
+            if (subscriptionsToAction) {
+                console.log(actionType, more);
+                subscriptionsToAction.forEach(function (subscription) {
+                    subscription({
+                        type: actionType,
+                        payload: more
+                    });
+                });
+            }
         };
         this.send = function (action) { return __awaiter(_this, void 0, void 0, function () {
-            var type, _a, startBp, endBp, _i, _b, track_id, _c, _d, track_id, _e, _f, track_id, _g, _h, track_id;
-            var _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
-            return __generator(this, function (_z) {
+            var type, _a, stick, startBp, endBp, _i, _b, track_id, _c, _d, track_id, _e, _f, track_id, _g, _h, track_id;
+            var _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z;
+            return __generator(this, function (_0) {
                 type = action.type;
                 if (type === action_1.OutgoingActionType.ACTIVATE_BROWSER) {
                     this.init();
                     return [2 /*return*/];
                 }
+                console.log(action);
                 if (action.type === action_1.OutgoingActionType.SET_FOCUS) {
-                    // this.genomeBrowser?.set_stick(action.payload?.focus as string)
-                    (_j = this.genomeBrowser) === null || _j === void 0 ? void 0 : _j.set_stick("homo_sapiens_GCA_000001405_27:1");
+                    (_j = this.genomeBrowser) === null || _j === void 0 ? void 0 : _j.set_stick((_k = action.payload) === null || _k === void 0 ? void 0 : _k.focus);
+                    // this.genomeBrowser?.set_stick("homo_sapiens_GCA_000001405_27:1");
                 }
                 if (action.type === action_1.OutgoingActionType.SET_FOCUS_LOCATION) {
-                    _a = action.payload, startBp = _a.startBp, endBp = _a.endBp;
-                    (_k = this.genomeBrowser) === null || _k === void 0 ? void 0 : _k.set_x(startBp);
+                    _a = action.payload, stick = _a.stick, startBp = _a.startBp, endBp = _a.endBp;
+                    (_l = this.genomeBrowser) === null || _l === void 0 ? void 0 : _l.set_stick(stick);
+                    (_m = this.genomeBrowser) === null || _m === void 0 ? void 0 : _m.goto(startBp, endBp);
                     this.x = startBp;
-                    (_l = this.genomeBrowser) === null || _l === void 0 ? void 0 : _l.set_bp_per_screen(endBp - startBp);
                     this.bpPerScreen = endBp - startBp;
                 }
                 else if (action.type === action_1.OutgoingActionType.TURN_ON_TRACKS) {
                     for (_i = 0, _b = action.payload.track_ids; _i < _b.length; _i++) {
                         track_id = _b[_i];
-                        (_m = this.genomeBrowser) === null || _m === void 0 ? void 0 : _m.set_switch(["track", track_id]);
-                        (_o = this.genomeBrowser) === null || _o === void 0 ? void 0 : _o.set_switch(["track", track_id, "label"]);
+                        (_o = this.genomeBrowser) === null || _o === void 0 ? void 0 : _o.set_switch(["track", track_id]);
+                        (_p = this.genomeBrowser) === null || _p === void 0 ? void 0 : _p.set_switch(["track", track_id, "label"]);
                     }
                 }
                 else if (action.type === action_1.OutgoingActionType.TURN_OFF_TRACKS) {
                     for (_c = 0, _d = action.payload.track_ids; _c < _d.length; _c++) {
                         track_id = _d[_c];
-                        (_p = this.genomeBrowser) === null || _p === void 0 ? void 0 : _p.clear_switch(["track", track_id]);
-                        (_q = this.genomeBrowser) === null || _q === void 0 ? void 0 : _q.clear_switch(["track", track_id, "label"]);
+                        (_q = this.genomeBrowser) === null || _q === void 0 ? void 0 : _q.clear_switch(["track", track_id]);
+                        (_r = this.genomeBrowser) === null || _r === void 0 ? void 0 : _r.clear_switch(["track", track_id, "label"]);
                     }
                 }
                 else if (action.type === action_1.OutgoingActionType.TURN_ON_LABELS) {
                     for (_e = 0, _f = action.payload.track_ids; _e < _f.length; _e++) {
                         track_id = _f[_e];
-                        (_r = this.genomeBrowser) === null || _r === void 0 ? void 0 : _r.set_switch(["track", track_id, "label"]);
+                        (_s = this.genomeBrowser) === null || _s === void 0 ? void 0 : _s.set_switch(["track", track_id, "label"]);
                     }
                 }
                 else if (action.type === action_1.OutgoingActionType.TURN_OFF_LABELS) {
                     for (_g = 0, _h = action.payload.track_ids; _g < _h.length; _g++) {
                         track_id = _h[_g];
-                        (_s = this.genomeBrowser) === null || _s === void 0 ? void 0 : _s.clear_switch(["track", track_id, "label"]);
+                        (_t = this.genomeBrowser) === null || _t === void 0 ? void 0 : _t.clear_switch(["track", track_id, "label"]);
                     }
                 }
                 else if (action.type === action_1.OutgoingActionType.ZOOM_IN) {
                     this.bpPerScreen = this.bpPerScreen - 10000;
-                    (_t = this.genomeBrowser) === null || _t === void 0 ? void 0 : _t.set_bp_per_screen(this.bpPerScreen);
+                    (_u = this.genomeBrowser) === null || _u === void 0 ? void 0 : _u.goto(this.x, (this.x + this.bpPerScreen));
                 }
                 else if (action.type === action_1.OutgoingActionType.ZOOM_OUT) {
                     this.bpPerScreen = this.bpPerScreen + 10000;
-                    (_u = this.genomeBrowser) === null || _u === void 0 ? void 0 : _u.set_bp_per_screen(this.bpPerScreen);
+                    (_v = this.genomeBrowser) === null || _v === void 0 ? void 0 : _v.goto(this.x, (this.x + this.bpPerScreen));
                 }
                 else if (action.type === action_1.OutgoingActionType.MOVE_LEFT) {
                     this.x = this.x + 10000;
-                    (_v = this.genomeBrowser) === null || _v === void 0 ? void 0 : _v.set_x(this.x);
+                    (_w = this.genomeBrowser) === null || _w === void 0 ? void 0 : _w.goto(this.x, (this.x + this.bpPerScreen));
                 }
                 else if (action.type === action_1.OutgoingActionType.MOVE_RIGHT) {
                     this.x = this.x - 10000;
-                    (_w = this.genomeBrowser) === null || _w === void 0 ? void 0 : _w.set_x(this.x);
+                    (_x = this.genomeBrowser) === null || _x === void 0 ? void 0 : _x.goto(this.x, (this.x + this.bpPerScreen));
                 }
                 else if (action.type === action_1.OutgoingActionType.MOVE_UP) {
                     this.y = this.y + 10;
-                    (_x = this.genomeBrowser) === null || _x === void 0 ? void 0 : _x.set_y(this.y);
+                    (_y = this.genomeBrowser) === null || _y === void 0 ? void 0 : _y.set_y(this.y);
                 }
                 else if (action.type === action_1.OutgoingActionType.MOVE_DOWN) {
                     this.y = this.y - 10;
-                    (_y = this.genomeBrowser) === null || _y === void 0 ? void 0 : _y.set_y(this.y);
+                    (_z = this.genomeBrowser) === null || _z === void 0 ? void 0 : _z.set_y(this.y);
                 }
                 return [2 /*return*/];
             });
         }); };
-        this.subscribe = function (action, callback) {
-            var subscriptionsToAction = subscriptions.get(action);
-            if (subscriptionsToAction) {
-                subscriptionsToAction.add(callback);
-            }
-            else {
-                subscriptions.set(action, new Set([callback]));
-            }
+        this.subscribe = function (actionTypes, callback) {
+            actionTypes.forEach(function (actionType) {
+                var subscriptionsToAction = subscriptions.get(actionType);
+                if (subscriptionsToAction) {
+                    subscriptionsToAction.add(callback);
+                }
+                else {
+                    subscriptions.set(actionType, new Set([callback]));
+                }
+            });
             return {
                 unsubscribe: function () {
-                    subscriptionsToAction === null || subscriptionsToAction === void 0 ? void 0 : subscriptionsToAction.delete(callback);
+                    actionTypes.forEach(function (actionType) {
+                        var _a;
+                        (_a = subscriptions.get(actionType)) === null || _a === void 0 ? void 0 : _a.delete(callback);
+                    });
                 }
             };
         };
     }
     EnsemblGenomeBrowser.prototype.init = function () {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_g) {
-                switch (_g.label) {
+            return __generator(this, function (_p) {
+                switch (_p.label) {
                     case 0:
                         if (!!this.inited) return [3 /*break*/, 2];
-                        return [4 /*yield*/, peregrine_ensembl_js_1.default()];
+                        return [4 /*yield*/, peregrine_generic_js_1.default()];
                     case 1:
-                        _g.sent();
-                        this.genomeBrowser = new peregrine_ensembl_js_1.GenomeBrowser();
-                        (_a = this.genomeBrowser) === null || _a === void 0 ? void 0 : _a.go();
-                        _g.label = 2;
+                        _p.sent();
+                        this.genomeBrowser = new peregrine_generic_js_1.GenomeBrowser();
+                        (_a = this.genomeBrowser) === null || _a === void 0 ? void 0 : _a.go({});
+                        _p.label = 2;
                     case 2:
                         this.inited = true;
-                        (_b = this.genomeBrowser) === null || _b === void 0 ? void 0 : _b.set_stick("homo_sapiens_GCA_000001405_27:1");
+                        (_b = this.genomeBrowser) === null || _b === void 0 ? void 0 : _b.set_stick("homo_sapiens_GCA_000001405_27:17");
                         (_c = this.genomeBrowser) === null || _c === void 0 ? void 0 : _c.set_switch(["track"]);
-                        (_d = this.genomeBrowser) === null || _d === void 0 ? void 0 : _d.set_x(this.x);
-                        (_e = this.genomeBrowser) === null || _e === void 0 ? void 0 : _e.set_bp_per_screen(this.bpPerScreen);
-                        (_f = this.genomeBrowser) === null || _f === void 0 ? void 0 : _f.set_message_reporter(this.handleIncoming);
+                        (_d = this.genomeBrowser) === null || _d === void 0 ? void 0 : _d.set_switch(["track", "gene-pc-fwd"]);
+                        (_e = this.genomeBrowser) === null || _e === void 0 ? void 0 : _e.set_switch(["track", "gene-nonpc-fwd"]);
+                        (_f = this.genomeBrowser) === null || _f === void 0 ? void 0 : _f.set_switch(["track", "gene-nonpc-rev"]);
+                        (_g = this.genomeBrowser) === null || _g === void 0 ? void 0 : _g.set_switch(["track", "gene-nonpc-fwd", "label"]);
+                        (_h = this.genomeBrowser) === null || _h === void 0 ? void 0 : _h.set_switch(["track", "gene-nonpc-rev", "label"]);
+                        (_j = this.genomeBrowser) === null || _j === void 0 ? void 0 : _j.set_switch(["track", "gc"]);
+                        (_k = this.genomeBrowser) === null || _k === void 0 ? void 0 : _k.set_switch(["track", "contig"]);
+                        (_l = this.genomeBrowser) === null || _l === void 0 ? void 0 : _l.goto(2000000, 3000000);
+                        (_m = this.genomeBrowser) === null || _m === void 0 ? void 0 : _m.set_switch(["settings"]);
+                        (_o = this.genomeBrowser) === null || _o === void 0 ? void 0 : _o.set_message_reporter(this.handleIncoming);
                         return [2 /*return*/];
                 }
             });

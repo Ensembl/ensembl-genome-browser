@@ -33,6 +33,9 @@ export enum OutgoingActionType {
 export enum IncomingActionType {
   GENOME_BROWSER_READY = 'genome_browser_ready',
   UPDATE_LOCATION = 'update_location',
+  CURRENT = 'current',
+  TARGET = 'target',
+  READY = 'ready',
   UPDATE_SCROLL_POSITION = 'update_scroll_position',
   UPDATE_TRACK_POSITION = 'upadte_track_position',
   ZMENU_CREATE = 'create_zmenu',
@@ -43,6 +46,18 @@ export enum IncomingActionType {
 export type GenomeBrowserReadyAction = {
   type: IncomingActionType.GENOME_BROWSER_READY;
   payload: never;
+};
+
+
+export type BrowserCurrentLocationUpdateAction = {
+  type: IncomingActionType.CURRENT;
+  payload: [stickId: string, start: number, end: number];
+};
+
+
+export type BrowserTargetLocationUpdateAction = {
+  type: IncomingActionType.TARGET;
+  payload: [stickId: string, start: number, end: number];
 };
 
 export type BrowserLocationUpdateAction = {
@@ -141,7 +156,7 @@ export type BrowserSetFocusLocationAction = {
   payload: {
     endBp: number,
     startBp: number
-    // stick: string;
+    stick: string;
     // goto: string;
     // focus?: string | undefined;
   };
@@ -229,7 +244,8 @@ export type OutgoingAction =
 
 export type IncomingAction = 
   | GenomeBrowserReadyAction
-  | BrowserLocationUpdateAction
+  | BrowserCurrentLocationUpdateAction
+  | BrowserTargetLocationUpdateAction
   | UpdateCogPositionAction
   | UpdateCogTrackPositionAction
   | ZmenuCreateAction

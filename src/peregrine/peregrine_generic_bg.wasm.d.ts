@@ -1,0 +1,30 @@
+/* tslint:disable */
+/* eslint-disable */
+export const memory: WebAssembly.Memory;
+export function test(a: number): number;
+export function __wbg_genomebrowser_free(a: number): void;
+export function genomebrowser_new(): number;
+export function genomebrowser_go(a: number, b: number): void;
+export function genomebrowser_copy(a: number): number;
+export function genomebrowser_set_stick(a: number, b: number, c: number): void;
+export function genomebrowser_receive_message(a: number): void;
+export function genomebrowser_set_artificial(a: number, b: number, c: number, d: number): void;
+export function genomebrowser_goto(a: number, b: number, c: number): void;
+export function genomebrowser_set_y(a: number, b: number): void;
+export function genomebrowser_set_switch(a: number, b: number): void;
+export function genomebrowser_clear_switch(a: number, b: number): void;
+export function genomebrowser_set_message_reporter(a: number, b: number): void;
+export function main(): void;
+export function init_panic_hook(): void;
+export function __wbindgen_malloc(a: number): number;
+export function __wbindgen_realloc(a: number, b: number, c: number): number;
+export const __wbindgen_export_2: WebAssembly.Table;
+export function _dyn_core__ops__function__Fn_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h04e8082427c32624(a: number, b: number): void;
+export function _dyn_core__ops__function__Fn__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hb2a9064d4be3b0ad(a: number, b: number, c: number): void;
+export function _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h8bcf390b698dc29e(a: number, b: number): void;
+export function _dyn_core__ops__function__Fn__A_B___Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h245231c2eb6b409c(a: number, b: number, c: number, d: number): void;
+export function _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h38111f9c00ee8d45(a: number, b: number, c: number): void;
+export function __wbindgen_free(a: number, b: number): void;
+export function __wbindgen_exn_store(a: number): void;
+export function wasm_bindgen__convert__closures__invoke2_mut__h00a8b1650583295b(a: number, b: number, c: number, d: number): void;
+export function __wbindgen_start(): void;

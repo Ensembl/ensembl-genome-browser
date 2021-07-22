@@ -37,6 +37,9 @@ var IncomingActionType;
 (function (IncomingActionType) {
     IncomingActionType["GENOME_BROWSER_READY"] = "genome_browser_ready";
     IncomingActionType["UPDATE_LOCATION"] = "update_location";
+    IncomingActionType["CURRENT"] = "current";
+    IncomingActionType["TARGET"] = "target";
+    IncomingActionType["READY"] = "ready";
     IncomingActionType["UPDATE_SCROLL_POSITION"] = "update_scroll_position";
     IncomingActionType["UPDATE_TRACK_POSITION"] = "upadte_track_position";
     IncomingActionType["ZMENU_CREATE"] = "create_zmenu";
