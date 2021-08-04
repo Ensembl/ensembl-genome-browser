@@ -3,6 +3,7 @@
     "declaration": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "lib": ["es2015"],
     "outDir": "dist",
     "rootDir": "src",
     "removeComments": true,

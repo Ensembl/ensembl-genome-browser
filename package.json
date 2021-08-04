@@ -3,11 +3,18 @@
   "version": "1.0.0",
   "description": "Ensembl standalone genome browser",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/bundle-cjs.js",
+  "module": "dist/bundle-es.js",
+  "exports": {
+      ".": {
+          "import": "./dist/bundle-es.js",
+          "require": "./dist/bundle-cjs.js"
+      }
+  },
+
   "scripts": {
     "prebuild": "rm -rf ./dist && npm run lint",
-    "build": "rollup -c",
+    "build": "tsc --outDir dist/ --declarationDir dist/ --declaration true && rollup -c",
     "build:check": "tsc --noEmit",
     "prepublishOnly": "npm run build",
     "lint": "eslint ./src"

@@ -5,7 +5,7 @@ import {
   OutgoingActionType,
   IncomingAction,
   IncomingActionType
-} from './action';
+} from './types';
 
 export {
   OutgoingAction,
