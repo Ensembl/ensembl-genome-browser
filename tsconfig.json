@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "declarationDir": "dist",
     "module": "esnext",
     "moduleResolution": "node",
-    "lib": ["es2015"],
     "outDir": "dist",
     "rootDir": "src",
     "removeComments": true,

@@ -1,29 +1,40 @@
 import typescript from '@rollup/plugin-typescript';
-import copy from 'rollup-plugin-cpy';
+import copy from 'rollup-plugin-copy';
 
-
-const plugins = [
-  typescript(),
-  copy({
-    files: 'src/peregrine/*',
-    dest: 'dist/',
-    options: {
-      verbose: true
-    }
-  })
-];
-
-export default {
-  input: 'src/index.ts',
-  output: [
-    {
-      file: 'dist/bundle-cjs.js',
+export default [
+  // CommonJS
+  {
+    input: 'src/index.ts',
+    output: {
+      dir: './dist/',
+      entryFileNames: 'bundle-cjs.js',
       format: 'cjs'
     },
-    {
-      file: 'dist/bundle-es.js',
+    plugins: [
+      typescript({
+        declaration: true,
+        declarationDir: 'dist/',
+        rootDir: 'src/'
+      }),
+      copy({
+        targets: [
+          { src: 'src/peregrine/*', dest: 'dist/' }
+        ],
+        verbose: true
+      })
+    ]
+  },
+
+  // ES
+  {
+    input: 'src/index.ts',
+    output: { 
+      dir: './dist',
+      entryFileNames: 'bundle-es.js', 
       format: 'es'
-    }
-  ],
-  plugins: plugins
-};
+    },
+    plugins: [
+      typescript()
+    ]
+  },
+];
