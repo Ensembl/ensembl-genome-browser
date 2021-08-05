@@ -9,7 +9,7 @@ declare type GenomeBrowserType = {
     set_y: (y: number) => void;
     set_switch: (path: string[]) => void;
     clear_switch: (path: string[]) => void;
-    set_message_reporter: (callback: (x: any) => void) => void;
+    set_message_reporter: (callback: (...action: [type: IncomingActionType, payload: any]) => void) => void;
 };
 declare class EnsemblGenomeBrowser {
     genomeBrowser: GenomeBrowserType | null;
@@ -19,7 +19,7 @@ declare class EnsemblGenomeBrowser {
     inited: boolean;
     init(): Promise<void>;
     formatIncoming: (actionType: IncomingActionType, payload: any) => IncomingAction;
-    handleIncoming: (actionType: IncomingActionType, ...more: any) => void;
+    handleIncoming: (type: IncomingActionType, payload: any) => void;
     send: (action: OutgoingAction) => Promise<void>;
     subscribe: (actionTypes: IncomingActionType[], callback: Callback) => {
         unsubscribe(): void;

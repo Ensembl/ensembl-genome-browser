@@ -16,7 +16,7 @@ type GenomeBrowserType = {
   set_y: (y: number) => void;
   set_switch: (path: string[]) => void;
   clear_switch: (path: string[]) => void;
-  set_message_reporter: (callback: (x: any) => void) => void;
+  set_message_reporter: (callback: (...action: [type: IncomingActionType, payload: any]) => void) => void;
 };
 
 class EnsemblGenomeBrowser {
@@ -30,7 +30,7 @@ class EnsemblGenomeBrowser {
   public async init() {
 
     if(!this.inited) {
-      const { default: init, GenomeBrowser } = await import('./peregrine/peregrine_generic.js');
+      const { default: init, GenomeBrowser } = await import('./peregrine/peregrine_ensembl.js');
       await init();
       this.genomeBrowser = new GenomeBrowser();
       this.genomeBrowser?.go({});  
@@ -53,11 +53,11 @@ class EnsemblGenomeBrowser {
 
   public formatIncoming = (actionType: IncomingActionType, payload: any) => {
 
-    if (actionType === IncomingActionType.UPDATE_TRACK_SUMMARY) {
+    if (actionType === IncomingActionType.TRACK_SUMMARY) {
 
         return {
           type: actionType,
-          payload: payload[0].summary
+          payload: payload.summary
         } as IncomingAction
     }
 
@@ -68,14 +68,17 @@ class EnsemblGenomeBrowser {
 
   }
 
-  public handleIncoming = (actionType: IncomingActionType,...more: any) => {
+  public handleIncoming = (...action: [type: IncomingActionType, payload: any]) => {
 
-    const subscriptionsToAction = subscriptions.get(actionType);
+    const [type, payload] = action;
+
+    console.log("INCOMING", type, payload);
+    const subscriptionsToAction = subscriptions.get(type);
 
     if (subscriptionsToAction) {
       
       subscriptionsToAction.forEach( subscription => {
-        subscription(this.formatIncoming(actionType, more));
+        subscription(this.formatIncoming(type, payload));
       })
 
     }
@@ -86,6 +89,7 @@ class EnsemblGenomeBrowser {
 
     const type: any = action.type;
 
+    console.log("SEND", action);
     if( type === OutgoingActionType.ACTIVATE_BROWSER ) {
       
       this.init();

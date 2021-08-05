@@ -86,10 +86,10 @@ exports.OutgoingActionType = void 0;
 exports.IncomingActionType = void 0;
 (function (IncomingActionType) {
     IncomingActionType["GENOME_BROWSER_READY"] = "genome_browser_ready";
-    IncomingActionType["CURRENT"] = "current";
-    IncomingActionType["TARGET"] = "target";
-    IncomingActionType["UPDATE_SCROLL_POSITION"] = "update_scroll_position";
-    IncomingActionType["UPDATE_TRACK_SUMMARY"] = "tracks";
+    IncomingActionType["CURRENT_POSITION"] = "current_position";
+    IncomingActionType["TARGET_POSITION"] = "target_position";
+    IncomingActionType["SCROLL_POSITION"] = "scroll_position";
+    IncomingActionType["TRACK_SUMMARY"] = "track_summary";
     IncomingActionType["ZMENU_CREATE"] = "create_zmenu";
     IncomingActionType["ZMENU_DESTROY"] = "destroy_zmenu";
     IncomingActionType["ZMENU_REPOSITION"] = "update_zmenu_position";
@@ -105,10 +105,10 @@ var EnsemblGenomeBrowser = (function () {
         this.y = 0;
         this.inited = false;
         this.formatIncoming = function (actionType, payload) {
-            if (actionType === exports.IncomingActionType.UPDATE_TRACK_SUMMARY) {
+            if (actionType === exports.IncomingActionType.TRACK_SUMMARY) {
                 return {
                     type: actionType,
-                    payload: payload[0].summary
+                    payload: payload.summary
                 };
             }
             return {
@@ -116,15 +116,17 @@ var EnsemblGenomeBrowser = (function () {
                 payload: payload
             };
         };
-        this.handleIncoming = function (actionType) {
-            var more = [];
-            for (var _i = 1; _i < arguments.length; _i++) {
-                more[_i - 1] = arguments[_i];
+        this.handleIncoming = function () {
+            var action = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                action[_i] = arguments[_i];
             }
-            var subscriptionsToAction = subscriptions.get(actionType);
+            var type = action[0], payload = action[1];
+            console.log("INCOMING", type, payload);
+            var subscriptionsToAction = subscriptions.get(type);
             if (subscriptionsToAction) {
                 subscriptionsToAction.forEach(function (subscription) {
-                    subscription(_this.formatIncoming(actionType, more));
+                    subscription(_this.formatIncoming(type, payload));
                 });
             }
         };
@@ -133,6 +135,7 @@ var EnsemblGenomeBrowser = (function () {
             var _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2;
             return __generator(this, function (_3) {
                 type = action.type;
+                console.log("SEND", action);
                 if (type === exports.OutgoingActionType.ACTIVATE_BROWSER) {
                     this.init();
                     return [2];
@@ -235,7 +238,7 @@ var EnsemblGenomeBrowser = (function () {
                 switch (_q.label) {
                     case 0:
                         if (!!this.inited) return [3, 3];
-                        return [4, Promise.resolve().then(function () { return require('./peregrine_generic-144960fd.js'); })];
+                        return [4, Promise.resolve().then(function () { return require('./peregrine_ensembl-a48aa7cc.js'); })];
                     case 1:
                         _p = _q.sent(), init = _p["default"], GenomeBrowser = _p.GenomeBrowser;
                         return [4, init()];

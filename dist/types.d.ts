@@ -43,6 +43,11 @@ export declare type ZmenuContentFeature = {
     track_id: string;
     lines: ZmenuContentLine[];
 };
+export declare type PositionUpdatePayload = {
+    stick: string;
+    start: number;
+    end: number;
+};
 export declare enum OutgoingActionType {
     PING = "ping",
     ACTIVATE_BROWSER = "activate_browser",
@@ -65,10 +70,10 @@ export declare enum OutgoingActionType {
 }
 export declare enum IncomingActionType {
     GENOME_BROWSER_READY = "genome_browser_ready",
-    CURRENT = "current",
-    TARGET = "target",
-    UPDATE_SCROLL_POSITION = "update_scroll_position",
-    UPDATE_TRACK_SUMMARY = "tracks",
+    CURRENT_POSITION = "current_position",
+    TARGET_POSITION = "target_position",
+    SCROLL_POSITION = "scroll_position",
+    TRACK_SUMMARY = "track_summary",
     ZMENU_CREATE = "create_zmenu",
     ZMENU_DESTROY = "destroy_zmenu",
     ZMENU_REPOSITION = "update_zmenu_position"
@@ -78,19 +83,19 @@ export declare type GenomeBrowserReadyAction = {
     payload: never;
 };
 export declare type BrowserCurrentLocationUpdateAction = {
-    type: IncomingActionType.CURRENT;
-    payload: ChrLocation;
+    type: IncomingActionType.CURRENT_POSITION;
+    payload: PositionUpdatePayload;
 };
 export declare type BrowserTargetLocationUpdateAction = {
-    type: IncomingActionType.TARGET;
-    payload: ChrLocation;
+    type: IncomingActionType.TARGET_POSITION;
+    payload: PositionUpdatePayload;
 };
 export declare type UpdateCogPositionAction = {
-    type: IncomingActionType.UPDATE_SCROLL_POSITION;
+    type: IncomingActionType.SCROLL_POSITION;
     payload: CogScrollPayload;
 };
 export declare type UpdateCogTrackPositionAction = {
-    type: IncomingActionType.UPDATE_TRACK_SUMMARY;
+    type: IncomingActionType.TRACK_SUMMARY;
     payload: TrackSummaryList;
 };
 export declare type ZmenuCreateAction = {
