@@ -227,22 +227,22 @@ var EnsemblGenomeBrowser = (function () {
         };
     }
     EnsemblGenomeBrowser.prototype.init = function () {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         return __awaiter(this, void 0, void 0, function () {
-            var _p, init, GenomeBrowser;
-            return __generator(this, function (_q) {
-                switch (_q.label) {
+            var _o, init, GenomeBrowser;
+            return __generator(this, function (_p) {
+                switch (_p.label) {
                     case 0:
                         if (!!this.inited) return [3, 3];
-                        return [4, import('./peregrine_ensembl-c74f82e7.js')];
+                        return [4, import('./peregrine_ensembl-1ed3d76c.js')];
                     case 1:
-                        _p = _q.sent(), init = _p["default"], GenomeBrowser = _p.GenomeBrowser;
+                        _o = _p.sent(), init = _o["default"], GenomeBrowser = _o.GenomeBrowser;
                         return [4, init()];
                     case 2:
-                        _q.sent();
+                        _p.sent();
                         this.genomeBrowser = new GenomeBrowser();
                         (_a = this.genomeBrowser) === null || _a === void 0 ? void 0 : _a.go({});
-                        _q.label = 3;
+                        _p.label = 3;
                     case 3:
                         this.inited = true;
                         (_b = this.genomeBrowser) === null || _b === void 0 ? void 0 : _b.set_stick("homo_sapiens_GCA_000001405_27:17");
@@ -254,9 +254,8 @@ var EnsemblGenomeBrowser = (function () {
                         (_h = this.genomeBrowser) === null || _h === void 0 ? void 0 : _h.set_switch(["track", "gene-nonpc-rev", "label"]);
                         (_j = this.genomeBrowser) === null || _j === void 0 ? void 0 : _j.set_switch(["track", "gc"]);
                         (_k = this.genomeBrowser) === null || _k === void 0 ? void 0 : _k.set_switch(["track", "contig"]);
-                        (_l = this.genomeBrowser) === null || _l === void 0 ? void 0 : _l.goto(2000000, 3000000);
-                        (_m = this.genomeBrowser) === null || _m === void 0 ? void 0 : _m.set_switch(["settings"]);
-                        (_o = this.genomeBrowser) === null || _o === void 0 ? void 0 : _o.set_message_reporter(this.handleIncoming);
+                        (_l = this.genomeBrowser) === null || _l === void 0 ? void 0 : _l.set_switch(["settings"]);
+                        (_m = this.genomeBrowser) === null || _m === void 0 ? void 0 : _m.set_message_reporter(this.handleIncoming);
                         return [2];
                 }
             });

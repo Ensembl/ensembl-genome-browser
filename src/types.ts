@@ -2,15 +2,6 @@ export type CogScrollPayload = {
   delta_y: number;
 };
 
-export type CogList = {
-  [key: string]: number;
-};
-
-export type CogTrackScrollPayload = {
-  track_y: CogList;
-};
-
-
 export type TrackSummary = {
   "switch-id": string, 
   offset: string,
@@ -18,18 +9,6 @@ export type TrackSummary = {
 }
 
 export type TrackSummaryList = TrackSummary[];
-
-export type ChrLocation = [string, number, number];
-
-// states are top, right, bottom, left (TRBL) and minus (zoom out) and plus (zoom in)
-export type BrowserNavStates = [
-  boolean,
-  boolean,
-  boolean,
-  boolean,
-  boolean,
-  boolean
-];
 
 export type AnchorCoordinates = {
   x: number;

@@ -1,27 +1,12 @@
 export declare type CogScrollPayload = {
     delta_y: number;
 };
-export declare type CogList = {
-    [key: string]: number;
-};
-export declare type CogTrackScrollPayload = {
-    track_y: CogList;
-};
 export declare type TrackSummary = {
     "switch-id": string;
     offset: string;
     height: string;
 };
 export declare type TrackSummaryList = TrackSummary[];
-export declare type ChrLocation = [string, number, number];
-export declare type BrowserNavStates = [
-    boolean,
-    boolean,
-    boolean,
-    boolean,
-    boolean,
-    boolean
-];
 export declare type AnchorCoordinates = {
     x: number;
     y: number;

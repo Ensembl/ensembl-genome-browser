@@ -46,7 +46,6 @@ class EnsemblGenomeBrowser {
     this.genomeBrowser?.set_switch(["track","gene-nonpc-rev","label"]);
     this.genomeBrowser?.set_switch(["track","gc"]);
     this.genomeBrowser?.set_switch(["track","contig"]);
-    this.genomeBrowser?.goto(2000000,3000000);
     this.genomeBrowser?.set_switch(["settings"]);
     this.genomeBrowser?.set_message_reporter(this.handleIncoming);
   }
