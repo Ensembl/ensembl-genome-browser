@@ -165,6 +165,7 @@ export type BrowserSetFocusAction = {
   type: OutgoingActionType.SET_FOCUS;
   payload: {
     focus?: string | undefined;
+    genomeId: string;
   };
 };
 

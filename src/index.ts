@@ -100,7 +100,7 @@ class EnsemblGenomeBrowser {
       if(!action.payload.focus){
         return;
       }
-      this.genomeBrowser?.jump(`focus:${action.payload.focus}`);
+      this.genomeBrowser?.jump(`focus:${action.payload.genomeId}:${action.payload.focus}`);
       this.genomeBrowser?.wait();
 
       this.genomeBrowser?.set_switch(["focus","gene"])

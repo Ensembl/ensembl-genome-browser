@@ -140,7 +140,7 @@ var EnsemblGenomeBrowser = (function () {
                     if (!action.payload.focus) {
                         return [2];
                     }
-                    (_j = this.genomeBrowser) === null || _j === void 0 ? void 0 : _j.jump("focus:" + action.payload.focus);
+                    (_j = this.genomeBrowser) === null || _j === void 0 ? void 0 : _j.jump("focus:" + action.payload.genomeId + ":" + action.payload.focus);
                     (_k = this.genomeBrowser) === null || _k === void 0 ? void 0 : _k.wait();
                     (_l = this.genomeBrowser) === null || _l === void 0 ? void 0 : _l.set_switch(["focus", "gene"]);
                     (_m = this.genomeBrowser) === null || _m === void 0 ? void 0 : _m.set_switch(["focus", "gene", action.payload.focus]);
@@ -234,7 +234,7 @@ var EnsemblGenomeBrowser = (function () {
                 switch (_p.label) {
                     case 0:
                         if (!!this.inited) return [3, 3];
-                        return [4, import('./peregrine_ensembl-1ed3d76c.js')];
+                        return [4, import('./peregrine_ensembl-704fd6ec.js')];
                     case 1:
                         _o = _p.sent(), init = _o["default"], GenomeBrowser = _o.GenomeBrowser;
                         return [4, init()];
