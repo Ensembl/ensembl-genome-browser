@@ -1,5 +1,7 @@
 import { 
   IncomingAction, IncomingActionType, OutgoingAction, OutgoingActionType,
+  ZmenuPayload, Markup, ZmenuContentItem, ZmenuContentBlock, ZmenuContentLineBreak, ZmenuContentLine, 
+  ZmenuContentMetadata, ZmenuContentTranscriptMetadata, ZmenuContentGeneMetadata, ZmenuContentFeature,
   TrackSummaryList,
   TrackSummary
 } from './types';
@@ -58,6 +60,17 @@ class EnsemblGenomeBrowser {
           type: actionType,
           payload: payload.summary
         } as IncomingAction
+    } else if (actionType === IncomingActionType.ZMENU_CREATE) {
+
+        return {
+          type: actionType,
+          payload: {
+            id: payload.content[0].metadata.transcript_id,
+            anchor_coordinates: {x: payload.x, y : payload.y},
+            content: payload.content
+          }
+        } as IncomingAction
+
     }
 
     return {
@@ -203,5 +216,15 @@ export {
   OutgoingActionType,
   TrackSummaryList,
   TrackSummary,
-  EnsemblGenomeBrowser 
+  ZmenuPayload, 
+  Markup, 
+  ZmenuContentItem, 
+  ZmenuContentBlock, 
+  ZmenuContentLineBreak,
+  ZmenuContentLine,
+  ZmenuContentMetadata,
+  ZmenuContentTranscriptMetadata, 
+  ZmenuContentGeneMetadata,
+  ZmenuContentFeature,
+  EnsemblGenomeBrowser
 };

@@ -86,7 +86,7 @@ var IncomingActionType;
     IncomingActionType["TARGET_POSITION"] = "target_position";
     IncomingActionType["SCROLL_POSITION"] = "scroll_position";
     IncomingActionType["TRACK_SUMMARY"] = "track_summary";
-    IncomingActionType["ZMENU_CREATE"] = "create_zmenu";
+    IncomingActionType["ZMENU_CREATE"] = "zmenu";
     IncomingActionType["ZMENU_DESTROY"] = "destroy_zmenu";
     IncomingActionType["ZMENU_REPOSITION"] = "update_zmenu_position";
 })(IncomingActionType || (IncomingActionType = {}));
@@ -105,6 +105,16 @@ var EnsemblGenomeBrowser = (function () {
                 return {
                     type: actionType,
                     payload: payload.summary
+                };
+            }
+            else if (actionType === IncomingActionType.ZMENU_CREATE) {
+                return {
+                    type: actionType,
+                    payload: {
+                        id: payload.content[0].metadata.transcript_id,
+                        anchor_coordinates: { x: payload.x, y: payload.y },
+                        content: payload.content
+                    }
                 };
             }
             return {
@@ -234,7 +244,7 @@ var EnsemblGenomeBrowser = (function () {
                 switch (_p.label) {
                     case 0:
                         if (!!this.inited) return [3, 3];
-                        return [4, import('./peregrine_ensembl-704fd6ec.js')];
+                        return [4, import('./peregrine_ensembl-cb578622.js')];
                     case 1:
                         _o = _p.sent(), init = _o["default"], GenomeBrowser = _o.GenomeBrowser;
                         return [4, init()];
@@ -264,4 +274,4 @@ var EnsemblGenomeBrowser = (function () {
     return EnsemblGenomeBrowser;
 }());
 
-export { EnsemblGenomeBrowser, IncomingActionType, OutgoingActionType };
+export { EnsemblGenomeBrowser, IncomingActionType, Markup, OutgoingActionType };

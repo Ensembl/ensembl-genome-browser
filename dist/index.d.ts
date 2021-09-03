@@ -1,4 +1,4 @@
-import { IncomingAction, IncomingActionType, OutgoingAction, OutgoingActionType, TrackSummaryList, TrackSummary } from './types';
+import { IncomingAction, IncomingActionType, OutgoingAction, OutgoingActionType, ZmenuPayload, Markup, ZmenuContentItem, ZmenuContentBlock, ZmenuContentLineBreak, ZmenuContentLine, ZmenuContentMetadata, ZmenuContentTranscriptMetadata, ZmenuContentGeneMetadata, ZmenuContentFeature, TrackSummaryList, TrackSummary } from './types';
 declare type Callback = (action: IncomingAction) => void;
 declare type GenomeBrowserType = {
     go: (config_object: any) => void;
@@ -25,4 +25,4 @@ declare class EnsemblGenomeBrowser {
         unsubscribe(): void;
     };
 }
-export { IncomingAction, IncomingActionType, OutgoingAction, OutgoingActionType, TrackSummaryList, TrackSummary, EnsemblGenomeBrowser };
+export { IncomingAction, IncomingActionType, OutgoingAction, OutgoingActionType, TrackSummaryList, TrackSummary, ZmenuPayload, Markup, ZmenuContentItem, ZmenuContentBlock, ZmenuContentLineBreak, ZmenuContentLine, ZmenuContentMetadata, ZmenuContentTranscriptMetadata, ZmenuContentGeneMetadata, ZmenuContentFeature, EnsemblGenomeBrowser };

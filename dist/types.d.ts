@@ -21,12 +21,35 @@ export declare type ZmenuContentItem = {
     text: string;
     markup: Markup[];
 };
-export declare type ZmenuContentBlock = ZmenuContentItem[];
-export declare type ZmenuContentLine = ZmenuContentBlock[];
-export declare type ZmenuContentFeature = {
+export declare type ZmenuContentBlock = {
+    type: "block";
+    items: ZmenuContentItem[];
+};
+export declare type ZmenuContentLineBreak = {
+    type: "line-break";
+};
+export declare type ZmenuContentLine = (ZmenuContentBlock | ZmenuContentLineBreak)[];
+export declare type ZmenuContentTranscriptMetadata = {
+    designation: string;
+    strand: string;
+    transcript_biotype: string;
+    transcript_id: string;
+    type: "transcript";
+};
+export declare type ZmenuContentGeneMetadata = {
     id: string;
-    track_id: string;
-    lines: ZmenuContentLine[];
+    symbol: string;
+    type: "gene";
+};
+export declare type ZmenuContentMetadata = ZmenuContentTranscriptMetadata | ZmenuContentGeneMetadata;
+export declare type ZmenuContentFeature = {
+    data: ZmenuContentLine[];
+    metadata: ZmenuContentMetadata;
+};
+export declare type ZmenuPayload = {
+    id: string;
+    anchor_coordinates: AnchorCoordinates;
+    content: ZmenuContentFeature[];
 };
 export declare type PositionUpdatePayload = {
     stick: string;
@@ -59,7 +82,7 @@ export declare enum IncomingActionType {
     TARGET_POSITION = "target_position",
     SCROLL_POSITION = "scroll_position",
     TRACK_SUMMARY = "track_summary",
-    ZMENU_CREATE = "create_zmenu",
+    ZMENU_CREATE = "zmenu",
     ZMENU_DESTROY = "destroy_zmenu",
     ZMENU_REPOSITION = "update_zmenu_position"
 }
@@ -83,13 +106,9 @@ export declare type UpdateCogTrackPositionAction = {
     type: IncomingActionType.TRACK_SUMMARY;
     payload: TrackSummaryList;
 };
-export declare type ZmenuCreateAction = {
+export declare type ZmenuAction = {
     type: IncomingActionType.ZMENU_CREATE;
-    payload: {
-        id: string;
-        anchor_coordinates: AnchorCoordinates;
-        content: ZmenuContentFeature[];
-    };
+    payload: ZmenuPayload;
 };
 export declare type ZmenuDestroyAction = {
     type: IncomingActionType.ZMENU_DESTROY;
@@ -214,7 +233,7 @@ export declare type PingAction = {
     type: OutgoingActionType.PING;
 };
 export declare type OutgoingAction = PingAction | ActivateBrowserAction | BrowserToggleTracksAction | TurnOnTracksAction | TurnOffTracksAction | TurnOnLabelsAction | TurnOffLabelsAction | ZmenuEnterAction | ZmenuLeaveAction | ZmenuOutsideActivityAction | BrowserSetFocusLocationAction | BrowserSetFocusAction | MoveUpAction | MoveDownAction | MoveLeftAction | MoveRightAction | ZoomInAction | ZoomOutAction;
-export declare type IncomingAction = GenomeBrowserReadyAction | BrowserCurrentLocationUpdateAction | BrowserTargetLocationUpdateAction | UpdateCogPositionAction | UpdateCogTrackPositionAction | ZmenuCreateAction | ZmenuDestroyAction | ZmenuRepositionAction;
+export declare type IncomingAction = GenomeBrowserReadyAction | BrowserCurrentLocationUpdateAction | BrowserTargetLocationUpdateAction | UpdateCogPositionAction | UpdateCogTrackPositionAction | ZmenuAction | ZmenuDestroyAction | ZmenuRepositionAction;
 export declare const createOutgoingAction: (action: OutgoingAction) => {
     type: OutgoingActionType.TOGGLE_TRACKS;
     payload: {

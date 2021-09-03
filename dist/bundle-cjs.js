@@ -55,13 +55,13 @@ function __generator(thisArg, body) {
     }
 }
 
-var Markup;
+exports.Markup = void 0;
 (function (Markup) {
     Markup["STRONG"] = "strong";
     Markup["EMPHASIS"] = "emphasis";
     Markup["FOCUS"] = "focus";
     Markup["LIGHT"] = "light";
-})(Markup || (Markup = {}));
+})(exports.Markup || (exports.Markup = {}));
 exports.OutgoingActionType = void 0;
 (function (OutgoingActionType) {
     OutgoingActionType["PING"] = "ping";
@@ -90,7 +90,7 @@ exports.IncomingActionType = void 0;
     IncomingActionType["TARGET_POSITION"] = "target_position";
     IncomingActionType["SCROLL_POSITION"] = "scroll_position";
     IncomingActionType["TRACK_SUMMARY"] = "track_summary";
-    IncomingActionType["ZMENU_CREATE"] = "create_zmenu";
+    IncomingActionType["ZMENU_CREATE"] = "zmenu";
     IncomingActionType["ZMENU_DESTROY"] = "destroy_zmenu";
     IncomingActionType["ZMENU_REPOSITION"] = "update_zmenu_position";
 })(exports.IncomingActionType || (exports.IncomingActionType = {}));
@@ -109,6 +109,16 @@ var EnsemblGenomeBrowser = (function () {
                 return {
                     type: actionType,
                     payload: payload.summary
+                };
+            }
+            else if (actionType === exports.IncomingActionType.ZMENU_CREATE) {
+                return {
+                    type: actionType,
+                    payload: {
+                        id: payload.content[0].metadata.transcript_id,
+                        anchor_coordinates: { x: payload.x, y: payload.y },
+                        content: payload.content
+                    }
                 };
             }
             return {
@@ -238,7 +248,7 @@ var EnsemblGenomeBrowser = (function () {
                 switch (_p.label) {
                     case 0:
                         if (!!this.inited) return [3, 3];
-                        return [4, Promise.resolve().then(function () { return require('./peregrine_ensembl-51a2bc18.js'); })];
+                        return [4, Promise.resolve().then(function () { return require('./peregrine_ensembl-2341f875.js'); })];
                     case 1:
                         _o = _p.sent(), init = _o["default"], GenomeBrowser = _o.GenomeBrowser;
                         return [4, init()];

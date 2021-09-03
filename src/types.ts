@@ -27,15 +27,43 @@ export type ZmenuContentItem = {
   markup: Markup[];
 };
 
-export type ZmenuContentBlock = ZmenuContentItem[];
+export type ZmenuContentBlock = {
+  type: "block",
+  items: ZmenuContentItem[]
+}
 
-export type ZmenuContentLine = ZmenuContentBlock[];
+export type ZmenuContentLineBreak = {
+  type: "line-break"
+}
+
+export type ZmenuContentLine = (ZmenuContentBlock | ZmenuContentLineBreak)[];
+
+export type ZmenuContentTranscriptMetadata = {
+  designation: string,
+  strand: string
+  transcript_biotype: string
+  transcript_id: string
+  type: "transcript"
+}
+
+export type ZmenuContentGeneMetadata = {
+  id: string
+  symbol: string
+  type: "gene"
+}
+
+export type ZmenuContentMetadata = ZmenuContentTranscriptMetadata | ZmenuContentGeneMetadata;
 
 export type ZmenuContentFeature = {
-  id: string;
-  track_id: string;
-  lines: ZmenuContentLine[];
+  data: ZmenuContentLine[];
+  metadata: ZmenuContentMetadata
 };
+
+export type ZmenuPayload = {
+  id: string,
+  anchor_coordinates: AnchorCoordinates,
+  content: ZmenuContentFeature[]
+}
 
 export type PositionUpdatePayload = {
   stick: string
@@ -70,7 +98,7 @@ export enum IncomingActionType {
   TARGET_POSITION = 'target_position',
   SCROLL_POSITION = 'scroll_position',
   TRACK_SUMMARY = 'track_summary',
-  ZMENU_CREATE = 'create_zmenu',
+  ZMENU_CREATE = 'zmenu',
   ZMENU_DESTROY = 'destroy_zmenu',
   ZMENU_REPOSITION = 'update_zmenu_position'
 }
@@ -100,13 +128,10 @@ export type UpdateCogTrackPositionAction = {
   payload: TrackSummaryList;
 };
 
-export type ZmenuCreateAction = {
+
+export type ZmenuAction = {
   type: IncomingActionType.ZMENU_CREATE;
-  payload: {
-    id: string;
-    anchor_coordinates: AnchorCoordinates;
-    content: ZmenuContentFeature[];
-  };
+  payload: ZmenuPayload
 };
 
 export type ZmenuDestroyAction = {
@@ -263,7 +288,7 @@ export type IncomingAction =
   | BrowserTargetLocationUpdateAction
   | UpdateCogPositionAction
   | UpdateCogTrackPositionAction
-  | ZmenuCreateAction
+  | ZmenuAction
   | ZmenuDestroyAction
   | ZmenuRepositionAction;
 
