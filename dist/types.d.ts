@@ -17,37 +17,56 @@ export declare enum Markup {
     FOCUS = "focus",
     LIGHT = "light"
 }
+export declare enum ZmenuFeatureType {
+    GENE = "gene",
+    TRANSCRIPT = "transcript"
+}
 export declare type ZmenuContentItem = {
     text: string;
     markup: Markup[];
 };
 export declare type ZmenuContentBlock = {
-    type: "block";
+    type: 'block';
     items: ZmenuContentItem[];
 };
 export declare type ZmenuContentLineBreak = {
-    type: "line-break";
+    type: 'line-break';
 };
-export declare type ZmenuContentLine = (ZmenuContentBlock | ZmenuContentLineBreak)[];
+export declare type ZmenuContentLine = ZmenuContentBlock | ZmenuContentLineBreak;
 export declare type ZmenuContentTranscriptMetadata = {
     designation: string;
     strand: string;
     transcript_biotype: string;
     transcript_id: string;
-    type: "transcript";
+    track: string;
+    type: ZmenuFeatureType.TRANSCRIPT;
 };
 export declare type ZmenuContentGeneMetadata = {
     id: string;
     symbol: string;
-    type: "gene";
+    track: string;
+    type: ZmenuFeatureType.GENE;
 };
 export declare type ZmenuContentMetadata = ZmenuContentTranscriptMetadata | ZmenuContentGeneMetadata;
 export declare type ZmenuContentFeature = {
     data: ZmenuContentLine[];
     metadata: ZmenuContentMetadata;
 };
+export declare type ZmenuData = {
+    id: string;
+    unversioned_id: string;
+    anchor_coordinates: AnchorCoordinates;
+    content: ZmenuContentFeature[];
+};
+export declare type ZmenuCreatePayload = {
+    action: IncomingActionType.ZMENU_CREATE;
+    id: string;
+    anchor_coordinates: AnchorCoordinates;
+    content: ZmenuContentFeature[];
+};
 export declare type ZmenuPayload = {
     id: string;
+    unversioned_id: string;
     anchor_coordinates: AnchorCoordinates;
     content: ZmenuContentFeature[];
 };

@@ -22,45 +22,71 @@ export enum Markup {
   LIGHT = "light",
 }
 
+export enum ZmenuFeatureType {
+  GENE = 'gene',
+  TRANSCRIPT = 'transcript'
+}
+
 export type ZmenuContentItem = {
   text: string;
   markup: Markup[];
 };
 
 export type ZmenuContentBlock = {
-  type: "block",
-  items: ZmenuContentItem[]
-}
+  type: 'block';
+  items: ZmenuContentItem[];
+};
 
 export type ZmenuContentLineBreak = {
-  type: "line-break"
-}
+  type: 'line-break';
+};
 
-export type ZmenuContentLine = (ZmenuContentBlock | ZmenuContentLineBreak)[];
+export type ZmenuContentLine = ZmenuContentBlock | ZmenuContentLineBreak;
 
 export type ZmenuContentTranscriptMetadata = {
-  designation: string,
-  strand: string
-  transcript_biotype: string
-  transcript_id: string
-  type: "transcript"
-}
+  designation: string;
+  strand: string;
+  transcript_biotype: string;
+  transcript_id: string;
+  track: string;
+  type: ZmenuFeatureType.TRANSCRIPT;
+};
 
 export type ZmenuContentGeneMetadata = {
-  id: string
-  symbol: string
-  type: "gene"
-}
+  id: string;
+  symbol: string;
+  track: string;
+  type: ZmenuFeatureType.GENE;
+};
 
-export type ZmenuContentMetadata = ZmenuContentTranscriptMetadata | ZmenuContentGeneMetadata;
+export type ZmenuContentMetadata =
+  | ZmenuContentTranscriptMetadata
+  | ZmenuContentGeneMetadata;
 
 export type ZmenuContentFeature = {
   data: ZmenuContentLine[];
-  metadata: ZmenuContentMetadata
+  metadata: ZmenuContentMetadata;
+};
+
+// data that is sufficient to describe an instance of Zmenu
+export type ZmenuData = {
+  id: string;
+  unversioned_id: string;
+  anchor_coordinates: AnchorCoordinates;
+  content: ZmenuContentFeature[];
+};
+
+// Sent from Genome browser to React
+export type ZmenuCreatePayload = {
+  action: IncomingActionType.ZMENU_CREATE;
+  id: string;
+  anchor_coordinates: AnchorCoordinates;
+  content: ZmenuContentFeature[];
 };
 
 export type ZmenuPayload = {
   id: string,
+  unversioned_id: string,
   anchor_coordinates: AnchorCoordinates,
   content: ZmenuContentFeature[]
 }

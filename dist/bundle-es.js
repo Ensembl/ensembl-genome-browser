@@ -13,6 +13,17 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
 function __awaiter(thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -58,6 +69,11 @@ var Markup;
     Markup["FOCUS"] = "focus";
     Markup["LIGHT"] = "light";
 })(Markup || (Markup = {}));
+var ZmenuFeatureType;
+(function (ZmenuFeatureType) {
+    ZmenuFeatureType["GENE"] = "gene";
+    ZmenuFeatureType["TRANSCRIPT"] = "transcript";
+})(ZmenuFeatureType || (ZmenuFeatureType = {}));
 var OutgoingActionType;
 (function (OutgoingActionType) {
     OutgoingActionType["PING"] = "ping";
@@ -90,6 +106,9 @@ var IncomingActionType;
     IncomingActionType["ZMENU_DESTROY"] = "destroy_zmenu";
     IncomingActionType["ZMENU_REPOSITION"] = "update_zmenu_position";
 })(IncomingActionType || (IncomingActionType = {}));
+var createOutgoingAction = function (action) {
+    return __assign({}, action);
+};
 
 var subscriptions = new Map();
 var EnsemblGenomeBrowser = (function () {
@@ -108,10 +127,13 @@ var EnsemblGenomeBrowser = (function () {
                 };
             }
             else if (actionType === IncomingActionType.ZMENU_CREATE) {
+                var id = payload.content[0].metadata.transcript_id;
+                var unversioned_id = id.split('.')[0];
                 return {
                     type: actionType,
                     payload: {
-                        id: payload.content[0].metadata.transcript_id,
+                        id: id,
+                        unversioned_id: unversioned_id,
                         anchor_coordinates: { x: payload.x, y: payload.y },
                         content: payload.content
                     }
@@ -274,4 +296,5 @@ var EnsemblGenomeBrowser = (function () {
     return EnsemblGenomeBrowser;
 }());
 
-export { EnsemblGenomeBrowser, IncomingActionType, Markup, OutgoingActionType };
+export default EnsemblGenomeBrowser;
+export { IncomingActionType, Markup, OutgoingActionType, ZmenuFeatureType, createOutgoingAction };

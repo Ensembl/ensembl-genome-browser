@@ -1,9 +1,5 @@
 import { 
-  IncomingAction, IncomingActionType, OutgoingAction, OutgoingActionType,
-  ZmenuPayload, Markup, ZmenuContentItem, ZmenuContentBlock, ZmenuContentLineBreak, ZmenuContentLine, 
-  ZmenuContentMetadata, ZmenuContentTranscriptMetadata, ZmenuContentGeneMetadata, ZmenuContentFeature,
-  TrackSummaryList,
-  TrackSummary
+  IncomingAction, IncomingActionType, OutgoingAction, OutgoingActionType
 } from './types';
 
 const subscriptions = new Map<IncomingActionType, Set<(action: IncomingAction) => void>>();
@@ -62,10 +58,13 @@ class EnsemblGenomeBrowser {
         } as IncomingAction
     } else if (actionType === IncomingActionType.ZMENU_CREATE) {
 
+        const id = payload.content[0].metadata.transcript_id;
+        const unversioned_id = id.split('.')[0];
         return {
           type: actionType,
           payload: {
-            id: payload.content[0].metadata.transcript_id,
+            id,
+            unversioned_id,
             anchor_coordinates: {x: payload.x, y : payload.y},
             content: payload.content
           }
@@ -209,22 +208,6 @@ class EnsemblGenomeBrowser {
 }
 
 
-export { 
-  IncomingAction,
-  IncomingActionType, 
-  OutgoingAction, 
-  OutgoingActionType,
-  TrackSummaryList,
-  TrackSummary,
-  ZmenuPayload, 
-  Markup, 
-  ZmenuContentItem, 
-  ZmenuContentBlock, 
-  ZmenuContentLineBreak,
-  ZmenuContentLine,
-  ZmenuContentMetadata,
-  ZmenuContentTranscriptMetadata, 
-  ZmenuContentGeneMetadata,
-  ZmenuContentFeature,
-  EnsemblGenomeBrowser
-};
+export * from './types';
+
+export default EnsemblGenomeBrowser;
