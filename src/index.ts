@@ -131,7 +131,7 @@ class EnsemblGenomeBrowser {
     } else if(action.type === OutgoingActionType.TURN_ON_TRACKS){
       for(const track_id of action.payload.track_ids) {
         this.genomeBrowser?.set_switch(["track",track_id])
-        this.genomeBrowser?.set_switch(["track",track_id,"label"])
+        this.genomeBrowser?.set_switch(["track",track_id,"track"])
       }
     } else if(action.type === OutgoingActionType.TURN_OFF_TRACKS){
       for(const track_id of action.payload.track_ids) {
