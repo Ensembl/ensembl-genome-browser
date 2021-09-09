@@ -196,7 +196,7 @@ var EnsemblGenomeBrowser = (function () {
                     for (_c = 0, _d = action.payload.track_ids; _c < _d.length; _c++) {
                         track_id = _d[_c];
                         (_t = this.genomeBrowser) === null || _t === void 0 ? void 0 : _t.clear_switch(["track", track_id]);
-                        (_u = this.genomeBrowser) === null || _u === void 0 ? void 0 : _u.clear_switch(["track", track_id, "label"]);
+                        (_u = this.genomeBrowser) === null || _u === void 0 ? void 0 : _u.clear_switch(["track", track_id, "track"]);
                     }
                 }
                 else if (action.type === OutgoingActionType.TURN_ON_LABELS) {
