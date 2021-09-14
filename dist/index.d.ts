@@ -11,13 +11,16 @@ declare type GenomeBrowserType = {
     clear_switch: (path: string[]) => void;
     set_message_reporter: (callback: (...action: [type: IncomingActionType, payload: any]) => void) => void;
 };
+declare type ConfigData = {
+    backend_url?: string;
+};
 declare class EnsemblGenomeBrowser {
     genomeBrowser: GenomeBrowserType | null;
     bpPerScreen: number;
     x: number;
     y: number;
     inited: boolean;
-    init(): Promise<void>;
+    init(config?: ConfigData): Promise<void>;
     formatIncoming: (actionType: IncomingActionType, payload: any) => IncomingAction;
     handleIncoming: (type: IncomingActionType, payload: any) => void;
     send: (action: OutgoingAction) => Promise<void>;

@@ -17,6 +17,10 @@ type GenomeBrowserType = {
   set_message_reporter: (callback: (...action: [type: IncomingActionType, payload: any]) => void) => void;
 };
 
+
+type ConfigData = {
+  backend_url?: string;
+}
 class EnsemblGenomeBrowser {
   
   genomeBrowser: GenomeBrowserType | null = null;
@@ -25,17 +29,16 @@ class EnsemblGenomeBrowser {
   y = 0;
   inited = false;
 
-  public async init() {
+  public async init(config: ConfigData = {}) {
 
     if(!this.inited) {
       const { default: init, GenomeBrowser } = await import('./peregrine/peregrine_ensembl.js');
       await init();
       this.genomeBrowser = new GenomeBrowser();
-      this.genomeBrowser?.go({});  
+      this.genomeBrowser?.go(config);  
     }
     this.inited = true;
     
-    this.genomeBrowser?.set_switch(["settings"]);
     this.genomeBrowser?.set_message_reporter(this.handleIncoming);
   }
 
@@ -89,14 +92,7 @@ class EnsemblGenomeBrowser {
 
   public send = async (action: OutgoingAction) => {
 
-    const type: any = action.type;
-
     console.log("SEND", action);
-    if( type === OutgoingActionType.ACTIVATE_BROWSER ) {
-      
-      this.init();
-      return;
-    }
 
    if(action.type === OutgoingActionType.SET_FOCUS) {
       
