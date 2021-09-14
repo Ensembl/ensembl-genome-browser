@@ -115,6 +115,9 @@ class EnsemblGenomeBrowser {
       this.genomeBrowser?.jump(`focus:${action.payload.genomeId}:${action.payload.focus}`);
       this.genomeBrowser?.wait();
 
+      this.genomeBrowser?.set_switch(["track","focus"])
+      this.genomeBrowser?.set_switch(["track","focus","label"])
+
       this.genomeBrowser?.set_switch(["focus","gene"])
       this.genomeBrowser?.set_switch(["focus","gene", action.payload.focus])
 
@@ -131,12 +134,12 @@ class EnsemblGenomeBrowser {
     } else if(action.type === OutgoingActionType.TURN_ON_TRACKS){
       for(const track_id of action.payload.track_ids) {
         this.genomeBrowser?.set_switch(["track",track_id])
-        this.genomeBrowser?.set_switch(["track",track_id,"track"])
+        this.genomeBrowser?.set_switch(["track",track_id,"label"])
       }
     } else if(action.type === OutgoingActionType.TURN_OFF_TRACKS){
       for(const track_id of action.payload.track_ids) {
         this.genomeBrowser?.clear_switch(["track",track_id])
-        this.genomeBrowser?.clear_switch(["track",track_id,"track"])
+        this.genomeBrowser?.clear_switch(["track",track_id,"label"])
       }
     }  else if(action.type === OutgoingActionType.TURN_ON_LABELS){
       for(const track_id of action.payload.track_ids) {
