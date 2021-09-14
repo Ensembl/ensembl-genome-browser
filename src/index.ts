@@ -35,15 +35,6 @@ class EnsemblGenomeBrowser {
     }
     this.inited = true;
     
-    this.genomeBrowser?.set_stick("homo_sapiens_GCA_000001405_27:17");
-    this.genomeBrowser?.set_switch(["track"])
-    this.genomeBrowser?.set_switch(["track","gene-pc-fwd"]);
-    this.genomeBrowser?.set_switch(["track","gene-nonpc-fwd"]);
-    this.genomeBrowser?.set_switch(["track","gene-nonpc-rev"]);
-    this.genomeBrowser?.set_switch(["track","gene-nonpc-fwd","label"]);
-    this.genomeBrowser?.set_switch(["track","gene-nonpc-rev","label"]);
-    this.genomeBrowser?.set_switch(["track","gc"]);
-    this.genomeBrowser?.set_switch(["track","contig"]);
     this.genomeBrowser?.set_switch(["settings"]);
     this.genomeBrowser?.set_message_reporter(this.handleIncoming);
   }
@@ -114,7 +105,7 @@ class EnsemblGenomeBrowser {
       }
       this.genomeBrowser?.jump(`focus:${action.payload.genomeId}:${action.payload.focus}`);
       this.genomeBrowser?.wait();
-
+      this.genomeBrowser?.set_switch(["track"])
       this.genomeBrowser?.set_switch(["track","focus"])
       this.genomeBrowser?.set_switch(["track","focus","label"])
 
