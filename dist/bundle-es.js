@@ -62,6 +62,33 @@ function __generator(thisArg, body) {
     }
 }
 
+var OutgoingActionType;
+(function (OutgoingActionType) {
+    OutgoingActionType["MOVE_DOWN"] = "move_down";
+    OutgoingActionType["MOVE_LEFT"] = "move_left";
+    OutgoingActionType["MOVE_RIGHT"] = "move_right";
+    OutgoingActionType["MOVE_UP"] = "move_up";
+    OutgoingActionType["SET_FOCUS"] = "set_focus";
+    OutgoingActionType["SET_FOCUS_LOCATION"] = "set_focus_location";
+    OutgoingActionType["TOGGLE_TRACKS"] = "toggle_tracks";
+    OutgoingActionType["TURN_ON_TRACKS"] = "turn_on_tracks";
+    OutgoingActionType["TURN_OFF_TRACKS"] = "turn_off_tracks";
+    OutgoingActionType["TURN_ON_LABELS"] = "turn_on_labels";
+    OutgoingActionType["TURN_OFF_LABELS"] = "turn_off_labels";
+    OutgoingActionType["ZMENU_ENTER"] = "zmenu-enter";
+    OutgoingActionType["ZOOM_IN"] = "zoom_in";
+    OutgoingActionType["ZOOM_OUT"] = "zoom_out";
+})(OutgoingActionType || (OutgoingActionType = {}));
+var IncomingActionType;
+(function (IncomingActionType) {
+    IncomingActionType["GENOME_BROWSER_READY"] = "genome_browser_ready";
+    IncomingActionType["CURRENT_POSITION"] = "current_position";
+    IncomingActionType["TARGET_POSITION"] = "target_position";
+    IncomingActionType["SCROLL_POSITION"] = "scroll_position";
+    IncomingActionType["TRACK_SUMMARY"] = "track_summary";
+    IncomingActionType["ZMENU_CREATE"] = "zmenu";
+    IncomingActionType["ZMENU_REPOSITION"] = "update_zmenu_position";
+})(IncomingActionType || (IncomingActionType = {}));
 var Markup;
 (function (Markup) {
     Markup["STRONG"] = "strong";
@@ -74,38 +101,6 @@ var ZmenuFeatureType;
     ZmenuFeatureType["GENE"] = "gene";
     ZmenuFeatureType["TRANSCRIPT"] = "transcript";
 })(ZmenuFeatureType || (ZmenuFeatureType = {}));
-var OutgoingActionType;
-(function (OutgoingActionType) {
-    OutgoingActionType["PING"] = "ping";
-    OutgoingActionType["ACTIVATE_BROWSER"] = "activate_browser";
-    OutgoingActionType["MOVE_DOWN"] = "move_down";
-    OutgoingActionType["MOVE_LEFT"] = "move_left";
-    OutgoingActionType["MOVE_RIGHT"] = "move_right";
-    OutgoingActionType["MOVE_UP"] = "move_up";
-    OutgoingActionType["SET_FOCUS"] = "set_focus";
-    OutgoingActionType["SET_FOCUS_LOCATION"] = "set_focus_location";
-    OutgoingActionType["TOGGLE_TRACKS"] = "toggle_tracks";
-    OutgoingActionType["TURN_ON_TRACKS"] = "turn_on_tracks";
-    OutgoingActionType["TURN_OFF_TRACKS"] = "turn_off_tracks";
-    OutgoingActionType["TURN_ON_LABELS"] = "turn_on_labels";
-    OutgoingActionType["TURN_OFF_LABELS"] = "turn_off_labels";
-    OutgoingActionType["ZMENU_ACTIVITY_OUTSIDE"] = "zmenu-activity-outside";
-    OutgoingActionType["ZMENU_ENTER"] = "zmenu-enter";
-    OutgoingActionType["ZMENU_LEAVE"] = "zmenu-leave";
-    OutgoingActionType["ZOOM_IN"] = "zoom_in";
-    OutgoingActionType["ZOOM_OUT"] = "zoom_out";
-})(OutgoingActionType || (OutgoingActionType = {}));
-var IncomingActionType;
-(function (IncomingActionType) {
-    IncomingActionType["GENOME_BROWSER_READY"] = "genome_browser_ready";
-    IncomingActionType["CURRENT_POSITION"] = "current_position";
-    IncomingActionType["TARGET_POSITION"] = "target_position";
-    IncomingActionType["SCROLL_POSITION"] = "scroll_position";
-    IncomingActionType["TRACK_SUMMARY"] = "track_summary";
-    IncomingActionType["ZMENU_CREATE"] = "zmenu";
-    IncomingActionType["ZMENU_DESTROY"] = "destroy_zmenu";
-    IncomingActionType["ZMENU_REPOSITION"] = "update_zmenu_position";
-})(IncomingActionType || (IncomingActionType = {}));
 var createOutgoingAction = function (action) {
     return __assign({}, action);
 };
@@ -115,9 +110,6 @@ var EnsemblGenomeBrowser = (function () {
     function EnsemblGenomeBrowser() {
         var _this = this;
         this.genomeBrowser = null;
-        this.bpPerScreen = 1000000;
-        this.x = 2500000;
-        this.y = 0;
         this.inited = false;
         this.formatIncoming = function (actionType, payload) {
             if (actionType === IncomingActionType.TRACK_SUMMARY) {
@@ -150,7 +142,6 @@ var EnsemblGenomeBrowser = (function () {
                 action[_i] = arguments[_i];
             }
             var type = action[0], payload = action[1];
-            console.log("INCOMING", type, payload);
             var subscriptionsToAction = subscriptions.get(type);
             if (subscriptionsToAction) {
                 subscriptionsToAction.forEach(function (subscription) {
@@ -160,78 +151,53 @@ var EnsemblGenomeBrowser = (function () {
         };
         this.send = function (action) { return __awaiter(_this, void 0, void 0, function () {
             var _a, stick, startBp, endBp, _i, _b, track_id, _c, _d, track_id, _e, _f, track_id, _g, _h, track_id;
-            var _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5;
-            return __generator(this, function (_6) {
-                console.log("SEND", action);
+            return __generator(this, function (_j) {
+                if (!this.genomeBrowser) {
+                    return [2];
+                }
                 if (action.type === OutgoingActionType.SET_FOCUS) {
                     if (!action.payload.focus) {
                         return [2];
                     }
-                    (_j = this.genomeBrowser) === null || _j === void 0 ? void 0 : _j.jump("focus:" + action.payload.genomeId + ":" + action.payload.focus);
-                    (_k = this.genomeBrowser) === null || _k === void 0 ? void 0 : _k.wait();
-                    (_l = this.genomeBrowser) === null || _l === void 0 ? void 0 : _l.set_switch(["track"]);
-                    (_m = this.genomeBrowser) === null || _m === void 0 ? void 0 : _m.set_switch(["track", "focus"]);
-                    (_o = this.genomeBrowser) === null || _o === void 0 ? void 0 : _o.set_switch(["track", "focus", "label"]);
-                    (_p = this.genomeBrowser) === null || _p === void 0 ? void 0 : _p.set_switch(["focus", "gene"]);
-                    (_q = this.genomeBrowser) === null || _q === void 0 ? void 0 : _q.set_switch(["focus", "gene", action.payload.focus]);
+                    this.genomeBrowser.jump("focus:" + action.payload.genomeId + ":" + action.payload.focus);
+                    this.genomeBrowser.wait();
+                    this.genomeBrowser.set_switch(["track"]);
+                    this.genomeBrowser.set_switch(["track", "focus"]);
+                    this.genomeBrowser.set_switch(["track", "focus", "label"]);
+                    this.genomeBrowser.set_switch(["focus", "gene"]);
+                    this.genomeBrowser.set_switch(["focus", "gene", action.payload.focus]);
                 }
                 if (action.type === OutgoingActionType.SET_FOCUS_LOCATION) {
                     _a = action.payload, stick = _a.stick, startBp = _a.startBp, endBp = _a.endBp;
-                    (_r = this.genomeBrowser) === null || _r === void 0 ? void 0 : _r.set_stick(stick);
-                    (_s = this.genomeBrowser) === null || _s === void 0 ? void 0 : _s.wait();
-                    (_t = this.genomeBrowser) === null || _t === void 0 ? void 0 : _t.goto(startBp, endBp);
-                    this.x = startBp;
-                    this.bpPerScreen = endBp - startBp;
+                    this.genomeBrowser.set_stick(stick);
+                    this.genomeBrowser.wait();
+                    this.genomeBrowser.goto(startBp, endBp);
                 }
                 else if (action.type === OutgoingActionType.TURN_ON_TRACKS) {
                     for (_i = 0, _b = action.payload.track_ids; _i < _b.length; _i++) {
                         track_id = _b[_i];
-                        (_u = this.genomeBrowser) === null || _u === void 0 ? void 0 : _u.set_switch(["track", track_id]);
-                        (_v = this.genomeBrowser) === null || _v === void 0 ? void 0 : _v.set_switch(["track", track_id, "label"]);
+                        this.genomeBrowser.set_switch(["track", track_id]);
+                        this.genomeBrowser.set_switch(["track", track_id, "label"]);
                     }
                 }
                 else if (action.type === OutgoingActionType.TURN_OFF_TRACKS) {
                     for (_c = 0, _d = action.payload.track_ids; _c < _d.length; _c++) {
                         track_id = _d[_c];
-                        (_w = this.genomeBrowser) === null || _w === void 0 ? void 0 : _w.clear_switch(["track", track_id]);
-                        (_x = this.genomeBrowser) === null || _x === void 0 ? void 0 : _x.clear_switch(["track", track_id, "label"]);
+                        this.genomeBrowser.clear_switch(["track", track_id]);
+                        this.genomeBrowser.clear_switch(["track", track_id, "label"]);
                     }
                 }
                 else if (action.type === OutgoingActionType.TURN_ON_LABELS) {
                     for (_e = 0, _f = action.payload.track_ids; _e < _f.length; _e++) {
                         track_id = _f[_e];
-                        (_y = this.genomeBrowser) === null || _y === void 0 ? void 0 : _y.set_switch(["track", track_id, "label"]);
+                        this.genomeBrowser.set_switch(["track", track_id, "label"]);
                     }
                 }
                 else if (action.type === OutgoingActionType.TURN_OFF_LABELS) {
                     for (_g = 0, _h = action.payload.track_ids; _g < _h.length; _g++) {
                         track_id = _h[_g];
-                        (_z = this.genomeBrowser) === null || _z === void 0 ? void 0 : _z.clear_switch(["track", track_id, "label"]);
+                        this.genomeBrowser.clear_switch(["track", track_id, "label"]);
                     }
-                }
-                else if (action.type === OutgoingActionType.ZOOM_IN) {
-                    this.bpPerScreen = this.bpPerScreen - 10000;
-                    (_0 = this.genomeBrowser) === null || _0 === void 0 ? void 0 : _0.goto(this.x, (this.x + this.bpPerScreen));
-                }
-                else if (action.type === OutgoingActionType.ZOOM_OUT) {
-                    this.bpPerScreen = this.bpPerScreen + 10000;
-                    (_1 = this.genomeBrowser) === null || _1 === void 0 ? void 0 : _1.goto(this.x, (this.x + this.bpPerScreen));
-                }
-                else if (action.type === OutgoingActionType.MOVE_LEFT) {
-                    this.x = this.x + 10000;
-                    (_2 = this.genomeBrowser) === null || _2 === void 0 ? void 0 : _2.goto(this.x, (this.x + this.bpPerScreen));
-                }
-                else if (action.type === OutgoingActionType.MOVE_RIGHT) {
-                    this.x = this.x - 10000;
-                    (_3 = this.genomeBrowser) === null || _3 === void 0 ? void 0 : _3.goto(this.x, (this.x + this.bpPerScreen));
-                }
-                else if (action.type === OutgoingActionType.MOVE_UP) {
-                    this.y = this.y + 10;
-                    (_4 = this.genomeBrowser) === null || _4 === void 0 ? void 0 : _4.set_y(this.y);
-                }
-                else if (action.type === OutgoingActionType.MOVE_DOWN) {
-                    this.y = this.y - 10;
-                    (_5 = this.genomeBrowser) === null || _5 === void 0 ? void 0 : _5.set_y(this.y);
                 }
                 return [2];
             });
@@ -265,7 +231,7 @@ var EnsemblGenomeBrowser = (function () {
                 switch (_d.label) {
                     case 0:
                         if (!!this.inited) return [3, 3];
-                        return [4, import('./peregrine_ensembl-13a855a3.js')];
+                        return [4, import('./peregrine_ensembl-54402812.js')];
                     case 1:
                         _c = _d.sent(), init = _c["default"], GenomeBrowser = _c.GenomeBrowser;
                         return [4, init()];

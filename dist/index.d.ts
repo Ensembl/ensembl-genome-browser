@@ -16,9 +16,6 @@ declare type ConfigData = {
 };
 declare class EnsemblGenomeBrowser {
     genomeBrowser: GenomeBrowserType | null;
-    bpPerScreen: number;
-    x: number;
-    y: number;
     inited: boolean;
     init(config?: ConfigData): Promise<void>;
     formatIncoming: (actionType: IncomingActionType, payload: any) => IncomingAction;
