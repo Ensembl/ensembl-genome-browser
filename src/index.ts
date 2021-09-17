@@ -24,9 +24,6 @@ type ConfigData = {
 class EnsemblGenomeBrowser {
   
   genomeBrowser: GenomeBrowserType | null = null;
-  bpPerScreen = 1000000;
-  x = 2500000;
-  y = 0;
   inited = false;
 
   public async init(config: ConfigData = {}) {
@@ -77,7 +74,6 @@ class EnsemblGenomeBrowser {
 
     const [type, payload] = action;
 
-    console.log("INCOMING", type, payload);
     const subscriptionsToAction = subscriptions.get(type);
 
     if (subscriptionsToAction) {
@@ -92,81 +88,51 @@ class EnsemblGenomeBrowser {
 
   public send = async (action: OutgoingAction) => {
 
-    console.log("SEND", action);
+    if(!this.genomeBrowser){
+      return;
+    }
 
    if(action.type === OutgoingActionType.SET_FOCUS) {
       
       if(!action.payload.focus){
         return;
       }
-      this.genomeBrowser?.jump(`focus:${action.payload.genomeId}:${action.payload.focus}`);
-      this.genomeBrowser?.wait();
-      this.genomeBrowser?.set_switch(["track"])
-      this.genomeBrowser?.set_switch(["track","focus"])
-      this.genomeBrowser?.set_switch(["track","focus","label"])
+      this.genomeBrowser.jump(`focus:${action.payload.genomeId}:${action.payload.focus}`);
+      this.genomeBrowser.wait();
+      this.genomeBrowser.set_switch(["track"])
+      this.genomeBrowser.set_switch(["track","focus"])
+      this.genomeBrowser.set_switch(["track","focus","label"])
 
-      this.genomeBrowser?.set_switch(["focus","gene"])
-      this.genomeBrowser?.set_switch(["focus","gene", action.payload.focus])
+      this.genomeBrowser.set_switch(["focus","gene"])
+      this.genomeBrowser.set_switch(["focus","gene", action.payload.focus])
 
     } if(action.type === OutgoingActionType.SET_FOCUS_LOCATION) {
 
       const {stick, startBp, endBp} = action.payload;
 
-      this.genomeBrowser?.set_stick(stick);
-      this.genomeBrowser?.wait();
-      this.genomeBrowser?.goto(startBp, endBp);
-      this.x = startBp;
-      this.bpPerScreen = endBp - startBp;
+      this.genomeBrowser.set_stick(stick);
+      this.genomeBrowser.wait();
+      this.genomeBrowser.goto(startBp, endBp);
     
     } else if(action.type === OutgoingActionType.TURN_ON_TRACKS){
       for(const track_id of action.payload.track_ids) {
-        this.genomeBrowser?.set_switch(["track",track_id])
-        this.genomeBrowser?.set_switch(["track",track_id,"label"])
+        this.genomeBrowser.set_switch(["track",track_id])
+        this.genomeBrowser.set_switch(["track",track_id,"label"])
       }
     } else if(action.type === OutgoingActionType.TURN_OFF_TRACKS){
       for(const track_id of action.payload.track_ids) {
-        this.genomeBrowser?.clear_switch(["track",track_id])
-        this.genomeBrowser?.clear_switch(["track",track_id,"label"])
+        this.genomeBrowser.clear_switch(["track",track_id])
+        this.genomeBrowser.clear_switch(["track",track_id,"label"])
       }
     }  else if(action.type === OutgoingActionType.TURN_ON_LABELS){
       for(const track_id of action.payload.track_ids) {
-        this.genomeBrowser?.set_switch(["track",track_id,"label"])
+        this.genomeBrowser.set_switch(["track",track_id,"label"])
       }
     } else if(action.type === OutgoingActionType.TURN_OFF_LABELS){
       for(const track_id of action.payload.track_ids) {
-        this.genomeBrowser?.clear_switch(["track",track_id,"label"])
+        this.genomeBrowser.clear_switch(["track",track_id,"label"])
       }
-    } else if(action.type === OutgoingActionType.ZOOM_IN){
-
-      this.bpPerScreen = this.bpPerScreen - 10000;
-      this.genomeBrowser?.goto(this.x, (this.x + this.bpPerScreen));
-    
-    } else if(action.type === OutgoingActionType.ZOOM_OUT){
-
-      this.bpPerScreen = this.bpPerScreen + 10000;
-      this.genomeBrowser?.goto(this.x, (this.x + this.bpPerScreen));
-
-    } else if(action.type === OutgoingActionType.MOVE_LEFT){
-
-      this.x = this.x + 10000;
-      this.genomeBrowser?.goto(this.x, (this.x + this.bpPerScreen));
-    
-    } else if(action.type === OutgoingActionType.MOVE_RIGHT){
-
-      this.x = this.x - 10000;
-      this.genomeBrowser?.goto(this.x, (this.x + this.bpPerScreen));
-    
-    } else if(action.type === OutgoingActionType.MOVE_UP){
-
-      this.y = this.y + 10;
-      this.genomeBrowser?.set_y(this.y);
-    
-    } else if(action.type === OutgoingActionType.MOVE_DOWN){
-
-      this.y = this.y - 10;
-      this.genomeBrowser?.set_y(this.y);
-    
-    }
+    } 
 
 
   };
@@ -193,10 +159,8 @@ class EnsemblGenomeBrowser {
       }
     }
   };
-
-  
+ 
 }
-
 
 export * from './types';
 

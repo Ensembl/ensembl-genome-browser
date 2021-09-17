@@ -12,57 +12,65 @@ npm i --save https://github.com/Ensembl/ensembl-genome-browser
 ## Creating an instance
 ```
 import EnsemblGenomeBrowser, { OutgoingAction, OutgoingActionType } from 'ensembl-genome-browser';
+
 const ensemblGenomeBrowser = new EnsemblGenomeBrowser();
 await ensemblGenomeBrowser.init();
-
-const action: OutgoingAction = {
-      type: OutgoingActionType.SET_FOCUS,
-      payload: {
-        focus: 'focus_id',
-        genomeId: 'genome_id'
-      }
-    };
-
-ensemblGenomeBrowser.send(action);
 ```
 
 *NOTE:* By default, the genome browser will get embeded to the dom element with id `browser`.
 
+## Methods
+The following are the methods exposed by the GB class.
+
+### send
+This method is used to send instruction messages to the GB in the form of actions (explained below).
+
+Example:
+```javascript
+ensemblGenomeBrowser.send({
+  type: OutgoingActionType.SET_FOCUS;
+  payload: {
+    genomeId: "genome_id";
+  };
+})
+```
+
+
+### subscribe
+This method is used to subscribe to the incoming messages coming from the GB.
+
+The subscribe method takes the following parameters:
+- actionTypes: Array of incoming action types
+- callback`: Function that needs to be called when a particular action is received
+
+Example:
+```javascript
+ensemblGenomeBrowser.subscribe(
+  [incomingActionType.CURRENT_POSITION, incomingActionType.TARGET_POSITION],
+  (incomingAction) => doSomething(incomingAction)
+)
+
+```
+
 ## Actions
 
-Actions are the communication messages sent or received between the genome browser and the client side application.
+Actions are the communication messages sent or received between the genome browser and the external applications.
 
 Actions are classified into two types:
 - Outgoing Action
 - Incoming Action
 
-An action is an object with two keys `type` & `payload`.
+An action is an object with two keys `type` & `payload`. 
 
 ### Outgoing Actions
-These are the actions that
+These are the actions that can be dispatched to the GB from the external application. They are used to control the GB by sending instructions to it.
 
-PING
-ACTIVATE_BROWSER
-MOVE_DOWN
-MOVE_LEFT
-MOVE_RIGHT
-MOVE_UP
-SET_FOCUS
-SET_FOCUS_LOCATION
-TOGGLE_TRACKS
-TURN_ON_TRACKS
-TURN_OFF_TRACKS
-TURN_ON_LABELS
-TURN_OFF_LABELS
-ZMENU_ACTIVITY_OUTSIDE
-ZMENU_ENTER
-ZMENU_LEAVE
-ZOOM_IN
-ZOOM_OUT
+Please refer to the `OutgoingActionType` in the `types.ts` file for the list of available outgoing actions.
 
-## Support
-TODO
+### Incoming Actions
+These are the actions that are dispatched from the GB to the external application. They are used to send updates back to the external applications as a response to the instructions received.
 
+Please refer to the `IncomingActionType` in the `types.ts` file for the list of available incoming actions.
 
-## Keywords
-TODO
+## Links
+- Peregrine Repo: https://github.com/Ensembl/ensembl-dauphin-style-compiler
