@@ -13,6 +13,7 @@ declare type GenomeBrowserType = {
 };
 declare type ConfigData = {
     backend_url?: string;
+    target_element_id?: string;
 };
 declare class EnsemblGenomeBrowser {
     genomeBrowser: GenomeBrowserType | null;
