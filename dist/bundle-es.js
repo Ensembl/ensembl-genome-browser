@@ -171,6 +171,10 @@ var EnsemblGenomeBrowser = (function () {
                     _a = action.payload, stick = _a.stick, startBp = _a.startBp, endBp = _a.endBp;
                     this.genomeBrowser.set_stick(stick);
                     this.genomeBrowser.wait();
+                    if (!action.payload.focus) {
+                        this.genomeBrowser.jump("focus:" + action.payload.genomeId + ":" + action.payload.focus);
+                        this.genomeBrowser.wait();
+                    }
                     this.genomeBrowser.goto(startBp, endBp);
                 }
                 else if (action.type === OutgoingActionType.TURN_ON_TRACKS) {
@@ -231,7 +235,7 @@ var EnsemblGenomeBrowser = (function () {
                 switch (_d.label) {
                     case 0:
                         if (!!this.inited) return [3, 3];
-                        return [4, import('./peregrine_ensembl-ac819dad.js')];
+                        return [4, import('./peregrine_ensembl-33b4772f.js')];
                     case 1:
                         _c = _d.sent(), init = _c["default"], GenomeBrowser = _c.GenomeBrowser;
                         return [4, init()];

@@ -168,7 +168,7 @@ export declare type TurnOffLabelsAction = {
 export declare type BrowserSetFocusAction = {
     type: OutgoingActionType.SET_FOCUS;
     payload: {
-        focus?: string | undefined;
+        focus?: string;
         genomeId: string;
     };
 };
@@ -178,6 +178,8 @@ export declare type BrowserSetFocusLocationAction = {
         endBp: number;
         startBp: number;
         stick: string;
+        focus: string | null;
+        genomeId: string;
     };
 };
 export declare type ZmenuEnterAction = {
@@ -253,7 +255,7 @@ export declare const createOutgoingAction: (action: OutgoingAction) => {
 } | {
     type: OutgoingActionType.SET_FOCUS;
     payload: {
-        focus?: string | undefined;
+        focus?: string;
         genomeId: string;
     };
 } | {
@@ -262,6 +264,8 @@ export declare const createOutgoingAction: (action: OutgoingAction) => {
         endBp: number;
         startBp: number;
         stick: string;
+        focus: string | null;
+        genomeId: string;
     };
 } | {
     type: OutgoingActionType.ZMENU_ENTER;

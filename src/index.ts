@@ -113,6 +113,11 @@ class EnsemblGenomeBrowser {
 
       this.genomeBrowser.set_stick(stick);
       this.genomeBrowser.wait();
+      if(!action.payload.focus){
+        this.genomeBrowser.jump(`focus:${action.payload.genomeId}:${action.payload.focus}`);
+        this.genomeBrowser.wait();
+      }
+
       this.genomeBrowser.goto(startBp, endBp);
     
     } else if(action.type === OutgoingActionType.TURN_ON_TRACKS){
