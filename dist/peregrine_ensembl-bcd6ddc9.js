@@ -1,4 +1,3 @@
-
 const lAudioContext = (typeof AudioContext !== 'undefined' ? AudioContext : (typeof webkitAudioContext !== 'undefined' ? webkitAudioContext : undefined));
 let wasm;
 
@@ -262,7 +261,7 @@ function _assertClass(instance, klass) {
 * @param {GenomeBrowser} api
 * @returns {any}
 */
-export function test(api) {
+function test(api) {
     _assertClass(api, GenomeBrowser);
     var ptr0 = api.ptr;
     api.ptr = 0;
@@ -279,13 +278,13 @@ function addBorrowedObject(obj) {
 }
 /**
 */
-export function main() {
+function main() {
     wasm.main();
 }
 
 /**
 */
-export function init_panic_hook() {
+function init_panic_hook() {
     wasm.init_panic_hook();
 }
 
@@ -315,7 +314,7 @@ function getArrayF32FromWasm0(ptr, len) {
 }
 /**
 */
-export class GenomeBrowser {
+class GenomeBrowser {
 
     static __wrap(ptr) {
         const obj = Object.create(GenomeBrowser.prototype);
@@ -1299,4 +1298,4 @@ async function init(input) {
 }
 
 export default init;
-
+export { GenomeBrowser, init_panic_hook, main, test };
