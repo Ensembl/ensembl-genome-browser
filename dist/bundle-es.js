@@ -170,7 +170,6 @@ var EnsemblGenomeBrowser = (function () {
                 if (action.type === OutgoingActionType.SET_FOCUS_LOCATION) {
                     _a = action.payload, stick = _a.stick, startBp = _a.startBp, endBp = _a.endBp;
                     this.genomeBrowser.set_stick(stick);
-                    this.genomeBrowser.wait();
                     if (!action.payload.focus) {
                         this.genomeBrowser.jump("focus:" + action.payload.genomeId + ":" + action.payload.focus);
                         this.genomeBrowser.wait();
