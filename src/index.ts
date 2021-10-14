@@ -112,7 +112,6 @@ class EnsemblGenomeBrowser {
       const {stick, startBp, endBp} = action.payload;
 
       this.genomeBrowser.set_stick(stick);
-      this.genomeBrowser.wait();
       if(!action.payload.focus){
         this.genomeBrowser.jump(`focus:${action.payload.genomeId}:${action.payload.focus}`);
         this.genomeBrowser.wait();
