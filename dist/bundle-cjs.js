@@ -154,25 +154,27 @@ var EnsemblGenomeBrowser = (function () {
             }
         };
         this.send = function (action) { return __awaiter(_this, void 0, void 0, function () {
-            var _a, stick, startBp, endBp, _i, _b, track_id, _c, _d, track_id, _e, _f, track_id, _g, _h, track_id;
-            return __generator(this, function (_j) {
+            var _a, genomeId, focus_1, stick, _b, stick, startBp, endBp, _i, _c, track_id, _d, _e, track_id, _f, _g, track_id, _h, _j, track_id;
+            return __generator(this, function (_k) {
                 if (!this.genomeBrowser) {
                     return [2];
                 }
                 if (action.type === exports.OutgoingActionType.SET_FOCUS) {
+                    _a = action.payload, genomeId = _a.genomeId, focus_1 = _a.focus, stick = _a.stick;
+                    this.genomeBrowser.set_stick(stick);
                     if (!action.payload.focus) {
                         return [2];
                     }
-                    this.genomeBrowser.jump("focus:" + action.payload.genomeId + ":" + action.payload.focus);
+                    this.genomeBrowser.jump("focus:" + genomeId + ":" + focus_1);
                     this.genomeBrowser.wait();
                     this.genomeBrowser.set_switch(["track"]);
                     this.genomeBrowser.set_switch(["track", "focus"]);
                     this.genomeBrowser.set_switch(["track", "focus", "label"]);
                     this.genomeBrowser.set_switch(["focus", "gene"]);
-                    this.genomeBrowser.set_switch(["focus", "gene", action.payload.focus]);
+                    this.genomeBrowser.set_switch(["focus", "gene", focus_1]);
                 }
                 if (action.type === exports.OutgoingActionType.SET_FOCUS_LOCATION) {
-                    _a = action.payload, stick = _a.stick, startBp = _a.startBp, endBp = _a.endBp;
+                    _b = action.payload, stick = _b.stick, startBp = _b.startBp, endBp = _b.endBp;
                     this.genomeBrowser.set_stick(stick);
                     if (!action.payload.focus) {
                         this.genomeBrowser.jump("focus:" + action.payload.genomeId + ":" + action.payload.focus);
@@ -181,28 +183,28 @@ var EnsemblGenomeBrowser = (function () {
                     this.genomeBrowser.goto(startBp, endBp);
                 }
                 else if (action.type === exports.OutgoingActionType.TURN_ON_TRACKS) {
-                    for (_i = 0, _b = action.payload.track_ids; _i < _b.length; _i++) {
-                        track_id = _b[_i];
+                    for (_i = 0, _c = action.payload.track_ids; _i < _c.length; _i++) {
+                        track_id = _c[_i];
                         this.genomeBrowser.set_switch(["track", track_id]);
                         this.genomeBrowser.set_switch(["track", track_id, "label"]);
                     }
                 }
                 else if (action.type === exports.OutgoingActionType.TURN_OFF_TRACKS) {
-                    for (_c = 0, _d = action.payload.track_ids; _c < _d.length; _c++) {
-                        track_id = _d[_c];
+                    for (_d = 0, _e = action.payload.track_ids; _d < _e.length; _d++) {
+                        track_id = _e[_d];
                         this.genomeBrowser.clear_switch(["track", track_id]);
                         this.genomeBrowser.clear_switch(["track", track_id, "label"]);
                     }
                 }
                 else if (action.type === exports.OutgoingActionType.TURN_ON_LABELS) {
-                    for (_e = 0, _f = action.payload.track_ids; _e < _f.length; _e++) {
-                        track_id = _f[_e];
+                    for (_f = 0, _g = action.payload.track_ids; _f < _g.length; _f++) {
+                        track_id = _g[_f];
                         this.genomeBrowser.set_switch(["track", track_id, "label"]);
                     }
                 }
                 else if (action.type === exports.OutgoingActionType.TURN_OFF_LABELS) {
-                    for (_g = 0, _h = action.payload.track_ids; _g < _h.length; _g++) {
-                        track_id = _h[_g];
+                    for (_h = 0, _j = action.payload.track_ids; _h < _j.length; _h++) {
+                        track_id = _j[_h];
                         this.genomeBrowser.clear_switch(["track", track_id, "label"]);
                     }
                 }

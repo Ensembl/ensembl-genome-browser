@@ -95,17 +95,20 @@ class EnsemblGenomeBrowser {
 
    if(action.type === OutgoingActionType.SET_FOCUS) {
       
+    const {genomeId, focus, stick } = action.payload;
+
+      this.genomeBrowser.set_stick(stick);
       if(!action.payload.focus){
         return;
       }
-      this.genomeBrowser.jump(`focus:${action.payload.genomeId}:${action.payload.focus}`);
+      this.genomeBrowser.jump(`focus:${genomeId}:${focus}`);
       this.genomeBrowser.wait();
       this.genomeBrowser.set_switch(["track"])
       this.genomeBrowser.set_switch(["track","focus"])
       this.genomeBrowser.set_switch(["track","focus","label"])
 
       this.genomeBrowser.set_switch(["focus","gene"])
-      this.genomeBrowser.set_switch(["focus","gene", action.payload.focus])
+      this.genomeBrowser.set_switch(["focus","gene", focus])
 
     } if(action.type === OutgoingActionType.SET_FOCUS_LOCATION) {
 

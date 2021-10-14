@@ -207,8 +207,9 @@ export type TurnOffLabelsAction = {
 export type BrowserSetFocusAction = {
   type: OutgoingActionType.SET_FOCUS;
   payload: {
-    focus?: string;
+    focus: string;
     genomeId: string;
+    stick: string;
   };
 };
 

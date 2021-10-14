@@ -168,8 +168,9 @@ export declare type TurnOffLabelsAction = {
 export declare type BrowserSetFocusAction = {
     type: OutgoingActionType.SET_FOCUS;
     payload: {
-        focus?: string;
+        focus: string;
         genomeId: string;
+        stick: string;
     };
 };
 export declare type BrowserSetFocusLocationAction = {
@@ -255,8 +256,9 @@ export declare const createOutgoingAction: (action: OutgoingAction) => {
 } | {
     type: OutgoingActionType.SET_FOCUS;
     payload: {
-        focus?: string;
+        focus: string;
         genomeId: string;
+        stick: string;
     };
 } | {
     type: OutgoingActionType.SET_FOCUS_LOCATION;
