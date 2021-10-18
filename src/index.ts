@@ -30,10 +30,10 @@ class EnsemblGenomeBrowser {
   public async init(config: ConfigData = {}) {
 
     if(!this.inited) {
-      const { default: init, GenomeBrowser } = await import('./peregrine/peregrine_ensembl.js');
+      const { default: init, GenomeBrowser } = await import('./peregrine/peregrine_generic.js');
       await init();
       this.genomeBrowser = new GenomeBrowser();
-      this.genomeBrowser?.go(config);  
+      this.genomeBrowser?.go(config);
     }
     this.inited = true;
     
@@ -139,6 +139,14 @@ class EnsemblGenomeBrowser {
     } else if(action.type === OutgoingActionType.TURN_OFF_LABELS){
       for(const track_id of action.payload.track_ids) {
         this.genomeBrowser.clear_switch(["track",track_id,"label"])
+      }
+    } else if(action.type === OutgoingActionType.TURN_ON_NAMES){
+      for(const track_id of action.payload.track_ids) {
+        this.genomeBrowser.set_switch(["track",track_id,"name"])
+      }
+    } else if(action.type === OutgoingActionType.TURN_OFF_NAMES){
+      for(const track_id of action.payload.track_ids) {
+        this.genomeBrowser.clear_switch(["track",track_id,"name"])
       }
     } 
 

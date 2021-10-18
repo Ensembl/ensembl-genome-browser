@@ -79,6 +79,8 @@ exports.OutgoingActionType = void 0;
     OutgoingActionType["TURN_OFF_TRACKS"] = "turn_off_tracks";
     OutgoingActionType["TURN_ON_LABELS"] = "turn_on_labels";
     OutgoingActionType["TURN_OFF_LABELS"] = "turn_off_labels";
+    OutgoingActionType["TURN_ON_NAMES"] = "turn_on_names";
+    OutgoingActionType["TURN_OFF_NAMES"] = "turn_off_names";
     OutgoingActionType["ZMENU_ENTER"] = "zmenu-enter";
     OutgoingActionType["ZOOM_IN"] = "zoom_in";
     OutgoingActionType["ZOOM_OUT"] = "zoom_out";
@@ -154,8 +156,8 @@ var EnsemblGenomeBrowser = (function () {
             }
         };
         this.send = function (action) { return __awaiter(_this, void 0, void 0, function () {
-            var _a, genomeId, focus_1, stick, _b, stick, startBp, endBp, _i, _c, track_id, _d, _e, track_id, _f, _g, track_id, _h, _j, track_id;
-            return __generator(this, function (_k) {
+            var _a, genomeId, focus_1, stick, _b, stick, startBp, endBp, _i, _c, track_id, _d, _e, track_id, _f, _g, track_id, _h, _j, track_id, _k, _l, track_id, _m, _o, track_id;
+            return __generator(this, function (_p) {
                 if (!this.genomeBrowser) {
                     return [2];
                 }
@@ -208,6 +210,18 @@ var EnsemblGenomeBrowser = (function () {
                         this.genomeBrowser.clear_switch(["track", track_id, "label"]);
                     }
                 }
+                else if (action.type === exports.OutgoingActionType.TURN_ON_NAMES) {
+                    for (_k = 0, _l = action.payload.track_ids; _k < _l.length; _k++) {
+                        track_id = _l[_k];
+                        this.genomeBrowser.set_switch(["track", track_id, "name"]);
+                    }
+                }
+                else if (action.type === exports.OutgoingActionType.TURN_OFF_NAMES) {
+                    for (_m = 0, _o = action.payload.track_ids; _m < _o.length; _m++) {
+                        track_id = _o[_m];
+                        this.genomeBrowser.clear_switch(["track", track_id, "name"]);
+                    }
+                }
                 return [2];
             });
         }); };
@@ -240,7 +254,7 @@ var EnsemblGenomeBrowser = (function () {
                 switch (_d.label) {
                     case 0:
                         if (!!this.inited) return [3, 3];
-                        return [4, Promise.resolve().then(function () { return require('./peregrine_ensembl-983cdec4.js'); })];
+                        return [4, Promise.resolve().then(function () { return require('./peregrine_generic-0575cd42.js'); })];
                     case 1:
                         _c = _d.sent(), init = _c["default"], GenomeBrowser = _c.GenomeBrowser;
                         return [4, init()];

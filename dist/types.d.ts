@@ -10,6 +10,8 @@ export declare enum OutgoingActionType {
     TURN_OFF_TRACKS = "turn_off_tracks",
     TURN_ON_LABELS = "turn_on_labels",
     TURN_OFF_LABELS = "turn_off_labels",
+    TURN_ON_NAMES = "turn_on_names",
+    TURN_OFF_NAMES = "turn_off_names",
     ZMENU_ENTER = "zmenu-enter",
     ZOOM_IN = "zoom_in",
     ZOOM_OUT = "zoom_out"
@@ -165,6 +167,18 @@ export declare type TurnOffLabelsAction = {
         track_ids: string[];
     };
 };
+export declare type TurnOnNamesAction = {
+    type: OutgoingActionType.TURN_ON_NAMES;
+    payload: {
+        track_ids: string[];
+    };
+};
+export declare type TurnOffNamesAction = {
+    type: OutgoingActionType.TURN_OFF_NAMES;
+    payload: {
+        track_ids: string[];
+    };
+};
 export declare type BrowserSetFocusAction = {
     type: OutgoingActionType.SET_FOCUS;
     payload: {
@@ -225,7 +239,7 @@ export declare type ZoomOutAction = {
         zoom_by: number;
     };
 };
-export declare type OutgoingAction = BrowserToggleTracksAction | TurnOnTracksAction | TurnOffTracksAction | TurnOnLabelsAction | TurnOffLabelsAction | ZmenuEnterAction | BrowserSetFocusLocationAction | BrowserSetFocusAction | MoveUpAction | MoveDownAction | MoveLeftAction | MoveRightAction | ZoomInAction | ZoomOutAction;
+export declare type OutgoingAction = BrowserToggleTracksAction | TurnOnTracksAction | TurnOffTracksAction | TurnOnLabelsAction | TurnOffLabelsAction | TurnOnNamesAction | TurnOffNamesAction | ZmenuEnterAction | BrowserSetFocusLocationAction | BrowserSetFocusAction | MoveUpAction | MoveDownAction | MoveLeftAction | MoveRightAction | ZoomInAction | ZoomOutAction;
 export declare type IncomingAction = GenomeBrowserReadyAction | BrowserCurrentLocationUpdateAction | BrowserTargetLocationUpdateAction | UpdateCogPositionAction | UpdateCogTrackPositionAction | ZmenuAction | ZmenuRepositionAction;
 export declare const createOutgoingAction: (action: OutgoingAction) => {
     type: OutgoingActionType.TOGGLE_TRACKS;
@@ -250,6 +264,16 @@ export declare const createOutgoingAction: (action: OutgoingAction) => {
     };
 } | {
     type: OutgoingActionType.TURN_OFF_LABELS;
+    payload: {
+        track_ids: string[];
+    };
+} | {
+    type: OutgoingActionType.TURN_ON_NAMES;
+    payload: {
+        track_ids: string[];
+    };
+} | {
+    type: OutgoingActionType.TURN_OFF_NAMES;
     payload: {
         track_ids: string[];
     };
