@@ -79,7 +79,7 @@ class EnsemblGenomeBrowser {
 
     if (subscriptionsToAction) {
       
-      subscriptionsToAction.forEach( subscription => {
+      [...subscriptionsToAction.values()].forEach( subscription => {
         subscription(this.formatIncoming(type, payload));
       })
 
