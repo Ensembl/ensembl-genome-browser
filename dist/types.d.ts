@@ -59,7 +59,7 @@ export declare type ZmenuContentBlock = {
 export declare type ZmenuContentLineBreak = {
     type: 'line-break';
 };
-export declare type ZmenuContentLine = ZmenuContentBlock[];
+export declare type ZmenuContentLine = ZmenuContentBlock[] | ZmenuContentLineBreak;
 export declare type ZmenuContentTranscriptMetadata = {
     designation: string;
     strand: string;
