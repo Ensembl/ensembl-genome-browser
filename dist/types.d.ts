@@ -59,7 +59,7 @@ export declare type ZmenuContentBlock = {
 export declare type ZmenuContentLineBreak = {
     type: 'line-break';
 };
-export declare type ZmenuContentLine = ZmenuContentBlock | ZmenuContentLineBreak;
+export declare type ZmenuContentLine = ZmenuContentBlock[];
 export declare type ZmenuContentTranscriptMetadata = {
     designation: string;
     strand: string;
@@ -240,7 +240,7 @@ export declare type ZoomOutAction = {
     };
 };
 export declare type OutgoingAction = BrowserToggleTracksAction | TurnOnTracksAction | TurnOffTracksAction | TurnOnLabelsAction | TurnOffLabelsAction | TurnOnNamesAction | TurnOffNamesAction | ZmenuEnterAction | BrowserSetFocusLocationAction | BrowserSetFocusAction | MoveUpAction | MoveDownAction | MoveLeftAction | MoveRightAction | ZoomInAction | ZoomOutAction;
-export declare type IncomingAction = GenomeBrowserReadyAction | BrowserCurrentLocationUpdateAction | BrowserTargetLocationUpdateAction | UpdateCogPositionAction | UpdateCogTrackPositionAction | ZmenuAction | ZmenuRepositionAction;
+export declare type IncomingAction = BrowserCurrentLocationUpdateAction | BrowserTargetLocationUpdateAction | UpdateCogPositionAction | UpdateCogTrackPositionAction | ZmenuAction | ZmenuRepositionAction;
 export declare const createOutgoingAction: (action: OutgoingAction) => {
     type: OutgoingActionType.TOGGLE_TRACKS;
     payload: {

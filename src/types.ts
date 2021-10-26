@@ -72,7 +72,7 @@ export type ZmenuContentLineBreak = {
   type: 'line-break';
 };
 
-export type ZmenuContentLine = ZmenuContentBlock | ZmenuContentLineBreak;
+export type ZmenuContentLine = ZmenuContentBlock[];
 
 export type ZmenuContentTranscriptMetadata = {
   designation: string;
@@ -297,7 +297,6 @@ export type OutgoingAction =
   | ZoomOutAction;
 
 export type IncomingAction =
-  | GenomeBrowserReadyAction
   | BrowserCurrentLocationUpdateAction
   | BrowserTargetLocationUpdateAction
   | UpdateCogPositionAction

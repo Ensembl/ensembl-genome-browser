@@ -30,7 +30,7 @@ class EnsemblGenomeBrowser {
   public async init(config: ConfigData = {}) {
 
     if(!this.inited) {
-      const { default: init, GenomeBrowser } = await import('./peregrine/peregrine_generic.js');
+      const { default: init, GenomeBrowser } = await import('./peregrine/peregrine_ensembl.js');
       await init();
       this.genomeBrowser = new GenomeBrowser();
       this.genomeBrowser?.go(config);
