@@ -72,7 +72,7 @@ export type ZmenuContentLineBreak = {
   type: 'line-break';
 };
 
-export type ZmenuContentLine = ZmenuContentBlock[] | ZmenuContentLineBreak;
+export type ZmenuContentLine = ZmenuContentBlock | ZmenuContentLineBreak;
 
 export type ZmenuContentTranscriptMetadata = {
   designation: string;
