@@ -225,7 +225,6 @@ export type BrowserSetFocusAction = {
   payload: {
     focus: string;
     genomeId: string;
-    stick: string;
   };
 };
 
@@ -234,7 +233,6 @@ export type BrowserSetFocusLocationAction = {
   payload: {
     endBp: number;
     startBp: number;
-    stick: string;
     focus: string | null;
     genomeId: string;
 

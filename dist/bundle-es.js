@@ -191,15 +191,14 @@ var EnsemblGenomeBrowser = (function () {
             }
         };
         this.send = function (action) { return __awaiter(_this, void 0, void 0, function () {
-            var _a, genomeId, focus_1, stick, _b, stick, startBp, endBp, _c, _d, track_id, _e, _f, track_id, _g, _h, track_id, _j, _k, track_id, _l, _m, track_id, _o, _p, track_id;
+            var _a, genomeId, focus_1, _b, startBp, endBp, _c, _d, track_id, _e, _f, track_id, _g, _h, track_id, _j, _k, track_id, _l, _m, track_id, _o, _p, track_id;
             var e_1, _q, e_2, _r, e_3, _s, e_4, _t, e_5, _u, e_6, _v;
             return __generator(this, function (_w) {
                 if (!this.genomeBrowser) {
                     return [2];
                 }
                 if (action.type === OutgoingActionType.SET_FOCUS) {
-                    _a = action.payload, genomeId = _a.genomeId, focus_1 = _a.focus, stick = _a.stick;
-                    this.genomeBrowser.set_stick(stick);
+                    _a = action.payload, genomeId = _a.genomeId, focus_1 = _a.focus;
                     if (!action.payload.focus) {
                         return [2];
                     }
@@ -212,8 +211,7 @@ var EnsemblGenomeBrowser = (function () {
                     this.genomeBrowser.set_switch(["focus", "gene", focus_1]);
                 }
                 if (action.type === OutgoingActionType.SET_FOCUS_LOCATION) {
-                    _b = action.payload, stick = _b.stick, startBp = _b.startBp, endBp = _b.endBp;
-                    this.genomeBrowser.set_stick(stick);
+                    _b = action.payload, startBp = _b.startBp, endBp = _b.endBp;
                     if (!action.payload.focus) {
                         this.genomeBrowser.jump("focus:" + action.payload.genomeId + ":" + action.payload.focus);
                         this.genomeBrowser.wait();
@@ -315,47 +313,44 @@ var EnsemblGenomeBrowser = (function () {
                 return [2];
             });
         }); };
-        this.subscribe = function (actionTypes, callback) {
-            actionTypes.forEach(function (actionType) {
-                var subscriptionsToAction = subscriptions.get(actionType);
-                if (subscriptionsToAction) {
-                    subscriptionsToAction.add(callback);
-                }
-                else {
-                    subscriptions.set(actionType, new Set([callback]));
-                }
-            });
+        this.subscribe = function (actionType, callback) {
+            var subscriptionsToAction = subscriptions.get(actionType);
+            if (subscriptionsToAction) {
+                subscriptionsToAction.add(callback);
+            }
+            else {
+                subscriptions.set(actionType, new Set([callback]));
+            }
             return {
                 unsubscribe: function () {
-                    actionTypes.forEach(function (actionType) {
-                        var _a;
-                        (_a = subscriptions.get(actionType)) === null || _a === void 0 ? void 0 : _a["delete"](callback);
-                    });
+                    var _a;
+                    (_a = subscriptions.get(actionType)) === null || _a === void 0 ? void 0 : _a["delete"](callback);
                 }
             };
         };
     }
     EnsemblGenomeBrowser.prototype.init = function (config) {
-        var _a, _b;
+        var _a, _b, _c;
         if (config === void 0) { config = {}; }
         return __awaiter(this, void 0, void 0, function () {
-            var _c, init, GenomeBrowser;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var _d, init, GenomeBrowser;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
                     case 0:
                         if (!!this.inited) return [3, 3];
                         return [4, import('./peregrine_ensembl-83e22c0d.js')];
                     case 1:
-                        _c = _d.sent(), init = _c["default"], GenomeBrowser = _c.GenomeBrowser;
+                        _d = _e.sent(), init = _d["default"], GenomeBrowser = _d.GenomeBrowser;
                         return [4, init()];
                     case 2:
-                        _d.sent();
+                        _e.sent();
                         this.genomeBrowser = new GenomeBrowser();
                         (_a = this.genomeBrowser) === null || _a === void 0 ? void 0 : _a.go(config);
-                        _d.label = 3;
+                        _e.label = 3;
                     case 3:
                         this.inited = true;
                         (_b = this.genomeBrowser) === null || _b === void 0 ? void 0 : _b.set_message_reporter(this.handleIncoming);
+                        (_c = this.genomeBrowser) === null || _c === void 0 ? void 0 : _c.set_stick("");
                         return [2];
                 }
             });

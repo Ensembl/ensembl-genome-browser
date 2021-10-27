@@ -184,7 +184,6 @@ export declare type BrowserSetFocusAction = {
     payload: {
         focus: string;
         genomeId: string;
-        stick: string;
     };
 };
 export declare type BrowserSetFocusLocationAction = {
@@ -192,7 +191,6 @@ export declare type BrowserSetFocusLocationAction = {
     payload: {
         endBp: number;
         startBp: number;
-        stick: string;
         focus: string | null;
         genomeId: string;
     };
@@ -282,14 +280,12 @@ export declare const createOutgoingAction: (action: OutgoingAction) => {
     payload: {
         focus: string;
         genomeId: string;
-        stick: string;
     };
 } | {
     type: OutgoingActionType.SET_FOCUS_LOCATION;
     payload: {
         endBp: number;
         startBp: number;
-        stick: string;
         focus: string | null;
         genomeId: string;
     };

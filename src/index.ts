@@ -38,6 +38,7 @@ class EnsemblGenomeBrowser {
     this.inited = true;
     
     this.genomeBrowser?.set_message_reporter(this.handleIncoming);
+    this.genomeBrowser?.set_stick("");
   }
 
   public formatIncoming = (actionType: IncomingActionType, payload: any) => {
@@ -95,9 +96,9 @@ class EnsemblGenomeBrowser {
 
    if(action.type === OutgoingActionType.SET_FOCUS) {
       
-    const {genomeId, focus, stick } = action.payload;
+    const {genomeId, focus } = action.payload;
 
-      this.genomeBrowser.set_stick(stick);
+      
       if(!action.payload.focus){
         return;
       }
@@ -112,9 +113,8 @@ class EnsemblGenomeBrowser {
 
     } if(action.type === OutgoingActionType.SET_FOCUS_LOCATION) {
 
-      const {stick, startBp, endBp} = action.payload;
+      const { startBp, endBp} = action.payload;
 
-      this.genomeBrowser.set_stick(stick);
       if(!action.payload.focus){
         this.genomeBrowser.jump(`focus:${action.payload.genomeId}:${action.payload.focus}`);
         this.genomeBrowser.wait();
@@ -149,13 +149,10 @@ class EnsemblGenomeBrowser {
         this.genomeBrowser.clear_switch(["track",track_id,"name"])
       }
     } 
-
-
   };
   
-  public subscribe = (actionTypes: IncomingActionType[], callback: Callback) => {
+  public subscribe = (actionType: IncomingActionType, callback: Callback) => {
 
-    actionTypes.forEach( actionType => {
       const subscriptionsToAction = subscriptions.get(actionType);
       if (subscriptionsToAction) {
         subscriptionsToAction.add(callback);
@@ -163,15 +160,9 @@ class EnsemblGenomeBrowser {
         subscriptions.set(actionType, new Set([callback]));
       }
 
-    })
-
     return {
       unsubscribe() {
-        
-        actionTypes.forEach( actionType => {
-          subscriptions.get(actionType)?.delete(callback);
-
-        })
+        subscriptions.get(actionType)?.delete(callback);
       }
     }
   };

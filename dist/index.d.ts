@@ -22,7 +22,7 @@ declare class EnsemblGenomeBrowser {
     formatIncoming: (actionType: IncomingActionType, payload: any) => IncomingAction;
     handleIncoming: (type: IncomingActionType, payload: any) => void;
     send: (action: OutgoingAction) => Promise<void>;
-    subscribe: (actionTypes: IncomingActionType[], callback: Callback) => {
+    subscribe: (actionType: IncomingActionType, callback: Callback) => {
         unsubscribe(): void;
     };
 }
