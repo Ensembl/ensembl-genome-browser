@@ -118,7 +118,7 @@ export declare type UpdateCogPositionAction = {
     type: IncomingActionType.SCROLL_POSITION;
     payload: CogScrollPayload;
 };
-export declare type UpdateCogTrackPositionAction = {
+export declare type UpdateTrackSummaryAction = {
     type: IncomingActionType.TRACK_SUMMARY;
     payload: TrackSummaryList;
 };
@@ -238,90 +238,8 @@ export declare type ZoomOutAction = {
     };
 };
 export declare type OutgoingAction = BrowserToggleTracksAction | TurnOnTracksAction | TurnOffTracksAction | TurnOnLabelsAction | TurnOffLabelsAction | TurnOnNamesAction | TurnOffNamesAction | ZmenuEnterAction | BrowserSetFocusLocationAction | BrowserSetFocusAction | MoveUpAction | MoveDownAction | MoveLeftAction | MoveRightAction | ZoomInAction | ZoomOutAction;
-export declare type IncomingAction = BrowserCurrentLocationUpdateAction | BrowserTargetLocationUpdateAction | UpdateCogPositionAction | UpdateCogTrackPositionAction | ZmenuAction | ZmenuRepositionAction;
-export declare const createOutgoingAction: (action: OutgoingAction) => {
-    type: OutgoingActionType.TOGGLE_TRACKS;
-    payload: {
-        on?: string | string[];
-        off?: string | string[];
-    };
-} | {
-    type: OutgoingActionType.TURN_ON_TRACKS;
-    payload: {
-        track_ids: string[];
-    };
-} | {
-    type: OutgoingActionType.TURN_OFF_TRACKS;
-    payload: {
-        track_ids: string[];
-    };
-} | {
-    type: OutgoingActionType.TURN_ON_LABELS;
-    payload: {
-        track_ids: string[];
-    };
-} | {
-    type: OutgoingActionType.TURN_OFF_LABELS;
-    payload: {
-        track_ids: string[];
-    };
-} | {
-    type: OutgoingActionType.TURN_ON_NAMES;
-    payload: {
-        track_ids: string[];
-    };
-} | {
-    type: OutgoingActionType.TURN_OFF_NAMES;
-    payload: {
-        track_ids: string[];
-    };
-} | {
-    type: OutgoingActionType.SET_FOCUS;
-    payload: {
-        focus: string;
-        genomeId: string;
-    };
-} | {
-    type: OutgoingActionType.SET_FOCUS_LOCATION;
-    payload: {
-        endBp: number;
-        startBp: number;
-        focus: string | null;
-        genomeId: string;
-    };
-} | {
-    type: OutgoingActionType.ZMENU_ENTER;
-    payload: {
-        id: string;
-    };
-} | {
-    type: OutgoingActionType.MOVE_UP;
-    payload: {
-        move_up_px: number;
-    };
-} | {
-    type: OutgoingActionType.MOVE_DOWN;
-    payload: {
-        move_down_px: number;
-    };
-} | {
-    type: OutgoingActionType.MOVE_LEFT;
-    payload: {
-        move_left_px: number;
-    };
-} | {
-    type: OutgoingActionType.MOVE_RIGHT;
-    payload: {
-        move_right_px: number;
-    };
-} | {
-    type: OutgoingActionType.ZOOM_IN;
-    payload: {
-        zoom_by: number;
-    };
-} | {
-    type: OutgoingActionType.ZOOM_OUT;
-    payload: {
-        zoom_by: number;
-    };
+export declare type IncomingAction = BrowserCurrentLocationUpdateAction | BrowserTargetLocationUpdateAction | UpdateCogPositionAction | UpdateTrackSummaryAction | ZmenuAction | ZmenuRepositionAction;
+export declare type SubscribeArgs = [BrowserCurrentLocationUpdateAction['type'], (action: BrowserCurrentLocationUpdateAction) => void] | [BrowserTargetLocationUpdateAction['type'], (action: BrowserTargetLocationUpdateAction) => void] | [UpdateCogPositionAction['type'], (action: UpdateCogPositionAction) => void] | [UpdateTrackSummaryAction['type'], (action: UpdateTrackSummaryAction) => void] | [ZmenuAction['type'], (action: ZmenuAction) => void] | [ZmenuRepositionAction['type'], (action: ZmenuRepositionAction) => void];
+export declare type Subscribe = (...args: SubscribeArgs) => {
+    unsubscribe: () => void;
 };

@@ -1,9 +1,8 @@
 import { 
-  IncomingAction, IncomingActionType, OutgoingAction, OutgoingActionType
+  IncomingAction, IncomingActionType, OutgoingAction, OutgoingActionType, Subscribe
 } from './types';
 
-const subscriptions = new Map<IncomingActionType, Set<(action: IncomingAction) => void>>();
-type Callback = (action: IncomingAction) => void;
+const subscriptions = new Map<IncomingActionType, Set<(action: any) => void>>();
 
 type GenomeBrowserType = {
   go: (config_object: any) => void;
@@ -151,18 +150,18 @@ class EnsemblGenomeBrowser {
     } 
   };
   
-  public subscribe = (actionType: IncomingActionType, callback: Callback) => {
+  public subscribe: Subscribe = (actionType, subscriber) => {
 
       const subscriptionsToAction = subscriptions.get(actionType);
       if (subscriptionsToAction) {
-        subscriptionsToAction.add(callback);
+        subscriptionsToAction.add(subscriber);
       } else {
-        subscriptions.set(actionType, new Set([callback]));
+        subscriptions.set(actionType, new Set([subscriber]));
       }
 
     return {
       unsubscribe() {
-        subscriptions.get(actionType)?.delete(callback);
+        subscriptions.get(actionType)?.delete(subscriber);
       }
     }
   };

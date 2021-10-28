@@ -148,7 +148,7 @@ export type UpdateCogPositionAction = {
   payload: CogScrollPayload;
 };
 
-export type UpdateCogTrackPositionAction = {
+export type UpdateTrackSummaryAction = {
   type: IncomingActionType.TRACK_SUMMARY;
   payload: TrackSummaryList;
 };
@@ -298,10 +298,17 @@ export type IncomingAction =
   | BrowserCurrentLocationUpdateAction
   | BrowserTargetLocationUpdateAction
   | UpdateCogPositionAction
-  | UpdateCogTrackPositionAction
+  | UpdateTrackSummaryAction
   | ZmenuAction
   | ZmenuRepositionAction;
 
-export const createOutgoingAction = (action: OutgoingAction) => {
-  return { ...action };
-};
+export type SubscribeArgs = 
+  | [BrowserCurrentLocationUpdateAction['type'], (action: BrowserCurrentLocationUpdateAction) => void]
+  | [BrowserTargetLocationUpdateAction['type'], (action: BrowserTargetLocationUpdateAction) => void]
+  | [UpdateCogPositionAction['type'], (action: UpdateCogPositionAction) => void]
+  | [UpdateTrackSummaryAction['type'], (action: UpdateTrackSummaryAction) => void]
+  | [ZmenuAction['type'], (action: ZmenuAction) => void]
+  | [ZmenuRepositionAction['type'], (action: ZmenuRepositionAction) => void];
+  
+export type Subscribe = (...args: SubscribeArgs) => {unsubscribe: () => void};
+

@@ -1,5 +1,4 @@
-import { IncomingAction, IncomingActionType, OutgoingAction } from './types';
-declare type Callback = (action: IncomingAction) => void;
+import { IncomingAction, IncomingActionType, OutgoingAction, Subscribe } from './types';
 declare type GenomeBrowserType = {
     go: (config_object: any) => void;
     set_stick: (stickId: string) => void;
@@ -22,9 +21,7 @@ declare class EnsemblGenomeBrowser {
     formatIncoming: (actionType: IncomingActionType, payload: any) => IncomingAction;
     handleIncoming: (type: IncomingActionType, payload: any) => void;
     send: (action: OutgoingAction) => Promise<void>;
-    subscribe: (actionType: IncomingActionType, callback: Callback) => {
-        unsubscribe(): void;
-    };
+    subscribe: Subscribe;
 }
 export * from './types';
 export default EnsemblGenomeBrowser;

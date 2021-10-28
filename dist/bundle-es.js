@@ -13,17 +13,6 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 
-var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-
 function __awaiter(thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -142,9 +131,6 @@ var ZmenuFeatureType;
     ZmenuFeatureType["GENE"] = "gene";
     ZmenuFeatureType["TRANSCRIPT"] = "transcript";
 })(ZmenuFeatureType || (ZmenuFeatureType = {}));
-var createOutgoingAction = function (action) {
-    return __assign({}, action);
-};
 
 var subscriptions = new Map();
 var EnsemblGenomeBrowser = (function () {
@@ -313,18 +299,18 @@ var EnsemblGenomeBrowser = (function () {
                 return [2];
             });
         }); };
-        this.subscribe = function (actionType, callback) {
+        this.subscribe = function (actionType, subscriber) {
             var subscriptionsToAction = subscriptions.get(actionType);
             if (subscriptionsToAction) {
-                subscriptionsToAction.add(callback);
+                subscriptionsToAction.add(subscriber);
             }
             else {
-                subscriptions.set(actionType, new Set([callback]));
+                subscriptions.set(actionType, new Set([subscriber]));
             }
             return {
                 unsubscribe: function () {
                     var _a;
-                    (_a = subscriptions.get(actionType)) === null || _a === void 0 ? void 0 : _a["delete"](callback);
+                    (_a = subscriptions.get(actionType)) === null || _a === void 0 ? void 0 : _a["delete"](subscriber);
                 }
             };
         };
@@ -360,4 +346,4 @@ var EnsemblGenomeBrowser = (function () {
 }());
 
 export default EnsemblGenomeBrowser;
-export { IncomingActionType, Markup, OutgoingActionType, ZmenuFeatureType, createOutgoingAction };
+export { IncomingActionType, Markup, OutgoingActionType, ZmenuFeatureType };
