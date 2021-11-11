@@ -328,7 +328,7 @@ var EnsemblGenomeBrowser = (function () {
                 switch (_e.label) {
                     case 0:
                         if (!!this.inited) return [3, 3];
-                        return [4, Promise.resolve().then(function () { return require('./peregrine_ensembl-98aca451.js'); })];
+                        return [4, Promise.resolve().then(function () { return require('./peregrine_ensembl-3207deda.js'); })];
                     case 1:
                         _d = _e.sent(), init = _d["default"], GenomeBrowser = _d.GenomeBrowser;
                         return [4, init()];

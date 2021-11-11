@@ -68,11 +68,7 @@ export type ZmenuContentBlock = {
   items: ZmenuContentItem[];
 };
 
-export type ZmenuContentLineBreak = {
-  type: 'line-break';
-};
-
-export type ZmenuContentLine = ZmenuContentBlock | ZmenuContentLineBreak;
+export type ZmenuContentLine = ZmenuContentBlock[]
 
 export type ZmenuContentTranscriptMetadata = {
   designation: string;
