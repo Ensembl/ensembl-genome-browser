@@ -169,6 +169,10 @@ var EnsemblGenomeBrowser = (function () {
                 action[_i] = arguments[_i];
             }
             var _a = __read(action, 2), type = _a[0], payload = _a[1];
+            if (type === "error") {
+                console.error(payload);
+                return;
+            }
             var subscriptionsToAction = subscriptions.get(type);
             if (subscriptionsToAction) {
                 __spreadArray([], __read(subscriptionsToAction.values())).forEach(function (subscription) {
@@ -316,27 +320,26 @@ var EnsemblGenomeBrowser = (function () {
         };
     }
     EnsemblGenomeBrowser.prototype.init = function (config) {
-        var _a, _b, _c;
+        var _a, _b;
         if (config === void 0) { config = {}; }
         return __awaiter(this, void 0, void 0, function () {
-            var _d, init, GenomeBrowser;
-            return __generator(this, function (_e) {
-                switch (_e.label) {
+            var _c, init, GenomeBrowser;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         if (!!this.inited) return [3, 3];
                         return [4, import('./peregrine_ensembl-e67e182a.js')];
                     case 1:
-                        _d = _e.sent(), init = _d["default"], GenomeBrowser = _d.GenomeBrowser;
+                        _c = _d.sent(), init = _c["default"], GenomeBrowser = _c.GenomeBrowser;
                         return [4, init()];
                     case 2:
-                        _e.sent();
+                        _d.sent();
                         this.genomeBrowser = new GenomeBrowser();
                         (_a = this.genomeBrowser) === null || _a === void 0 ? void 0 : _a.go(config);
-                        _e.label = 3;
+                        _d.label = 3;
                     case 3:
                         this.inited = true;
                         (_b = this.genomeBrowser) === null || _b === void 0 ? void 0 : _b.set_message_reporter(this.handleIncoming);
-                        (_c = this.genomeBrowser) === null || _c === void 0 ? void 0 : _c.set_stick("");
                         return [2];
                 }
             });

@@ -37,7 +37,6 @@ class EnsemblGenomeBrowser {
     this.inited = true;
     
     this.genomeBrowser?.set_message_reporter(this.handleIncoming);
-    this.genomeBrowser?.set_stick("");
   }
 
   public formatIncoming = (actionType: IncomingActionType, payload: any) => {
@@ -71,9 +70,14 @@ class EnsemblGenomeBrowser {
 
   }
 
-  public handleIncoming = (...action: [type: IncomingActionType, payload: any]) => {
+  public handleIncoming = (...action: [type: IncomingActionType | "error", payload: any]) => {
 
     const [type, payload] = action;
+
+    if( type === "error"){
+      console.error(payload);
+      return;
+    }
 
     const subscriptionsToAction = subscriptions.get(type);
 
