@@ -13,6 +13,9 @@ declare type GenomeBrowserType = {
 declare type ConfigData = {
     backend_url?: string;
     target_element_id?: string;
+    debug?: {
+        "show-incoming-messages"?: boolean;
+    };
 };
 declare class EnsemblGenomeBrowser {
     genomeBrowser: GenomeBrowserType | null;
