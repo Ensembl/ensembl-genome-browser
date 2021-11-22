@@ -20,9 +20,7 @@ type GenomeBrowserType = {
 type ConfigData = {
   backend_url?: string;
   target_element_id?: string;
-  debug?: {
-    "show-incoming-messages"?: boolean;
-  }
+  "debug.show-incoming-messages"?: string;
 }
 class EnsemblGenomeBrowser {
   
