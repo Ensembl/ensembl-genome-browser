@@ -1,4 +1,3 @@
-
 const lAudioContext = (typeof AudioContext !== 'undefined' ? AudioContext : (typeof webkitAudioContext !== 'undefined' ? webkitAudioContext : undefined));
 let wasm;
 
@@ -302,7 +301,7 @@ function _assertClass(instance, klass) {
 * @param {GenomeBrowser} api
 * @returns {any}
 */
-export function test(api) {
+function test(api) {
     _assertClass(api, GenomeBrowser);
     if (api.ptr === 0) {
         throw new Error('Attempt to use a moved value');
@@ -322,13 +321,13 @@ function addBorrowedObject(obj) {
 }
 /**
 */
-export function main() {
+function main() {
     wasm.main();
 }
 
 /**
 */
-export function init_panic_hook() {
+function init_panic_hook() {
     wasm.init_panic_hook();
 }
 
@@ -360,7 +359,7 @@ function __wbg_adapter_388(arg0, arg1, arg2, arg3) {
 function notDefined(what) { return () => { throw new Error(`${what} is not defined`); }; }
 /**
 */
-export class GenomeBrowser {
+class GenomeBrowser {
 
     static __wrap(ptr) {
         const obj = Object.create(GenomeBrowser.prototype);
@@ -1418,4 +1417,4 @@ async function init(input) {
 }
 
 export default init;
-
+export { GenomeBrowser, init_panic_hook, main, test };
