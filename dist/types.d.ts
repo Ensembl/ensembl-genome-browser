@@ -186,6 +186,7 @@ export declare type BrowserSetFocusAction = {
 export declare type BrowserSetFocusLocationAction = {
     type: OutgoingActionType.SET_FOCUS_LOCATION;
     payload: {
+        chromosome: string;
         endBp: number;
         startBp: number;
         focus: string | null;

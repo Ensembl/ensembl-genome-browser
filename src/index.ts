@@ -117,11 +117,16 @@ class EnsemblGenomeBrowser {
 
     } if(action.type === OutgoingActionType.SET_FOCUS_LOCATION) {
 
-      const { startBp, endBp} = action.payload;
+      const { chromosome, startBp, endBp, genomeId, focus} = action.payload;
 
-      if(!action.payload.focus){
-        this.genomeBrowser.jump(`focus:${action.payload.genomeId}:${action.payload.focus}`);
-        this.genomeBrowser.wait();
+      this.genomeBrowser.set_stick(`${genomeId}:${chromosome}`);
+      this.genomeBrowser.wait();
+      if(focus){
+        this.genomeBrowser.set_switch(["track"])
+        this.genomeBrowser.set_switch(["track","focus"])
+
+        this.genomeBrowser.set_switch(["focus","gene"])
+        this.genomeBrowser.set_switch(["focus","gene", focus])
       }
 
       this.genomeBrowser.goto(startBp, endBp);

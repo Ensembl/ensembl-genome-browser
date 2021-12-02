@@ -181,7 +181,7 @@ var EnsemblGenomeBrowser = (function () {
             }
         };
         this.send = function (action) { return __awaiter(_this, void 0, void 0, function () {
-            var _a, genomeId, focus_1, _b, startBp, endBp, _c, _d, track_id, _e, _f, track_id, _g, _h, track_id, _j, _k, track_id, _l, _m, track_id, _o, _p, track_id;
+            var _a, genomeId, focus_1, _b, chromosome, startBp, endBp, genomeId, focus_2, _c, _d, track_id, _e, _f, track_id, _g, _h, track_id, _j, _k, track_id, _l, _m, track_id, _o, _p, track_id;
             var e_1, _q, e_2, _r, e_3, _s, e_4, _t, e_5, _u, e_6, _v;
             return __generator(this, function (_w) {
                 if (!this.genomeBrowser) {
@@ -201,10 +201,14 @@ var EnsemblGenomeBrowser = (function () {
                     this.genomeBrowser.set_switch(["focus", "gene", focus_1]);
                 }
                 if (action.type === OutgoingActionType.SET_FOCUS_LOCATION) {
-                    _b = action.payload, startBp = _b.startBp, endBp = _b.endBp;
-                    if (!action.payload.focus) {
-                        this.genomeBrowser.jump("focus:" + action.payload.genomeId + ":" + action.payload.focus);
-                        this.genomeBrowser.wait();
+                    _b = action.payload, chromosome = _b.chromosome, startBp = _b.startBp, endBp = _b.endBp, genomeId = _b.genomeId, focus_2 = _b.focus;
+                    this.genomeBrowser.set_stick(genomeId + ":" + chromosome);
+                    this.genomeBrowser.wait();
+                    if (focus_2) {
+                        this.genomeBrowser.set_switch(["track"]);
+                        this.genomeBrowser.set_switch(["track", "focus"]);
+                        this.genomeBrowser.set_switch(["focus", "gene"]);
+                        this.genomeBrowser.set_switch(["focus", "gene", focus_2]);
                     }
                     this.genomeBrowser.goto(startBp, endBp);
                 }
