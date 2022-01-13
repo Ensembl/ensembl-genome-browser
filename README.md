@@ -17,7 +17,7 @@ const ensemblGenomeBrowser = new EnsemblGenomeBrowser();
 await ensemblGenomeBrowser.init();
 ```
 
-*NOTE:* By default, the genome browser will get embeded to the dom element with id `browser`.
+*NOTE:* By default, the genome browser will get embedded in the dom element with id `browser`.
 
 ## Methods
 The following are the methods exposed by the GB class.
@@ -41,7 +41,7 @@ This method is used to subscribe to the incoming messages coming from the GB.
 
 The subscribe method takes the following parameters:
 - actionTypes: Array of incoming action types
-- callback`: Function that needs to be called when a particular action is received
+- callback: Function that needs to be called when a particular action is received
 
 Example:
 ```javascript
