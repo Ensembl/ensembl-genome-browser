@@ -9,6 +9,14 @@ stages:
   script:
     - echo "${WASM_BUILD_JOB_ID}"
 
+.use_artifact:
+  script: 
+    - ls -l /
+    - ls -l pkg/
+  needs:
+    - pipeline: $WASM_BUILD_JOB_ID
+      job: Build-WASM
 
 Build:NPM:
-  extends: .build_npm
+  extends: .use-artifact
+
