@@ -13,12 +13,12 @@ stages:
   stage: build
   script: 
     - ls -l /
-    - ls -l pkg/
+    - ls -l peregrine-ensembl/pkg/
   needs:
-    - project: ensembl-dauphin-style-compiler
-      job: Build-WASM
-      ref: multi-project-build
+    - job: Build-WASM
       artifacts: true
+      project: ensembl-web/ensembl-dauphin-style-compiler
+      ref: multi-project-build
 
 Build:NPM:
   extends: .use_artifact
