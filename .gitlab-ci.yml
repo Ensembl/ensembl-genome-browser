@@ -15,8 +15,10 @@ stages:
     - ls -l /
     - ls -l pkg/
   needs:
-    - pipeline: $WASM_BUILD_JOB_ID
+    - project: ensembl-dauphin-style-compiler
       job: Build-WASM
+      ref: multi-project-build
+      artifacts: true
 
 Build:NPM:
   extends: .use_artifact
