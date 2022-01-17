@@ -5,15 +5,13 @@ stages:
 
 .build_npm:
   stage: build
-  image: node:16.13.0
-  script:
-    - echo "${WASM_BUILD_JOB_ID}"
-
-.use_artifact:
-  stage: build
   script: 
-    - ls -l /
-    - ls -l peregrine-ensembl/pkg/
+    - cp peregrine-ensembl/pkg/* src/peregrine/
+    - ls -l .
+    - npm ci --loglevel warn
+    - npm run build
+    - ls -l dist/
+
   needs:
     - job: Build-WASM
       artifacts: true
@@ -21,5 +19,5 @@ stages:
       ref: multi-project-build
 
 Build:NPM:
-  extends: .use_artifact
+  extends: .build_npm
 
