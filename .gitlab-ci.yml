@@ -10,6 +10,7 @@ stages:
     - echo "${WASM_BUILD_JOB_ID}"
 
 .use_artifact:
+  stage: build
   script: 
     - ls -l /
     - ls -l pkg/
@@ -18,5 +19,5 @@ stages:
       job: Build-WASM
 
 Build:NPM:
-  extends: .use-artifact
+  extends: .use_artifact
 
