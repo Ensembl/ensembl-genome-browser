@@ -37,6 +37,7 @@ Publish:
   before_script:
     - echo "https://${GIT_USER}:${GIT_TOKEN}@github.com/Ensembl/ensembl-genome-browser.git" >> ~/.git-credentials
     - git config user.name ${GIT_USER}
+    - git config user.name ${GIT_EMAIL}
 
   script:
     - git clone https://github.com/Ensembl/ensembl-genome-browser.git
