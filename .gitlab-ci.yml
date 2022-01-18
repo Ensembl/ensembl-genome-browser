@@ -19,7 +19,8 @@ stages:
       ref: multi-project-build
 
   artifacts:
-    paths: dist/
+    paths:
+      - dist/
 
 Build:NPM:
   extends: .build_npm
@@ -43,4 +44,3 @@ Update:Client:
   stage: update_client
   script:
     - echo "Trigger Ensembl Client"
-
