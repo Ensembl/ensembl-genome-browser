@@ -22,6 +22,11 @@ stages:
     paths:
       - dist/
 
+  rules:
+    - changes:
+      - dist/
+      when: never
+
 Build:NPM:
   extends: .build_npm
 
@@ -33,14 +38,27 @@ Publish:
     - cp dist/* ensembl-genome-browser/dist/
     - git -C ensembl-genome-browser add dist/*
     - git -C ensembl-genome-browser commit -m "Update genome-browser package"
+    # This needs authentication. Need to create team account
     - git -C ensembl-genome-browser push origin multi-project-pipeline
+  rules:
+    - changes:
+      - dist/
+      when: never
 
 Update:NPM:
   stage: update_package
   script:
     - echo "Update Package.json"
+  rules:
+    - changes:
+      - dist/
+      when: never
 
 Update:Client:
   stage: update_client
   script:
     - echo "Trigger Ensembl Client"
+  rules:
+    - changes:
+      - dist/
+      when: never
