@@ -30,7 +30,7 @@ Publish:
   image: dockerhub.ebi.ac.uk/ensembl-web/deploy-tools:0.6
   script:
     - git clone https://github.com/Ensembl/ensembl-genome-browser.git
-    - cp dist/* ensembl-genome-browserensembl-genome-browser/dist/
+    - cp dist/* ensembl-genome-browser/dist/
     - git -C ensembl-genome-browser add dist/*
     - git -C ensembl-genome-browser commit -m "Update genome-browser package"
     - git -C ensembl-genome-browser push origin multi-project-pipeline
