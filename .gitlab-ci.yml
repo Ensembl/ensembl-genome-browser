@@ -41,7 +41,7 @@ Publish:
     - cp dist/* ensembl-genome-browser/dist/
     - git -C ensembl-genome-browser add dist/*
     # This needs authentication. Need to create team account (deploy keys)
-    - git -C ensembl-genome-browser commit -m "Update genome-browser package"
+    - git -C ensembl-genome-browser -c user.name ${GIT_USER} commit -m "Update genome-browser package"
     - git -C ensembl-genome-browser push origin multi-project-pipeline
   rules:
     - changes:
