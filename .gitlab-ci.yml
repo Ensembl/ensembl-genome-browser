@@ -26,6 +26,7 @@ stages:
     - changes:
       - dist/
       when: never
+    - when: always
 
 Build:NPM:
   extends: .build_npm
@@ -44,6 +45,7 @@ Publish:
     - changes:
       - dist/
       when: never
+    - when: always
 
 Update:NPM:
   stage: update_package
@@ -53,6 +55,7 @@ Update:NPM:
     - changes:
       - dist/
       when: never
+    - when: always
 
 Update:Client:
   stage: update_client
@@ -62,3 +65,4 @@ Update:Client:
     - changes:
       - dist/
       when: never
+    - when: always
