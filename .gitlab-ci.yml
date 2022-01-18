@@ -36,15 +36,18 @@ Publish:
   image: dockerhub.ebi.ac.uk/ensembl-web/deploy-tools:0.6
   before_script:
     - echo "https://${GIT_USER}:${GIT_TOKEN}@github.com/Ensembl/ensembl-genome-browser.git" >> ~/.git-credentials
+    - mkdir github-version
 
   script:
+    - cd github-version
     - git clone https://github.com/Ensembl/ensembl-genome-browser.git
+    - cd ensembl-genome-browser
     - git checkout multi-project-pipeline
-    - cp dist/* ensembl-genome-browser/dist/
-    - git -C ensembl-genome-browser add dist/*
+    - cp dist/* dist/
+    - git add dist/*
     # This needs authentication. Need to create team account (deploy keys)    
-    - git -C ensembl-genome-browser -c user.name="${GIT_USER}" -c user.email="${GIT_EMAIL}" commit -m "Update genome-browser package"
-    - git -C ensembl-genome-browser -c user.name="${GIT_USER}" -c user.email="${GIT_EMAIL}" push origin multi-project-pipeline
+    - git -c user.name="${GIT_USER}" -c user.email="${GIT_EMAIL}" commit -m "Update genome-browser package"
+    - git -c user.name="${GIT_USER}" -c user.email="${GIT_EMAIL}" push origin multi-project-pipeline
 
   rules:
     - changes:
