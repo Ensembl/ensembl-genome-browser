@@ -1,15 +1,16 @@
 stages:
   - build
+  - publish
+  - update_package
+  - update_client
 
 .build_npm:
   stage: build
   image: node:16.13.0
   script: 
     - cp peregrine-ensembl/pkg/* src/peregrine/
-    - ls -l .
     - npm ci --loglevel warn
     - npm run build
-    - ls -l dist/
 
   needs:
     - job: Build-WASM
@@ -17,6 +18,29 @@ stages:
       project: ensembl-web/ensembl-dauphin-style-compiler
       ref: multi-project-build
 
+  artifacts:
+    paths: dist/
+
 Build:NPM:
   extends: .build_npm
+
+Publish:
+  stage: publish
+  image: dockerhub.ebi.ac.uk/ensembl-web/deploy-tools:0.4
+  script:
+    - git clone https://github.com/Ensembl/ensembl-genome-browser.git
+    - cp dist/* ensembl-genome-browserensembl-genome-browser/dist/
+    - git -C ensembl-genome-browser add dist/*
+    - git -C ensembl-genome-browser commit -m "Update genome-browser package"
+    - git -C ensembl-genome-browser push origin multi-project-pipeline
+
+Update:NPM:
+  stage: update_package
+  script:
+    - echo "Update Package.json"
+
+Update:Client:
+  stage: update_client
+  script:
+    - echo "Trigger Ensembl Client"
 
