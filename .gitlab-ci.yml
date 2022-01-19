@@ -40,7 +40,7 @@ Publish:
     - mkdir github-version
 
   script:
-    - ls -l ../../dist
+    - ls -l ../dist
     - ls -l dist/
     - cd github-version
     - git clone https://github.com/Ensembl/ensembl-genome-browser.git
