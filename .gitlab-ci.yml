@@ -40,14 +40,12 @@ Publish:
     - mkdir github-version
 
   script:
-    - ls -l ../dist
     - ls -l dist/
+    - git clone https://github.com/Ensembl/ensembl-genome-browser.git github-version
+    - git -C github-version checkout multi-project-pipeline
+    - cp dist/* github-version/dist/
+    - git -C github-version add dist/*
     - cd github-version
-    - git clone https://github.com/Ensembl/ensembl-genome-browser.git
-    - cd ensembl-genome-browser
-    - git checkout multi-project-pipeline
-    - cp ../../dist/* dist/
-    - git add dist/*
     # This needs authentication. Need to create team account (deploy keys)    
     - git -c user.name="${GIT_USER}" -c user.email="${GIT_EMAIL}" commit -m "Update genome-browser package"
     - git -c user.name="${GIT_USER}" -c user.email="${GIT_EMAIL}" push origin multi-project-pipeline
