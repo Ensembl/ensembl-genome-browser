@@ -15,7 +15,7 @@ stages:
     - job: Build-WASM
       artifacts: true
       project: ensembl-web/ensembl-dauphin-style-compiler
-      ref: multi-project-pipeline
+      ref: multi-project-build
 
   artifacts:
     paths:
