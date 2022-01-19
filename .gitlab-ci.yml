@@ -9,7 +9,8 @@ stages:
     - cp peregrine-ensembl/pkg/* src/peregrine/
     - npm ci --loglevel warn
     - npm run build
-    - tar -zcf ensemb-genome-browser-npm.tar.gz .
+    - cd ..
+    - tar -zcf ensemb-genome-browser-npm.tar.gz ensemb-genome-browser
 
   needs:
     - job: Build-WASM
