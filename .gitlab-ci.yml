@@ -10,7 +10,9 @@ stages:
     - npm ci --loglevel warn
     - npm run build
     - cd ..
+    - ls -l
     - tar -zcf ensembl-genome-browser-npm.tar.gz ensembl-genome-browser
+    - ls -l
 
   needs:
     - job: Build-WASM
