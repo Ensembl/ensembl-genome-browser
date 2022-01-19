@@ -11,6 +11,7 @@ stages:
     - cp peregrine-ensembl/pkg/* src/peregrine/
     - npm ci --loglevel warn
     - npm run build
+    - ls -l dist/
 
   needs:
     - job: Build-WASM
@@ -39,13 +40,13 @@ Publish:
     - mkdir github-version
 
   script:
-    - ls -l
-    - ls -l /dist
+    - ls -l ../../dist
+    - ls -l dist/
     - cd github-version
     - git clone https://github.com/Ensembl/ensembl-genome-browser.git
     - cd ensembl-genome-browser
     - git checkout multi-project-pipeline
-    - cp /dist/* dist/
+    - cp ../../dist/* dist/
     - git add dist/*
     # This needs authentication. Need to create team account (deploy keys)    
     - git -c user.name="${GIT_USER}" -c user.email="${GIT_EMAIL}" commit -m "Update genome-browser package"
