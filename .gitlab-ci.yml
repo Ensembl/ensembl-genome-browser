@@ -41,8 +41,7 @@ Publish:
 
   script:
     - ls -l dist/
-    - git clone https://github.com/Ensembl/ensembl-genome-browser.git github-version
-    - git -C github-version checkout multi-project-pipeline
+    - git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/Ensembl/ensembl-genome-browser.git --branch=multi-project-pipeline github-version
     - cp dist/* github-version/dist/
     - git -C github-version add dist/*
     - cd github-version
