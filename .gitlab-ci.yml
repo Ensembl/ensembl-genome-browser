@@ -20,7 +20,7 @@ stages:
 
   artifacts:
     paths:
-      - ensemb-genome-browser-npm.tar.gz
+      - ensembl-genome-browser-npm.tar.gz
 
   rules:
     - if: '$CI_DEPLOY_FREEZE == null && $CI_COMMIT_BRANCH == "multi-project-build"'
