@@ -1,7 +1,5 @@
 stages:
   - build
-  - publish
-  - update_package
   - update_client
 
 .build_npm:
@@ -11,20 +9,21 @@ stages:
     - cp peregrine-ensembl/pkg/* src/peregrine/
     - npm ci --loglevel warn
     - npm run build
-    - ls -l dist/
+    - tar -zcf ensemb-genome-browser-npm.tar.gz
 
   needs:
     - job: Build-WASM
       artifacts: true
       project: ensembl-web/ensembl-dauphin-style-compiler
-      ref: multi-project-build
+      ref: multi-project-pipeline
 
   artifacts:
     paths:
-      - dist/
+      - ensemb-genome-browser-npm.tar.gz
 
   rules:
-    - changes:
+    - if: '$CI_DEPLOY_FREEZE == null && $CI_COMMIT_BRANCH == "multi-project-build"'
+      changes:
       - dist/
       when: never
     - when: always
@@ -32,45 +31,19 @@ stages:
 Build:NPM:
   extends: .build_npm
 
-Publish:
-  stage: publish
-  image: dockerhub.ebi.ac.uk/ensembl-web/deploy-tools:0.6
-  before_script:
-    - echo "https://${GIT_USER}:${GIT_TOKEN}@github.com/Ensembl/ensembl-genome-browser.git" >> ~/.git-credentials
-    - mkdir github-version
-
-  script:
-    - ls -l dist/
-    - git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/Ensembl/ensembl-genome-browser.git --branch=multi-project-pipeline github-version
-    - cp dist/* github-version/dist/
-    - git -C github-version add dist/*
-    - cd github-version
-    # This needs authentication. Need to create team account (deploy keys)    
-    - git -c user.name="${GIT_USER}" -c user.email="${GIT_EMAIL}" commit -m "Update genome-browser package"
-    - git -c user.name="${GIT_USER}" -c user.email="${GIT_EMAIL}" push origin multi-project-pipeline
-
-  rules:
-    - changes:
-      - dist/
-      when: never
-    - when: always
-
-Update:NPM:
-  stage: update_package
-  script:
-    - echo "Update Package.json"
-  rules:
-    - changes:
-      - dist/
-      when: never
-    - when: always
-
-Update:Client:
+Update:npm:
   stage: update_client
-  script:
-    - echo "Trigger Ensembl Client"
+  variables:
+    UPSTREAM_BRANCH: $CI_COMMIT_REF_NAME
+    WASM_BUILD_JOB_ID: ${BUILD_JOB_ID}
+
+  trigger:
+    project: ensembl-web/ensembl-client
+    branch: multi-project-pipeline
+
   rules:
-    - changes:
-      - dist/
+    - if: '$CI_DEPLOY_FREEZE == null && $CI_COMMIT_BRANCH == "multi-project-build"'
+      changes:
+        - dist/
       when: never
     - when: always
