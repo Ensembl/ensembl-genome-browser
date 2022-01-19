@@ -1,0 +1,15 @@
+{
+  "name": "peregrine-ensembl",
+  "collaborators": [
+    "ensembl-webteam@ebi.ac.uk"
+  ],
+  "version": "0.0.0",
+  "files": [
+    "peregrine_ensembl_bg.wasm",
+    "peregrine_ensembl.js",
+    "peregrine_ensembl.d.ts"
+  ],
+  "module": "peregrine_ensembl.js",
+  "types": "peregrine_ensembl.d.ts",
+  "sideEffects": false
+}

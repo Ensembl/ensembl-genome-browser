@@ -1,3 +1,4 @@
+'use strict';
 
 const lAudioContext = (typeof AudioContext !== 'undefined' ? AudioContext : (typeof webkitAudioContext !== 'undefined' ? webkitAudioContext : undefined));
 let wasm;
@@ -266,7 +267,7 @@ function _assertClass(instance, klass) {
 * @param {GenomeBrowser} api
 * @returns {any}
 */
-export function test(api) {
+function test(api) {
     _assertClass(api, GenomeBrowser);
     var ptr0 = api.ptr;
     api.ptr = 0;
@@ -283,13 +284,13 @@ function addBorrowedObject(obj) {
 }
 /**
 */
-export function main() {
+function main() {
     wasm.main();
 }
 
 /**
 */
-export function init_panic_hook() {
+function init_panic_hook() {
     wasm.init_panic_hook();
 }
 
@@ -319,7 +320,7 @@ function __wbg_adapter_385(arg0, arg1, arg2, arg3) {
 function notDefined(what) { return () => { throw new Error(`${what} is not defined`); }; }
 /**
 */
-export class GenomeBrowser {
+class GenomeBrowser {
 
     static __wrap(ptr) {
         const obj = Object.create(GenomeBrowser.prototype);
@@ -487,7 +488,7 @@ async function load(module, imports) {
 
 async function init(input) {
     if (typeof input === 'undefined') {
-        input = new URL('peregrine_ensembl_bg.wasm', import.meta.url);
+        input = new URL('peregrine_ensembl_bg.wasm', (typeof document === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : (document.currentScript && document.currentScript.src || new URL('peregrine_ensembl-a14d4e1c.js', document.baseURI).href)));
     }
     const imports = {};
     imports.wbg = {};
@@ -1299,5 +1300,8 @@ async function init(input) {
     return wasm;
 }
 
-export default init;
-
+exports.GenomeBrowser = GenomeBrowser;
+exports.default = init;
+exports.init_panic_hook = init_panic_hook;
+exports.main = main;
+exports.test = test;
