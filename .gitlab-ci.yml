@@ -13,7 +13,7 @@ stages:
     - if: $CI_PIPELINE_SOURCE == "trigger"
       variables:
         DSC_PACKAGE_BRANCH: $DSC_UPSTREAM_BRANCH
-      when: always
+    - when: always
 
   # Building npm needs wasm files generated in upstream project
   # Pull wasm files from upstream project for respective branch name specified by
@@ -52,6 +52,7 @@ Update:npm:
     - if: $CI_PIPELINE_SOURCE == "trigger"
       variables:
         DSC_PACKAGE_BRANCH: $DSC_UPSTREAM_BRANCH
+    - when: always
   trigger:
     project: ensembl-web/ensembl-client
     branch: $DSC_PACKAGE_BRANCH
