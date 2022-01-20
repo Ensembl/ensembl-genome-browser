@@ -8,6 +8,13 @@ stages:
 
   variables:
     DSC_PACKAGE_BRANCH: master
+
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "trigger"
+      variables:
+        DSC_PACKAGE_BRANCH: $DSC_UPSTREAM_BRANCH
+      when: always
+
   # Building npm needs wasm files generated in upstream project
   # Pull wasm files from upstream project for respective branch name specified by
   # DSC_UPSTREAM_BRANCH variable
@@ -15,12 +22,7 @@ stages:
     - job: Build-WASM
       artifacts: true
       project: ensembl-web/ensembl-dauphin-style-compiler
-      ref: $DSC_UPSTREAM_BRANCH
-
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "trigger"
-      variables:
-        DSC_PACKAGE_BRANCH: $DSC_UPSTREAM_BRANCH
+      ref: $DSC_PACKAGE_BRANCH
 
   script: 
     - cp peregrine-ensembl/pkg/* src/peregrine/
@@ -45,8 +47,11 @@ Update:npm:
   variables:
     GB_UPSTREAM_BRANCH: $CI_COMMIT_REF_NAME
     WASM_BUILD_JOB_ID: ${BUILD_JOB_ID}
-    DSC_UPSTREAM_BRANCH: $DSC_UPSTREAM_BRANCH
-
+    DSC_PACKAGE_BRANCH: master
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "trigger"
+      variables:
+        DSC_PACKAGE_BRANCH: $DSC_UPSTREAM_BRANCH
   trigger:
     project: ensembl-web/ensembl-client
-    branch: $DSC_UPSTREAM_BRANCH
+    branch: $DSC_PACKAGE_BRANCH
