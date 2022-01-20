@@ -12,24 +12,16 @@ stages:
     - cd ..
     - tar -zcf ensembl-genome-browser-npm.tar.gz ensembl-genome-browser
     - cp ensembl-genome-browser-npm.tar.gz ensembl-genome-browser/
-    - ls -l ensembl-genome-browser/
 
   needs:
     - job: Build-WASM
       artifacts: true
       project: ensembl-web/ensembl-dauphin-style-compiler
-      ref: multi-project-build
+      ref: $DSC_UPSTREAM_BRANCH
 
   artifacts:
     paths:
       - ensembl-genome-browser-npm.tar.gz
-
-  rules:
-    - if: '$CI_DEPLOY_FREEZE == null && $CI_COMMIT_BRANCH == "multi-project-build"'
-      changes:
-      - dist/
-      when: never
-    - when: always
 
 Build:NPM:
   extends: .build_npm
@@ -37,16 +29,9 @@ Build:NPM:
 Update:npm:
   stage: update_client
   variables:
-    UPSTREAM_BRANCH: $CI_COMMIT_REF_NAME
+    GB_UPSTREAM_BRANCH: $CI_COMMIT_REF_NAME
     WASM_BUILD_JOB_ID: ${BUILD_JOB_ID}
 
   trigger:
     project: ensembl-web/ensembl-client
-    branch: multi-project-pipeline
-
-  rules:
-    - if: '$CI_DEPLOY_FREEZE == null && $CI_COMMIT_BRANCH == "multi-project-build"'
-      changes:
-        - dist/
-      when: never
-    - when: always
+    branch: $DSC_UPSTREAM_BRANCH
