@@ -7,12 +7,12 @@ stages:
   image: node:16.13.0
 
   variables:
-    DSC_PACKAGE_BRANCH: master
+    DSC_PACKAGE_BRANCH: $DSC_UPSTREAM_BRANCH
 
   rules:
-    - if: $CI_PIPELINE_SOURCE == "trigger"
+    - if: '$CI_PIPELINE_SOURCE == "push"'
       variables:
-        DSC_PACKAGE_BRANCH: $DSC_UPSTREAM_BRANCH
+        DSC_PACKAGE_BRANCH: master
     - when: always
 
   # Building npm needs wasm files generated in upstream project
