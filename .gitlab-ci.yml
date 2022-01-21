@@ -12,7 +12,7 @@ stages:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
       variables:
-        DSC_PACKAGE_BRANCH: master
+        DSC_PACKAGE_BRANCH: staging
     - when: always
 
   # Building npm needs wasm files generated in upstream project
