@@ -64,6 +64,7 @@ export declare type ZmenuContentTranscriptMetadata = {
     transcript_id: string;
     track: string;
     type: ZmenuFeatureType.TRANSCRIPT;
+    gene_id: string;
 };
 export declare type ZmenuContentGeneMetadata = {
     id: string;
@@ -71,28 +72,20 @@ export declare type ZmenuContentGeneMetadata = {
     track: string;
     type: ZmenuFeatureType.GENE;
 };
-export declare type ZmenuContentMetadata = ZmenuContentTranscriptMetadata | ZmenuContentGeneMetadata;
-export declare type ZmenuContentFeature = {
+export declare type ZmenuContentGene = {
     data: ZmenuContentLine[];
-    metadata: ZmenuContentMetadata;
+    metadata: ZmenuContentGeneMetadata;
 };
-export declare type ZmenuData = {
-    id: string;
-    unversioned_id: string;
-    anchor_coordinates: AnchorCoordinates;
-    content: ZmenuContentFeature[];
+export declare type ZmenuContentTranscript = {
+    data: ZmenuContentLine[];
+    metadata: ZmenuContentTranscriptMetadata;
 };
 export declare type ZmenuCreatePayload = {
-    action: IncomingActionType.ZMENU_CREATE;
-    id: string;
-    anchor_coordinates: AnchorCoordinates;
-    content: ZmenuContentFeature[];
-};
-export declare type ZmenuPayload = {
     id: string;
     unversioned_id: string;
     anchor_coordinates: AnchorCoordinates;
-    content: ZmenuContentFeature[];
+    genes: ZmenuContentGene[];
+    transcripts: ZmenuContentTranscript[];
 };
 export declare type PositionUpdatePayload = {
     stick: string;
@@ -119,9 +112,9 @@ export declare type UpdateTrackSummaryAction = {
     type: IncomingActionType.TRACK_SUMMARY;
     payload: TrackSummaryList;
 };
-export declare type ZmenuAction = {
+export declare type ZmenuCreateAction = {
     type: IncomingActionType.ZMENU_CREATE;
-    payload: ZmenuPayload;
+    payload: ZmenuCreatePayload;
 };
 export declare type ZmenuRepositionAction = {
     type: IncomingActionType.ZMENU_REPOSITION;
@@ -236,8 +229,25 @@ export declare type ZoomOutAction = {
     };
 };
 export declare type OutgoingAction = BrowserToggleTracksAction | TurnOnTracksAction | TurnOffTracksAction | TurnOnLabelsAction | TurnOffLabelsAction | TurnOnNamesAction | TurnOffNamesAction | ZmenuEnterAction | BrowserSetFocusLocationAction | BrowserSetFocusAction | MoveUpAction | MoveDownAction | MoveLeftAction | MoveRightAction | ZoomInAction | ZoomOutAction;
-export declare type IncomingAction = BrowserCurrentLocationUpdateAction | BrowserTargetLocationUpdateAction | UpdateCogPositionAction | UpdateTrackSummaryAction | ZmenuAction | ZmenuRepositionAction;
-export declare type SubscribeArgs = [BrowserCurrentLocationUpdateAction['type'], (action: BrowserCurrentLocationUpdateAction) => void] | [BrowserTargetLocationUpdateAction['type'], (action: BrowserTargetLocationUpdateAction) => void] | [UpdateCogPositionAction['type'], (action: UpdateCogPositionAction) => void] | [UpdateTrackSummaryAction['type'], (action: UpdateTrackSummaryAction) => void] | [ZmenuAction['type'], (action: ZmenuAction) => void] | [ZmenuRepositionAction['type'], (action: ZmenuRepositionAction) => void];
-export declare type Subscribe = (...args: SubscribeArgs) => {
+export declare type IncomingAction = BrowserCurrentLocationUpdateAction | BrowserTargetLocationUpdateAction | UpdateCogPositionAction | UpdateTrackSummaryAction | ZmenuCreateAction | ZmenuRepositionAction;
+export declare type SubscribeArgs = [BrowserCurrentLocationUpdateAction['type'], (action: BrowserCurrentLocationUpdateAction) => void] | [BrowserTargetLocationUpdateAction['type'], (action: BrowserTargetLocationUpdateAction) => void] | [UpdateCogPositionAction['type'], (action: UpdateCogPositionAction) => void] | [UpdateTrackSummaryAction['type'], (action: UpdateTrackSummaryAction) => void] | [ZmenuCreateAction['type'], (action: ZmenuCreateAction) => void] | [ZmenuRepositionAction['type'], (action: ZmenuRepositionAction) => void];
+export declare type Subscriptions = Map<IncomingActionType, Set<(action: any) => void>>;
+export declare type Subscribe = (args: SubscribeArgs) => {
     unsubscribe: () => void;
+};
+export declare type GenomeBrowserType = {
+    go: (config_object: any) => void;
+    set_stick: (stickId: string) => void;
+    wait: () => void;
+    goto: (left: number, right: number) => void;
+    jump: (location: string) => void;
+    set_y: (y: number) => void;
+    set_switch: (path: string[]) => void;
+    clear_switch: (path: string[]) => void;
+    set_message_reporter: (callback: (action: [type: IncomingActionType, payload: any]) => void) => void;
+};
+export declare type ConfigData = {
+    backend_url?: string;
+    target_element_id?: string;
+    "debug.show-incoming-messages"?: string;
 };
