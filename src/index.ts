@@ -24,7 +24,7 @@ class EnsemblGenomeBrowser {
     return { unsubscribe: () => undefined} 
   };
 
-  handleIncoming: (action: [type: IncomingActionType | "error", payload: any]) => void = () => undefined;
+  handleIncoming: (...action: [type: IncomingActionType | "error", payload: any]) => void = () => undefined;
 
   formatIncoming: (actionType: IncomingActionType, payload: any) => any = () => undefined;
 
@@ -36,8 +36,8 @@ class EnsemblGenomeBrowser {
       this.genomeBrowser = new GenomeBrowser();
       this.genomeBrowser.go(config);
       this.send = (action: OutgoingAction) => send(this.genomeBrowser as GenomeBrowserType, action);
-      this.handleIncoming = (action: [type: IncomingActionType | "error", payload: any]) => handleIncoming(this.subscriptions, action);
-      this.subscribe = (args: SubscribeArgs) => subscribe(this.subscriptions, args);
+      this.handleIncoming = (...action: [type: IncomingActionType | "error", payload: any]) => handleIncoming(this.subscriptions, ...action);
+      this.subscribe = (...args: SubscribeArgs) => subscribe(this.subscriptions, ...args);
 
     }
     this.inited = true;

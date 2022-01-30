@@ -5,7 +5,7 @@ declare class EnsemblGenomeBrowser {
     subscriptions: Map<IncomingActionType, Set<(action: any) => void>>;
     send: (action: OutgoingAction) => Promise<void>;
     subscribe: Subscribe;
-    handleIncoming: (action: [type: IncomingActionType | "error", payload: any]) => void;
+    handleIncoming: (...action: [type: IncomingActionType | "error", payload: any]) => void;
     formatIncoming: (actionType: IncomingActionType, payload: any) => any;
     init(config?: ConfigData): Promise<void>;
 }

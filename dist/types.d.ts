@@ -232,7 +232,7 @@ export declare type OutgoingAction = BrowserToggleTracksAction | TurnOnTracksAct
 export declare type IncomingAction = BrowserCurrentLocationUpdateAction | BrowserTargetLocationUpdateAction | UpdateCogPositionAction | UpdateTrackSummaryAction | ZmenuCreateAction | ZmenuRepositionAction;
 export declare type SubscribeArgs = [BrowserCurrentLocationUpdateAction['type'], (action: BrowserCurrentLocationUpdateAction) => void] | [BrowserTargetLocationUpdateAction['type'], (action: BrowserTargetLocationUpdateAction) => void] | [UpdateCogPositionAction['type'], (action: UpdateCogPositionAction) => void] | [UpdateTrackSummaryAction['type'], (action: UpdateTrackSummaryAction) => void] | [ZmenuCreateAction['type'], (action: ZmenuCreateAction) => void] | [ZmenuRepositionAction['type'], (action: ZmenuRepositionAction) => void];
 export declare type Subscriptions = Map<IncomingActionType, Set<(action: any) => void>>;
-export declare type Subscribe = (args: SubscribeArgs) => {
+export declare type Subscribe = (...args: SubscribeArgs) => {
     unsubscribe: () => void;
 };
 export declare type GenomeBrowserType = {
@@ -244,7 +244,7 @@ export declare type GenomeBrowserType = {
     set_y: (y: number) => void;
     set_switch: (path: string[]) => void;
     clear_switch: (path: string[]) => void;
-    set_message_reporter: (callback: (action: [type: IncomingActionType, payload: any]) => void) => void;
+    set_message_reporter: (callback: (...action: [type: IncomingActionType, payload: any]) => void) => void;
 };
 export declare type ConfigData = {
     backend_url?: string;

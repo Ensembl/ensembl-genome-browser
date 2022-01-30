@@ -257,7 +257,11 @@ var send = function (genomeBrowser, action) { return __awaiter(void 0, void 0, v
     });
 }); };
 
-var subscribe = function (subscriptions, args) {
+var subscribe = function (subscriptions) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
     var _a = __read(args, 2), actionType = _a[0], subscriber = _a[1];
     var subscriptionsToAction = subscriptions.get(actionType);
     if (subscriptionsToAction) {
@@ -305,7 +309,11 @@ var formatIncoming = function (actionType, payload) {
     };
 };
 
-var handleIncoming = function (subscriptions, action) {
+var handleIncoming = function (subscriptions) {
+    var action = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        action[_i - 1] = arguments[_i];
+    }
     var _a = __read(action, 2), type = _a[0], payload = _a[1];
     if (type === "error") {
         console.error(payload);
@@ -359,8 +367,20 @@ var EnsemblGenomeBrowser = (function () {
                         this.genomeBrowser = new GenomeBrowser();
                         this.genomeBrowser.go(config);
                         this.send = function (action) { return send(_this.genomeBrowser, action); };
-                        this.handleIncoming = function (action) { return handleIncoming(_this.subscriptions, action); };
-                        this.subscribe = function (args) { return subscribe(_this.subscriptions, args); };
+                        this.handleIncoming = function () {
+                            var action = [];
+                            for (var _i = 0; _i < arguments.length; _i++) {
+                                action[_i] = arguments[_i];
+                            }
+                            return handleIncoming.apply(void 0, __spreadArray([_this.subscriptions], __read(action)));
+                        };
+                        this.subscribe = function () {
+                            var args = [];
+                            for (var _i = 0; _i < arguments.length; _i++) {
+                                args[_i] = arguments[_i];
+                            }
+                            return subscribe.apply(void 0, __spreadArray([_this.subscriptions], __read(args)));
+                        };
                         _c.label = 3;
                     case 3:
                         this.inited = true;

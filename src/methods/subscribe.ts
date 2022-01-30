@@ -3,7 +3,7 @@ import {
     Subscriptions
 } from '../types';
 
-const subscribe = (subscriptions: Subscriptions, args: SubscribeArgs) => {
+const subscribe = (subscriptions: Subscriptions, ...args: SubscribeArgs) => {
 
     const [actionType, subscriber] = args;
     const subscriptionsToAction = subscriptions.get(actionType);
@@ -21,8 +21,5 @@ const subscribe = (subscriptions: Subscriptions, args: SubscribeArgs) => {
         unsubscribe
     }
 };
-
-
-
 
 export default subscribe;

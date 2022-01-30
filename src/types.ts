@@ -296,7 +296,7 @@ export type SubscribeArgs =
 
 export type Subscriptions = Map<IncomingActionType, Set<(action: any) => void>>;
 
-export type Subscribe = (args: SubscribeArgs) => {
+export type Subscribe = (...args: SubscribeArgs) => {
   unsubscribe: () => void
 };
 
@@ -309,7 +309,7 @@ export type GenomeBrowserType = {
   set_y: (y: number) => void;
   set_switch: (path: string[]) => void;
   clear_switch: (path: string[]) => void;
-  set_message_reporter: (callback: (action: [type: IncomingActionType, payload: any]) => void) => void;
+  set_message_reporter: (callback: (...action: [type: IncomingActionType, payload: any]) => void) => void;
 };
 
 

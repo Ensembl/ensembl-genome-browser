@@ -3,7 +3,7 @@ import {
 } from '../types';
 import formatIncoming from './formatIncoming';
 
-const handleIncoming = (subscriptions: Subscriptions, action: [type: IncomingActionType | "error", payload: any]) => {
+const handleIncoming = (subscriptions: Subscriptions, ...action: [type: IncomingActionType | "error", payload: any]) => {
 
     const [type, payload] = action;
 
