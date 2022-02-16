@@ -286,23 +286,6 @@ var formatIncoming = function (actionType, payload) {
             payload: payload.summary
         };
     }
-    else if (actionType === IncomingActionType.ZMENU_CREATE) {
-        var genes = payload.content.filter(function (feature) { return feature.metadata.type === ZmenuFeatureType.GENE; });
-        var transcripts = payload.content.filter(function (feature) { return feature.metadata.type === ZmenuFeatureType.TRANSCRIPT; });
-        var firstTranscriptMetadata = transcripts[0].metadata;
-        var id = firstTranscriptMetadata.transcript_id;
-        var unversioned_id = id.split('.')[0];
-        return {
-            type: actionType,
-            payload: {
-                id: id,
-                unversioned_id: unversioned_id,
-                anchor_coordinates: { x: payload.x, y: payload.y },
-                genes: genes,
-                transcripts: transcripts
-            }
-        };
-    }
     return {
         type: actionType,
         payload: payload
@@ -358,7 +341,7 @@ var EnsemblGenomeBrowser = (function () {
                 switch (_c.label) {
                     case 0:
                         if (!!this.inited) return [3, 3];
-                        return [4, import('./peregrine_ensembl-6cf582b5.js')];
+                        return [4, import('./peregrine_ensembl-1ce39f84.js')];
                     case 1:
                         _b = _c.sent(), init = _b["default"], GenomeBrowser = _b.GenomeBrowser;
                         return [4, init()];

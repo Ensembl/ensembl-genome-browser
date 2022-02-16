@@ -19,27 +19,6 @@ const formatIncoming = (actionType: IncomingActionType, payload: any) => {
         type: actionType,
         payload: payload.summary
       } as UpdateTrackSummaryAction
-  } else if (actionType === IncomingActionType.ZMENU_CREATE) {
-
-    const genes = (payload.content as ZmenuContent).filter( feature => feature.metadata.type === ZmenuFeatureType.GENE );
-    const transcripts = (payload.content as ZmenuContent).filter( feature => feature.metadata.type === ZmenuFeatureType.TRANSCRIPT );
-
-    const firstTranscriptMetadata = transcripts[0].metadata as ZmenuContentTranscriptMetadata;
-
-    const id = firstTranscriptMetadata.transcript_id;
-    const unversioned_id = id.split('.')[0];
-
-    return {
-      type: actionType,
-      payload: {
-        id,
-        unversioned_id,
-        anchor_coordinates: {x: payload.x, y : payload.y},
-        genes,
-        transcripts
-      }
-    } as ZmenuCreateAction
-
   }
 
   return {
