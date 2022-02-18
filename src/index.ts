@@ -24,15 +24,19 @@ type ConfigData = {
 }
 class EnsemblGenomeBrowser {
   
+  static genomeBrowserClass: any = null;
   genomeBrowser: GenomeBrowserType | null = null;
   inited = false;
 
   public async init(config: ConfigData = {}) {
 
     if(!this.inited) {
-      const { default: init, GenomeBrowser } = await import('./peregrine/peregrine_ensembl.js');
-      await init();
-      this.genomeBrowser = new GenomeBrowser();
+      if(!EnsemblGenomeBrowser.genomeBrowserClass) {
+        const { default: init, GenomeBrowser } = await import('./peregrine/peregrine_ensembl.js');
+        await init();
+	EnsemblGenomeBrowser.genomeBrowserClass = GenomeBrowser;
+      }
+      this.genomeBrowser = new (EnsemblGenomeBrowser.genomeBrowserClass)();
       this.genomeBrowser?.go(config);
     }
     this.inited = true;
