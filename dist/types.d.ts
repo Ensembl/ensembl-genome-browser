@@ -80,12 +80,16 @@ export declare type ZmenuContentTranscript = {
     data: ZmenuContentLine[];
     metadata: ZmenuContentTranscriptMetadata;
 };
-export declare type ZmenuCreatePayload = {
-    id: string;
-    unversioned_id: string;
-    anchor_coordinates: AnchorCoordinates;
-    genes: ZmenuContentGene[];
-    transcripts: ZmenuContentTranscript[];
+export declare type ZmenuContent = ZmenuContentGene | ZmenuContentTranscript;
+export declare enum ZmenuPayloadVarietyType {
+    GENE_AND_ONE_TRANSCRIPT = "gene-and-one-transcript"
+}
+export declare type ZmenuPayloadVariety = {
+    type: ZmenuPayloadVarietyType;
+};
+export declare type ZmenuCreatePayload = AnchorCoordinates & {
+    content: ZmenuContent[];
+    variety: ZmenuPayloadVariety[];
 };
 export declare type PositionUpdatePayload = {
     stick: string;

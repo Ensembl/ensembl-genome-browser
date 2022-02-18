@@ -1,4 +1,4 @@
-import { GenomeBrowserType } from '../index';
+import { GenomeBrowserType } from '../types';
 import { 
   OutgoingAction, 
   OutgoingActionType  

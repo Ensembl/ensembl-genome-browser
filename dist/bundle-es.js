@@ -131,6 +131,10 @@ var ZmenuFeatureType;
     ZmenuFeatureType["GENE"] = "gene";
     ZmenuFeatureType["TRANSCRIPT"] = "transcript";
 })(ZmenuFeatureType || (ZmenuFeatureType = {}));
+var ZmenuPayloadVarietyType;
+(function (ZmenuPayloadVarietyType) {
+    ZmenuPayloadVarietyType["GENE_AND_ONE_TRANSCRIPT"] = "gene-and-one-transcript";
+})(ZmenuPayloadVarietyType || (ZmenuPayloadVarietyType = {}));
 
 var send = function (genomeBrowser, action) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, genomeId, focus_1, _b, chromosome, startBp, endBp, genomeId, focus_2, _c, _d, track_id, _e, _f, track_id, _g, _h, track_id, _j, _k, track_id, _l, _m, track_id, _o, _p, track_id;
@@ -379,4 +383,4 @@ var EnsemblGenomeBrowser = (function () {
 }());
 
 export default EnsemblGenomeBrowser;
-export { IncomingActionType, Markup, OutgoingActionType, ZmenuFeatureType };
+export { IncomingActionType, Markup, OutgoingActionType, ZmenuFeatureType, ZmenuPayloadVarietyType };

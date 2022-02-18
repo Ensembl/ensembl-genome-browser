@@ -1,4 +1,3 @@
-
 export enum OutgoingActionType {
   MOVE_DOWN = 'move_down',
   MOVE_LEFT = 'move_left',
@@ -97,12 +96,19 @@ export type ZmenuContentTranscript = {
   metadata: ZmenuContentTranscriptMetadata;
 };
 
-export type ZmenuCreatePayload = {
-  id: string,
-  unversioned_id: string,
-  anchor_coordinates: AnchorCoordinates,
-  genes: ZmenuContentGene[],
-  transcripts: ZmenuContentTranscript[]
+export type ZmenuContent = ZmenuContentGene | ZmenuContentTranscript;
+
+export enum ZmenuPayloadVarietyType {
+  GENE_AND_ONE_TRANSCRIPT = "gene-and-one-transcript"
+}
+
+export type ZmenuPayloadVariety = {
+  type: ZmenuPayloadVarietyType
+}
+
+export type ZmenuCreatePayload = AnchorCoordinates & {
+  content: ZmenuContent[],
+  variety: ZmenuPayloadVariety[]
 }
 
 export type PositionUpdatePayload = {
@@ -313,7 +319,7 @@ export type GenomeBrowserType = {
 };
 
 
-export  type ConfigData = {
+export type ConfigData = {
   backend_url?: string;
   target_element_id?: string;
   "debug.show-incoming-messages"?: string;

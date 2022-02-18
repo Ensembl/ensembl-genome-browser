@@ -1,9 +1,6 @@
 import { 
   IncomingAction,
   IncomingActionType, 
-  ZmenuCreateAction, 
-  ZmenuContentTranscriptMetadata, 
-  ZmenuFeatureType,
   UpdateTrackSummaryAction,
   ZmenuContentGene,
   ZmenuContentTranscript

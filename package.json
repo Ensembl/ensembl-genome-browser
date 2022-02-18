@@ -1,14 +1,14 @@
 {
   "name": "@ensembl/ensembl-genome-browser",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "Ensembl standalone genome browser",
   "type": "module",
-  "main": "dist/bundle-cjs",
+  "main": "dist/bundle-cjs.cjs",
   "module": "dist/bundle-es.js",
   "exports": {
     ".": {
       "import": "./dist/bundle-es.js",
-      "require": "./dist/bundle-cjs.js"
+      "require": "./dist/bundle-cjs.cjs"
     }
   },
   "typings": "dist/index.d.ts",
