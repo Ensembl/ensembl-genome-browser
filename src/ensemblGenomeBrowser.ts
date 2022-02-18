@@ -6,6 +6,7 @@ import {
   Subscribe,
   SubscribeArgs
 } from './types';
+import { GenomeBrowser as GenomeBrowserClass } from './peregrine/peregrine_ensembl';
 
 import send from './methods/send';
 import subscribe from './methods/subscribe';
@@ -17,6 +18,7 @@ const allSubscriptions = new Map<
 >();
 
 class EnsemblGenomeBrowser {
+  static genomeBrowserClass: typeof GenomeBrowserClass | null = null;
   genomeBrowser: GenomeBrowserType | null = null;
   inited = false;
   subscriptions = allSubscriptions;
@@ -35,12 +37,15 @@ class EnsemblGenomeBrowser {
 
   public async init(config: ConfigData = {}) {
     if (!this.inited) {
-      const { default: init, GenomeBrowser } = await import(
-        './peregrine/peregrine_ensembl.js'
-      );
-      await init();
-      this.genomeBrowser = new GenomeBrowser();
-      this.genomeBrowser.go(config);
+      if (!EnsemblGenomeBrowser.genomeBrowserClass) {
+        const { default: init, GenomeBrowser } = await import(
+          './peregrine/peregrine_ensembl.js'
+        );
+        await init();
+        EnsemblGenomeBrowser.genomeBrowserClass = GenomeBrowser;
+      }
+      this.genomeBrowser = new EnsemblGenomeBrowser.genomeBrowserClass();
+      this.genomeBrowser?.go(config);
       this.send = (action: OutgoingAction) =>
         send(this.genomeBrowser as GenomeBrowserType, action);
       this.handleIncoming = (
