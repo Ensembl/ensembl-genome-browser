@@ -66,10 +66,6 @@ const send = async (genomeBrowser: GenomeBrowserType, action: OutgoingAction) =>
       genomeBrowser.clear_switch(["track",track_id,"name"])
     }
   } 
-
-  return;
 };
-
-
 
 export default send;

@@ -12,10 +12,10 @@ const formatIncoming = (actionType: IncomingActionType, payload: any) => {
     
   if (actionType === IncomingActionType.TRACK_SUMMARY) {
 
-      return {
-        type: actionType,
-        payload: payload.summary
-      } as UpdateTrackSummaryAction
+    return {
+      type: actionType,
+      payload: payload.summary
+    } as UpdateTrackSummaryAction
   }
 
   return {
