@@ -78,7 +78,7 @@ Please refer to the `IncomingActionType` in the `types.ts` file for the list of 
 
 ## For Ensembl developers: publishing npm package to the Gitlab registry
 
-Npm is set in this repository to use the gitlab repository https://gitlab.ebi.ac.uk/ensembl-web/package-registry an an npm package registry. See the `publishConfig` field in `package.json` and the `.npmrc` file for the configuration.
+Npm is set in this repository to use the gitlab repository https://gitlab.ebi.ac.uk/ensembl-web/package-registry as an npm package registry. See the `publishConfig` field in `package.json` and the `.npmrc` file for the configuration.
 
 The list of published packages can be seen at https://gitlab.ebi.ac.uk/ensembl-web/package-registry/-/packages
 
