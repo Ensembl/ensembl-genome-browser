@@ -74,3 +74,26 @@ Please refer to the `IncomingActionType` in the `types.ts` file for the list of 
 
 ## Links
 - Peregrine Repo: https://github.com/Ensembl/ensembl-dauphin-style-compiler
+
+
+## For Ensembl developers: publishing npm package to the Gitlab registry
+
+Npm is set in this repository to use the gitlab repository https://gitlab.ebi.ac.uk/ensembl-web/package-registry as an npm package registry. See the `publishConfig` field in `package.json` and the `.npmrc` file for the configuration.
+
+The list of published packages can be seen at https://gitlab.ebi.ac.uk/ensembl-web/package-registry/-/packages
+
+In order to publish a new package to the registry:
+
+- Make sure that the version of the package you are about to published has not been published already. If it has, then update the version. 
+
+- Get the **PUBLISH_TOKEN** from the vault
+
+```bash
+pass package-publish-token
+```
+
+- Use this token when publishing the package manually
+
+```bash
+PUBLISH_TOKEN=<token> npm publish
+```
