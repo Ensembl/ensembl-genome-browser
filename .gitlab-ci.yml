@@ -45,7 +45,7 @@ Build-NPM:Staging:
 
 # Build node package in downstream pipeline for staging branch
 trigger_client:staging:
-  extends: .base-peregrine-trigger-rules
+  extends: .trigger_rules
   stage: update_client
   variables:
     # Pass branch name to downstream pipeline as a variable
