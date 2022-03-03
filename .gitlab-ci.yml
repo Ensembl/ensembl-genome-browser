@@ -4,7 +4,7 @@ stages:
 
 .trigger_rules:
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "pipeline"'
+    - if: '$CI_PIPELINE_SOURCE == "push"'
       variables:
         DSC_PACKAGE_BRANCH: staging
       when: always
@@ -49,7 +49,7 @@ trigger_client:staging:
   stage: update_client
   variables:
     # Pass branch name to downstream pipeline as a variable
-    GB_UPSTREAM_BRANCH: $CI_COMMIT_REF_NAME
+    GB_UPSTREAM_BRANCH: main
 
   # Trigger pipeline in ensembl-genome-browser project for respective branch name
   trigger:
