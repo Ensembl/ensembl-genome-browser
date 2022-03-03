@@ -40,7 +40,7 @@ stages:
       - ensembl-genome-browser-npm.tar.gz
 
 Build-NPM:Staging:
-  extends: .build_npm
+  extends: .build_npm_trigger
 
 # Trigger pipeline on ensembl-client project for the branch
 # specified by DSC_UPSTREAM_BRANCH
