@@ -16,7 +16,7 @@ stages:
   image: node:16.13.0
 
   variables:
-    DSC_PACKAGE_BRANCH: $DSC_UPSTREAM_BRANCH
+    DSC_PACKAGE_BRANCH: ${DSC_UPSTREAM_BRANCH}
 
   # Building npm needs wasm files generated in upstream project
   # Pull wasm files from upstream project for respective branch name specified by
@@ -50,7 +50,7 @@ trigger_client:staging:
   variables:
     # Pass branch name to downstream pipeline as a variable
     GB_UPSTREAM_BRANCH: $CI_COMMIT_REF_NAME
-
+    DSC_COMMIT_HASH: $DSC_COMMIT_HASH
   # Trigger pipeline in ensembl-genome-browser project for respective branch name
   trigger:
     project: ensembl-web/ensembl-client
