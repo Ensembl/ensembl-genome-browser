@@ -4,7 +4,7 @@ stages:
 
 .trigger_rules:
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "trigger"'
+    - if: '$CI_PIPELINE_SOURCE == "pipeline"'
       variables:
         DSC_PACKAGE_BRANCH: staging-deploy-test
     - when: always  
