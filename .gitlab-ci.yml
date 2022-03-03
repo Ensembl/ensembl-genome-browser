@@ -1,0 +1,44 @@
+stages:
+  - build           # Build npm package
+# - update_client   # TODO : Trigger pipeline in ensembl-client project 
+
+.trigger_rules:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "pipeline"'
+      variables:
+        DSC_PACKAGE_BRANCH: staging
+      when: always
+    - when: never
+
+.build_npm_trigger:
+  extends: .trigger_rules
+  stage: build
+  image: node:16.13.0
+
+  variables:
+    DSC_PACKAGE_BRANCH: $DSC_UPSTREAM_BRANCH
+
+  # Building npm needs wasm files generated in upstream project
+  # Pull wasm files from upstream project for respective branch name specified by
+  # DSC_UPSTREAM_BRANCH variable
+  needs:
+    - job: WASM-Files
+      artifacts: true
+      project: ensembl-web/ensembl-dauphin-style-compiler
+      ref: $DSC_PACKAGE_BRANCH
+
+  script: 
+    - cp peregrine-ensembl/pkg/* src/peregrine/
+    - npm ci --loglevel warn
+    - npm run build
+    - cd ..
+    - tar -zcf ensembl-genome-browser-npm.tar.gz ensembl-genome-browser
+    - cp ensembl-genome-browser-npm.tar.gz ensembl-genome-browser/
+
+  # Artifacts used by downstream pipeline (ensembl-client)
+  artifacts:
+    paths:
+      - ensembl-genome-browser-npm.tar.gz
+
+Build-NPM:Staging:
+  extends: .build_npm_trigger
