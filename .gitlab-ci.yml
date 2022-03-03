@@ -7,7 +7,8 @@ stages:
     - if: '$CI_PIPELINE_SOURCE == "pipeline"'
       variables:
         DSC_PACKAGE_BRANCH: staging-deploy-test
-    - when: always  
+      when: always
+    - when: never
 
 .build_npm_trigger:
   extends: .trigger_rules
