@@ -1,6 +1,6 @@
 stages:
   - build           # Build npm package
-# - update_client   # TODO : Trigger pipeline in ensembl-client project 
+  - update_client   # TODO : Trigger pipeline in ensembl-client project
 
 .trigger_rules:
   rules:
@@ -42,3 +42,16 @@ stages:
 
 Build-NPM:Staging:
   extends: .build_npm_trigger
+
+# Build node package in downstream pipeline for staging branch
+trigger_client:staging:
+  extends: .base-peregrine-trigger-rules
+  stage: update_client
+  variables:
+    # Pass branch name to downstream pipeline as a variable
+    GB_UPSTREAM_BRANCH: $CI_COMMIT_REF_NAME
+
+  # Trigger pipeline in ensembl-genome-browser project for respective branch name
+  trigger:
+    project: ensembl-web/ensembl-client
+    branch: newgb-staging-review-deploy
