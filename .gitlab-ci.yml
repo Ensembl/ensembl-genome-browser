@@ -1,25 +1,27 @@
 stages:
   - build           # Build npm package
-  - update_client   # Trigger pipeline in ensembl-client project
+#  - update_client   # Trigger pipeline in ensembl-client project
 
-.build_npm:
+.trigger_rules:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "trigger"'
+      variables:
+        DSC_PACKAGE_BRANCH: staging-deploy-test
+    - when: always  
+
+.build_npm_trigger:
+  extends: .trigger_rules
   stage: build
   image: node:16.13.0
 
   variables:
     DSC_PACKAGE_BRANCH: $DSC_UPSTREAM_BRANCH
 
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-      variables:
-        DSC_PACKAGE_BRANCH: staging
-    - when: always
-
   # Building npm needs wasm files generated in upstream project
   # Pull wasm files from upstream project for respective branch name specified by
   # DSC_UPSTREAM_BRANCH variable
   needs:
-    - job: Build-WASM
+    - job: WASM-Files
       artifacts: true
       project: ensembl-web/ensembl-dauphin-style-compiler
       ref: $DSC_PACKAGE_BRANCH
@@ -37,22 +39,22 @@ stages:
     paths:
       - ensembl-genome-browser-npm.tar.gz
 
-Build:NPM:
+Build-NPM:Staging:
   extends: .build_npm
 
 # Trigger pipeline on ensembl-client project for the branch
 # specified by DSC_UPSTREAM_BRANCH
-Update:npm:
-  stage: update_client
-  variables:
-    GB_UPSTREAM_BRANCH: $CI_COMMIT_REF_NAME
-    WASM_BUILD_JOB_ID: ${BUILD_JOB_ID}
-    DSC_PACKAGE_BRANCH: master
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "trigger"
-      variables:
-        DSC_PACKAGE_BRANCH: $DSC_UPSTREAM_BRANCH
-    - when: on_success
-  trigger:
-    project: ensembl-web/ensembl-client
-    branch: $DSC_PACKAGE_BRANCH
+#Update:npm:
+#  stage: update_client
+#  variables:
+#    GB_UPSTREAM_BRANCH: $CI_COMMIT_REF_NAME
+#    WASM_BUILD_JOB_ID: ${BUILD_JOB_ID}
+#    DSC_PACKAGE_BRANCH: master
+#  rules:
+#    - if: $CI_PIPELINE_SOURCE == "trigger"
+#      variables:
+#        DSC_PACKAGE_BRANCH: $DSC_UPSTREAM_BRANCH
+#    - when: on_success
+#  trigger:
+#    project: ensembl-web/ensembl-client
+#    branch: $DSC_PACKAGE_BRANCH
