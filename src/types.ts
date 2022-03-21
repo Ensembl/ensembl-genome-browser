@@ -1,4 +1,3 @@
-
 export enum OutgoingActionType {
   MOVE_DOWN = 'move_down',
   MOVE_LEFT = 'move_left',
@@ -77,6 +76,7 @@ export type ZmenuContentTranscriptMetadata = {
   transcript_id: string;
   track: string;
   type: ZmenuFeatureType.TRANSCRIPT;
+  gene_id: string;
 };
 
 export type ZmenuContentGeneMetadata = {
@@ -86,36 +86,29 @@ export type ZmenuContentGeneMetadata = {
   type: ZmenuFeatureType.GENE;
 };
 
-export type ZmenuContentMetadata =
-  | ZmenuContentTranscriptMetadata
-  | ZmenuContentGeneMetadata;
-
-export type ZmenuContentFeature = {
+export type ZmenuContentGene = {
   data: ZmenuContentLine[];
-  metadata: ZmenuContentMetadata;
+  metadata: ZmenuContentGeneMetadata;
 };
 
-// data that is sufficient to describe an instance of Zmenu
-export type ZmenuData = {
-  id: string;
-  unversioned_id: string;
-  anchor_coordinates: AnchorCoordinates;
-  content: ZmenuContentFeature[];
+export type ZmenuContentTranscript = {
+  data: ZmenuContentLine[];
+  metadata: ZmenuContentTranscriptMetadata;
 };
 
-// Sent from Genome browser to React
-export type ZmenuCreatePayload = {
-  action: IncomingActionType.ZMENU_CREATE;
-  id: string;
-  anchor_coordinates: AnchorCoordinates;
-  content: ZmenuContentFeature[];
-};
+export type ZmenuContent = ZmenuContentGene | ZmenuContentTranscript;
 
-export type ZmenuPayload = {
-  id: string,
-  unversioned_id: string,
-  anchor_coordinates: AnchorCoordinates,
-  content: ZmenuContentFeature[]
+export enum ZmenuPayloadVarietyType {
+  GENE_AND_ONE_TRANSCRIPT = "gene-and-one-transcript"
+}
+
+export type ZmenuPayloadVariety = {
+  type: ZmenuPayloadVarietyType
+}
+
+export type ZmenuCreatePayload = AnchorCoordinates & {
+  content: ZmenuContent[],
+  variety: ZmenuPayloadVariety[]
 }
 
 export type PositionUpdatePayload = {
@@ -150,9 +143,9 @@ export type UpdateTrackSummaryAction = {
 };
 
 
-export type ZmenuAction = {
+export type ZmenuCreateAction = {
   type: IncomingActionType.ZMENU_CREATE;
-  payload: ZmenuPayload
+  payload: ZmenuCreatePayload
 };
 
 export type ZmenuRepositionAction = {
@@ -296,7 +289,7 @@ export type IncomingAction =
   | BrowserTargetLocationUpdateAction
   | UpdateCogPositionAction
   | UpdateTrackSummaryAction
-  | ZmenuAction
+  | ZmenuCreateAction
   | ZmenuRepositionAction;
 
 export type SubscribeArgs = 
@@ -304,8 +297,30 @@ export type SubscribeArgs =
   | [BrowserTargetLocationUpdateAction['type'], (action: BrowserTargetLocationUpdateAction) => void]
   | [UpdateCogPositionAction['type'], (action: UpdateCogPositionAction) => void]
   | [UpdateTrackSummaryAction['type'], (action: UpdateTrackSummaryAction) => void]
-  | [ZmenuAction['type'], (action: ZmenuAction) => void]
+  | [ZmenuCreateAction['type'], (action: ZmenuCreateAction) => void]
   | [ZmenuRepositionAction['type'], (action: ZmenuRepositionAction) => void];
-  
-export type Subscribe = (...args: SubscribeArgs) => {unsubscribe: () => void};
 
+export type Subscriptions = Map<IncomingActionType, Set<(action: any) => void>>;
+
+export type Subscribe = (...args: SubscribeArgs) => {
+  unsubscribe: () => void
+};
+
+export type GenomeBrowserType = {
+  go: (config_object: any) => void;
+  set_stick: (stickId: string) => void;
+  wait: () => void;
+  goto: (left: number, right: number) => void;
+  jump: (location: string) => void;
+  set_y: (y: number) => void;
+  set_switch: (path: string[]) => void;
+  clear_switch: (path: string[]) => void;
+  set_message_reporter: (callback: (...action: [type: IncomingActionType, payload: any]) => void) => void;
+};
+
+
+export type ConfigData = {
+  backend_url?: string;
+  target_element_id?: string;
+  "debug.show-incoming-messages"?: string;
+}

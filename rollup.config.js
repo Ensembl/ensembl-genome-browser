@@ -7,8 +7,9 @@ export default [
     input: 'src/index.ts',
     output: {
       dir: './dist/',
-      entryFileNames: 'bundle-cjs.js',
-      format: 'cjs'
+      entryFileNames: 'bundle-cjs.cjs',
+      format: 'cjs',
+      exports: 'named'
     },
     plugins: [
       typescript({
