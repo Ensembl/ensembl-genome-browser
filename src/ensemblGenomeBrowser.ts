@@ -36,6 +36,8 @@ class EnsemblGenomeBrowser {
     undefined;
 
   public async init(config: ConfigData = {}) {
+    console.log('Initialising once more!');
+    
     if (!this.inited) {
       if (!EnsemblGenomeBrowser.genomeBrowserClass) {
         const { default: init, GenomeBrowser } = await import(
