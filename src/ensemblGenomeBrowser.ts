@@ -20,7 +20,6 @@ const allSubscriptions = new Map<
 class EnsemblGenomeBrowser {
   static genomeBrowserClass: typeof GenomeBrowserClass | null = null;
   genomeBrowser: GenomeBrowserType | null = null;
-  inited = false;
   subscriptions = allSubscriptions;
   send: (action: OutgoingAction) => Promise<void> = async () => undefined;
 
@@ -36,27 +35,22 @@ class EnsemblGenomeBrowser {
     undefined;
 
   public async init(config: ConfigData = {}) {
-    console.log('Initialising once more!');
-    
-    if (!this.inited) {
-      if (!EnsemblGenomeBrowser.genomeBrowserClass) {
-        const { default: init, GenomeBrowser } = await import(
-          './peregrine/peregrine_ensembl.js'
-        );
-        await init();
-        EnsemblGenomeBrowser.genomeBrowserClass = GenomeBrowser;
-      }
-      this.genomeBrowser = new EnsemblGenomeBrowser.genomeBrowserClass();
-      this.genomeBrowser?.go(config);
-      this.send = (action: OutgoingAction) =>
-        send(this.genomeBrowser as GenomeBrowserType, action);
-      this.handleIncoming = (
-        ...action: [type: IncomingActionType | 'error', payload: any]
-      ) => handleIncoming(this.subscriptions, ...action);
-      this.subscribe = (...args: SubscribeArgs) =>
-        subscribe(this.subscriptions, ...args);
+    if (!EnsemblGenomeBrowser.genomeBrowserClass) {
+      const { default: init, GenomeBrowser } = await import(
+        './peregrine/peregrine_ensembl.js'
+      );
+      await init();
+      EnsemblGenomeBrowser.genomeBrowserClass = GenomeBrowser;
     }
-    this.inited = true;
+    this.genomeBrowser = new EnsemblGenomeBrowser.genomeBrowserClass();
+    this.genomeBrowser?.go(config);
+    this.send = (action: OutgoingAction) =>
+      send(this.genomeBrowser as GenomeBrowserType, action);
+    this.handleIncoming = (
+      ...action: [type: IncomingActionType | 'error', payload: any]
+    ) => handleIncoming(this.subscriptions, ...action);
+    this.subscribe = (...args: SubscribeArgs) =>
+      subscribe(this.subscriptions, ...args);
 
     if (this.handleIncoming) {
       this.genomeBrowser?.set_message_reporter(this.handleIncoming);
