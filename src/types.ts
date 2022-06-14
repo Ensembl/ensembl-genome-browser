@@ -234,7 +234,7 @@ export type TurnOnTranscriptLabelsAction = {
   };
 };
 
-export type TurnOffTranscriptLabelssAction = {
+export type TurnOffTranscriptLabelsAction = {
   type: OutgoingActionType.TURN_OFF_TRANSCRIPT_LABELS;
   payload: {
     track_ids: string[];
@@ -309,7 +309,7 @@ export type OutgoingAction =
   | TurnOnSeveralTranscriptsAction
   | TurnOffSeveralTranscriptsAction
   | TurnOnTranscriptLabelsAction
-  | TurnOffTranscriptLabelssAction
+  | TurnOffTranscriptLabelsAction
   | ZmenuEnterAction
   | BrowserSetFocusLocationAction
   | BrowserSetFocusAction
