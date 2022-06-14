@@ -14,6 +14,8 @@ export enum OutgoingActionType {
   TURN_OFF_NAMES = 'turn_off_names',
   TURN_ON_SEVERAL_TRANSCRIPTS = 'turn_on_several_transcripts',
   TURN_OFF_SEVERAL_TRANSCRIPTS = 'turn_off_several_transcripts',
+  TURN_ON_TRANSCRIPTS = 'turn_on_transcripts',
+  TURN_OFF_TRANSCRIPTS = 'turn_off_transcripts',
   ZMENU_ENTER = 'zmenu-enter',
   ZOOM_IN = 'zoom_in',
   ZOOM_OUT = 'zoom_out'
@@ -26,7 +28,8 @@ export enum IncomingActionType {
   SCROLL_POSITION = 'scroll_position',
   TRACK_SUMMARY = 'track_summary',
   ZMENU_CREATE = 'zmenu',
-  ZMENU_REPOSITION = 'update_zmenu_position'
+  ZMENU_REPOSITION = 'update_zmenu_position',
+  VISIBLE_TRANSCRIPTS = 'visible_transcripts'
 }
 
 
@@ -35,7 +38,7 @@ export type CogScrollPayload = {
 };
 
 export type TrackSummary = {
-  "switch-id": string, 
+  "switch-id": string,
   offset: string,
   height: string
 }
@@ -161,6 +164,14 @@ export type ZmenuRepositionAction = {
   };
 };
 
+export type UpdateVisibleTranscriptsAction = {
+  type: IncomingActionType.VISIBLE_TRANSCRIPTS;
+  payload: {
+    track_id: string;
+    transcript_ids: string[];
+  };
+};
+
 export type BrowserToggleTracksAction = {
   type: OutgoingActionType.TOGGLE_TRACKS;
   payload: {
@@ -222,6 +233,22 @@ export type TurnOffSeveralTranscriptsAction = {
   type: OutgoingActionType.TURN_OFF_SEVERAL_TRANSCRIPTS;
   payload: {
     track_ids: string[];
+  };
+};
+
+export type TurnOnTranscripts = {
+  type: OutgoingActionType.TURN_ON_TRANSCRIPTS;
+  payload: {
+    track_id: string;
+    transcript_ids: string[];
+  };
+};
+
+export type TurnOffTranscripts = {
+  type: OutgoingActionType.TURN_OFF_TRANSCRIPTS;
+  payload: {
+    track_id: string;
+    transcript_ids: string[];
   };
 };
 
@@ -292,6 +319,8 @@ export type OutgoingAction =
   | TurnOffNamesAction
   | TurnOnSeveralTranscriptsAction
   | TurnOffSeveralTranscriptsAction
+  | TurnOnTranscripts
+  | TurnOffTranscripts
   | ZmenuEnterAction
   | BrowserSetFocusLocationAction
   | BrowserSetFocusAction
@@ -310,7 +339,7 @@ export type IncomingAction =
   | ZmenuCreateAction
   | ZmenuRepositionAction;
 
-export type SubscribeArgs = 
+export type SubscribeArgs =
   | [BrowserCurrentLocationUpdateAction['type'], (action: BrowserCurrentLocationUpdateAction) => void]
   | [BrowserTargetLocationUpdateAction['type'], (action: BrowserTargetLocationUpdateAction) => void]
   | [UpdateCogPositionAction['type'], (action: UpdateCogPositionAction) => void]

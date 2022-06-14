@@ -1,7 +1,8 @@
-import { 
+import {
   IncomingAction,
-  IncomingActionType, 
+  IncomingActionType,
   UpdateTrackSummaryAction,
+  UpdateVisibleTranscriptsAction,
   ZmenuContentGene,
   ZmenuContentTranscript
 } from '../types';
@@ -9,13 +10,23 @@ import {
 export type ZmenuContent = (ZmenuContentGene | ZmenuContentTranscript)[];
 
 const formatIncoming = (actionType: IncomingActionType, payload: any) => {
-    
+
   if (actionType === IncomingActionType.TRACK_SUMMARY) {
 
     return {
       type: actionType,
       payload: payload.summary
     } as UpdateTrackSummaryAction
+  }
+
+  if (actionType === IncomingActionType.VISIBLE_TRANSCRIPTS) {
+    return {
+      type: actionType,
+      payload: {
+        track_id: 'foo',
+        transcript_ids: ['bar']
+      }
+    } as UpdateVisibleTranscriptsAction
   }
 
   return {

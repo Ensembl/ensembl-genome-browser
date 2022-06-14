@@ -73,6 +73,13 @@ const send = async (genomeBrowser: GenomeBrowserType, action: OutgoingAction) =>
     for(const track_id of action.payload.track_ids) {
       genomeBrowser.clear_switch(["track",track_id,"several"])
     }
+  } else if(action.type === OutgoingActionType.TURN_ON_TRANSCRIPTS){
+    const {track_id, transcript_ids} = action.payload;
+    genomeBrowser.set_switch(["track",track_id,"transcript", transcript_ids.join(" ")]);
+
+  } else if(action.type === OutgoingActionType.TURN_OFF_TRANSCRIPTS){
+    const {track_id, transcript_ids} = action.payload;
+    genomeBrowser.clear_switch(["track",track_id,"transcript", transcript_ids.join(" ")]);
   } 
 };
 
