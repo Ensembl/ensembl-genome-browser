@@ -14,6 +14,8 @@ export enum OutgoingActionType {
   TURN_OFF_NAMES = 'turn_off_names',
   TURN_ON_SEVERAL_TRANSCRIPTS = 'turn_on_several_transcripts',
   TURN_OFF_SEVERAL_TRANSCRIPTS = 'turn_off_several_transcripts',
+  TURN_ON_TRANSCRIPT_LABELS = 'turn_on_transcript_labels',
+  TURN_OFF_TRANSCRIPT_LABELS = 'turn_off_transcript_labels',
   ZMENU_ENTER = 'zmenu-enter',
   ZOOM_IN = 'zoom_in',
   ZOOM_OUT = 'zoom_out'
@@ -225,6 +227,20 @@ export type TurnOffSeveralTranscriptsAction = {
   };
 };
 
+export type TurnOnTranscriptLabelsAction = {
+  type: OutgoingActionType.TURN_ON_TRANSCRIPT_LABELS;
+  payload: {
+    track_ids: string[];
+  };
+};
+
+export type TurnOffTranscriptLabelsAction = {
+  type: OutgoingActionType.TURN_OFF_TRANSCRIPT_LABELS;
+  payload: {
+    track_ids: string[];
+  };
+};
+
 export type BrowserSetFocusAction = {
   type: OutgoingActionType.SET_FOCUS;
   payload: {
@@ -292,6 +308,8 @@ export type OutgoingAction =
   | TurnOffNamesAction
   | TurnOnSeveralTranscriptsAction
   | TurnOffSeveralTranscriptsAction
+  | TurnOnTranscriptLabelsAction
+  | TurnOffTranscriptLabelsAction
   | ZmenuEnterAction
   | BrowserSetFocusLocationAction
   | BrowserSetFocusAction
