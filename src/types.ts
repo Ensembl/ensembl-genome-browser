@@ -30,7 +30,6 @@ export enum IncomingActionType {
   SCROLL_POSITION = 'scroll_position',
   TRACK_SUMMARY = 'track_summary',
   ZMENU_CREATE = 'zmenu',
-  ZMENU_REPOSITION = 'update_zmenu_position',
   VISIBLE_TRANSCRIPTS = 'visible_transcripts'
 }
 
@@ -153,17 +152,6 @@ export type UpdateTrackSummaryAction = {
 export type ZmenuCreateAction = {
   type: IncomingActionType.ZMENU_CREATE;
   payload: ZmenuCreatePayload
-};
-
-export type ZmenuRepositionAction = {
-  type: IncomingActionType.ZMENU_REPOSITION;
-  payload: {
-    id: string;
-    anchor_coordinates: {
-      x: number;
-      y: number;
-    };
-  };
 };
 
 export type UpdateVisibleTranscriptsAction = {
@@ -355,7 +343,7 @@ export type IncomingAction =
   | UpdateCogPositionAction
   | UpdateTrackSummaryAction
   | ZmenuCreateAction
-  | ZmenuRepositionAction;
+  | UpdateVisibleTranscriptsAction;
 
 export type SubscribeArgs =
   | [BrowserCurrentLocationUpdateAction['type'], (action: BrowserCurrentLocationUpdateAction) => void]
@@ -363,7 +351,7 @@ export type SubscribeArgs =
   | [UpdateCogPositionAction['type'], (action: UpdateCogPositionAction) => void]
   | [UpdateTrackSummaryAction['type'], (action: UpdateTrackSummaryAction) => void]
   | [ZmenuCreateAction['type'], (action: ZmenuCreateAction) => void]
-  | [ZmenuRepositionAction['type'], (action: ZmenuRepositionAction) => void];
+  | [UpdateVisibleTranscriptsAction['type'], (action: UpdateVisibleTranscriptsAction) => void];
 
 export type Subscriptions = Map<IncomingActionType, Set<(action: any) => void>>;
 
