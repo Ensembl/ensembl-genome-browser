@@ -2,7 +2,7 @@ import {
   IncomingAction,
   IncomingActionType,
   UpdateTrackSummaryAction,
-  UpdateVisibleTranscriptsAction,
+  ReportVisibleTranscriptsAction,
   ZmenuContentGene,
   ZmenuContentTranscript
 } from '../types';
@@ -26,7 +26,7 @@ const formatIncoming = (actionType: IncomingActionType, payload: any) => {
         track_id: 'foo',
         transcript_ids: ['bar']
       }
-    } as UpdateVisibleTranscriptsAction
+    } as ReportVisibleTranscriptsAction
   }
 
   return {

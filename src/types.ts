@@ -14,8 +14,7 @@ export enum OutgoingActionType {
   TURN_OFF_NAMES = 'turn_off_names',
   TURN_ON_SEVERAL_TRANSCRIPTS = 'turn_on_several_transcripts',
   TURN_OFF_SEVERAL_TRANSCRIPTS = 'turn_off_several_transcripts',
-  TURN_ON_TRANSCRIPTS = 'turn_on_transcripts',
-  TURN_OFF_TRANSCRIPTS = 'turn_off_transcripts',
+  SET_VISIBLE_TRANSCRIPTS = 'set_visible_transcripts',
   TURN_ON_TRANSCRIPT_LABELS = 'turn_on_transcript_labels',
   TURN_OFF_TRANSCRIPT_LABELS = 'turn_off_transcript_labels',
   ZMENU_ENTER = 'zmenu-enter',
@@ -154,7 +153,7 @@ export type ZmenuCreateAction = {
   payload: ZmenuCreatePayload
 };
 
-export type UpdateVisibleTranscriptsAction = {
+export type ReportVisibleTranscriptsAction = {
   type: IncomingActionType.VISIBLE_TRANSCRIPTS;
   payload: {
     track_id: string;
@@ -226,21 +225,14 @@ export type TurnOffSeveralTranscriptsAction = {
   };
 };
 
-export type TurnOnTranscripts = {
-  type: OutgoingActionType.TURN_ON_TRANSCRIPTS;
+export type SetVisibleTranscripts = {
+  type: OutgoingActionType.SET_VISIBLE_TRANSCRIPTS;
   payload: {
     track_id: string;
     transcript_ids: string[];
   };
 };
 
-export type TurnOffTranscripts = {
-  type: OutgoingActionType.TURN_OFF_TRANSCRIPTS;
-  payload: {
-    track_id: string;
-    transcript_ids: string[];
-  }
-};
 
 export type TurnOnTranscriptLabelsAction = {
   type: OutgoingActionType.TURN_ON_TRANSCRIPT_LABELS;
@@ -323,8 +315,7 @@ export type OutgoingAction =
   | TurnOffNamesAction
   | TurnOnSeveralTranscriptsAction
   | TurnOffSeveralTranscriptsAction
-  | TurnOnTranscripts
-  | TurnOffTranscripts
+  | SetVisibleTranscripts
   | TurnOnTranscriptLabelsAction
   | TurnOffTranscriptLabelsAction
   | ZmenuEnterAction
@@ -343,7 +334,7 @@ export type IncomingAction =
   | UpdateCogPositionAction
   | UpdateTrackSummaryAction
   | ZmenuCreateAction
-  | UpdateVisibleTranscriptsAction;
+  | ReportVisibleTranscriptsAction;
 
 export type SubscribeArgs =
   | [BrowserCurrentLocationUpdateAction['type'], (action: BrowserCurrentLocationUpdateAction) => void]
@@ -351,7 +342,7 @@ export type SubscribeArgs =
   | [UpdateCogPositionAction['type'], (action: UpdateCogPositionAction) => void]
   | [UpdateTrackSummaryAction['type'], (action: UpdateTrackSummaryAction) => void]
   | [ZmenuCreateAction['type'], (action: ZmenuCreateAction) => void]
-  | [UpdateVisibleTranscriptsAction['type'], (action: UpdateVisibleTranscriptsAction) => void];
+  | [ReportVisibleTranscriptsAction['type'], (action: ReportVisibleTranscriptsAction) => void];
 
 export type Subscriptions = Map<IncomingActionType, Set<(action: any) => void>>;
 
