@@ -75,7 +75,7 @@ const send = async (genomeBrowser: GenomeBrowserType, action: OutgoingAction) =>
     }
   } else if (action.type === OutgoingActionType.SET_VISIBLE_TRANSCRIPTS) {
     const { track_id, transcript_ids } = action.payload;
-    genomeBrowser.set_switch(["track", track_id, "transcripts", transcript_ids.toString()]);
+    genomeBrowser.set_switch(["track", track_id, "transcripts", JSON.stringify(transcript_ids)]);
 
   } else if (action.type === OutgoingActionType.TURN_ON_TRANSCRIPT_LABELS) {
     for (const track_id of action.payload.track_ids) {
