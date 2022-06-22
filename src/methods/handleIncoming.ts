@@ -26,13 +26,13 @@ const handleIncoming = (subscriptions: Subscriptions, ...action: [type: Incoming
 
   if (subscriptionsToAction) {
 
-    [...subscriptionsToAction.values()].forEach(subscription => {
+    const formattedIncoming = formatIncoming(type, payload);
+    if (!formattedIncoming) {
+      console.error(payload);
+      return;
+    }
 
-      const formattedIncoming = formatIncoming(type, payload);
-      if (!formattedIncoming) {
-        console.error(payload);
-        return;
-      }
+    [...subscriptionsToAction.values()].forEach(subscription => {
       subscription(formattedIncoming);
     })
 
