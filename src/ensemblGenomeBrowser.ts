@@ -6,7 +6,7 @@ import {
   Subscribe,
   SubscribeArgs
 } from './types';
-import { GenomeBrowser as GenomeBrowserClass } from './peregrine/peregrine_ensembl';
+import initializeGenomeBrowser, { GenomeBrowser } from './peregrine/peregrine_ensembl';
 
 import send from './methods/send';
 import subscribe from './methods/subscribe';
@@ -18,7 +18,6 @@ const allSubscriptions = new Map<
 >();
 
 class EnsemblGenomeBrowser {
-  static genomeBrowserClass: typeof GenomeBrowserClass | null = null;
   genomeBrowser: GenomeBrowserType | null = null;
   subscriptions = allSubscriptions;
   send: (action: OutgoingAction) => Promise<void> = async () => undefined;
@@ -35,14 +34,9 @@ class EnsemblGenomeBrowser {
     undefined;
 
   public async init(config: ConfigData = {}) {
-    if (!EnsemblGenomeBrowser.genomeBrowserClass) {
-      const { default: init, GenomeBrowser } = await import(
-        './peregrine/peregrine_ensembl.js'
-      );
-      await init();
-      EnsemblGenomeBrowser.genomeBrowserClass = GenomeBrowser;
-    }
-    this.genomeBrowser = new EnsemblGenomeBrowser.genomeBrowserClass();
+    await initialiseWasm();
+
+    this.genomeBrowser = new GenomeBrowser();
     this.genomeBrowser?.go(config);
     this.send = (action: OutgoingAction) =>
       send(this.genomeBrowser as GenomeBrowserType, action);
@@ -57,5 +51,16 @@ class EnsemblGenomeBrowser {
     }
   }
 }
+
+let initializationPromise: Promise<unknown>;
+
+const initialiseWasm = async () => {
+  if (!initializationPromise) {
+    initializationPromise = initializeGenomeBrowser();
+  }
+
+  await initializationPromise;
+  initializationPromise = Promise.resolve(); // to free up possible memory
+};
 
 export default EnsemblGenomeBrowser;
