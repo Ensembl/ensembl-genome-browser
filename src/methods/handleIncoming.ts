@@ -25,6 +25,16 @@ const handleIncoming = (
       subscription(formattedIncoming);
     });
   }
+
+  // Track summary payload also has the details about visible transcripts
+  // which we will be treating as a separate incoming action of its own.
+  if (type === IncomingActionType.TRACK_SUMMARY) {
+    handleIncoming(
+      subscriptions,
+      IncomingActionType.VISIBLE_TRANSCRIPTS,
+      payload
+    );
+  }
 };
 
 export default handleIncoming;
