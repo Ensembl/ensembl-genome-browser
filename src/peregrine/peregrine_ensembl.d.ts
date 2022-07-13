@@ -60,6 +60,11 @@ export class GenomeBrowser {
   clear_switch(path: any): void;
 /**
 * @param {any} path
+* @param {any} value
+*/
+  switch(path: any, value: any): void;
+/**
+* @param {any} path
 * @param {boolean} yn
 */
   radio_switch(path: any, yn: boolean): void;
@@ -86,6 +91,7 @@ export interface InitOutput {
   readonly genomebrowser_set_y: (a: number, b: number) => void;
   readonly genomebrowser_set_switch: (a: number, b: number) => void;
   readonly genomebrowser_clear_switch: (a: number, b: number) => void;
+  readonly genomebrowser_switch: (a: number, b: number, c: number) => void;
   readonly genomebrowser_radio_switch: (a: number, b: number, c: number) => void;
   readonly genomebrowser_set_message_reporter: (a: number, b: number) => void;
   readonly main: () => void;
@@ -93,10 +99,10 @@ export interface InitOutput {
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h08efecee3b056f93: (a: number, b: number) => void;
-  readonly _dyn_core__ops__function__Fn__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hc691570eaa4e5a07: (a: number, b: number, c: number) => void;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__he78743a48a0f2e44: (a: number, b: number, c: number) => void;
-  readonly _dyn_core__ops__function__Fn__A_B___Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h381111bc0e3a2ffc: (a: number, b: number, c: number, d: number) => void;
+  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h90ed7e78e6ae90b0: (a: number, b: number) => void;
+  readonly _dyn_core__ops__function__Fn__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h3d5cb2d5b11ea8dd: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__Fn__A_B___Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h5d5665d89f5ee1ba: (a: number, b: number, c: number, d: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h477d9c5ae7e8d4d5: (a: number, b: number, c: number) => void;
   readonly __wbindgen_free: (a: number, b: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
   readonly __wbindgen_start: () => void;
