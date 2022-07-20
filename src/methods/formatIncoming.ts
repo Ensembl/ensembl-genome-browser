@@ -10,30 +10,31 @@ import {
 export type ZmenuContent = (ZmenuContentGene | ZmenuContentTranscript)[];
 
 const formatIncoming = (actionType: IncomingActionType, payload: any) => {
-
   if (actionType === IncomingActionType.TRACK_SUMMARY) {
-
     return {
       type: actionType,
       payload: payload.summary
-    } as UpdateTrackSummaryAction
+    } as UpdateTrackSummaryAction;
   }
 
   if (actionType === IncomingActionType.VISIBLE_TRANSCRIPTS) {
+    const transcript_ids = payload.summary.find(
+      (track: any) => track['switch-id'] === 'focus'
+    )['transcripts-shown'];
+
     return {
       type: actionType,
       payload: {
-        track_id: 'foo',
-        transcript_ids: ['bar']
+        track_id: 'focus',
+        transcript_ids
       }
-    } as ReportVisibleTranscriptsAction
+    } as ReportVisibleTranscriptsAction;
   }
 
   return {
     type: actionType,
     payload
-  } as IncomingAction
-
-}
+  } as IncomingAction;
+};
 
 export default formatIncoming;

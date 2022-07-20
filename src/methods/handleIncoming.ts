@@ -1,15 +1,29 @@
-import {
-  IncomingActionType, Subscriptions
-} from '../types';
+import { IncomingActionType, Subscriptions } from '../types';
 import formatIncoming from './formatIncoming';
 
-const handleIncoming = (subscriptions: Subscriptions, ...action: [type: IncomingActionType | "error", payload: any]) => {
-
+const handleIncoming = (
+  subscriptions: Subscriptions,
+  ...action: [type: IncomingActionType | 'error', payload: any]
+) => {
   const [type, payload] = action;
 
-  if (type === "error") {
+  if (type === 'error') {
     console.error(payload);
     return;
+  }
+
+  const subscriptionsToAction = subscriptions.get(type);
+
+  if (subscriptionsToAction) {
+    const formattedIncoming = formatIncoming(type, payload);
+    if (!formattedIncoming) {
+      console.error(payload);
+      return;
+    }
+
+    [...subscriptionsToAction.values()].forEach((subscription) => {
+      subscription(formattedIncoming);
+    });
   }
 
   // Track summary payload also has the details about visible transcripts
@@ -19,26 +33,8 @@ const handleIncoming = (subscriptions: Subscriptions, ...action: [type: Incoming
       subscriptions,
       IncomingActionType.VISIBLE_TRANSCRIPTS,
       payload
-    )
+    );
   }
-
-  const subscriptionsToAction = subscriptions.get(type);
-
-  if (subscriptionsToAction) {
-
-    const formattedIncoming = formatIncoming(type, payload);
-    if (!formattedIncoming) {
-      console.error(payload);
-      return;
-    }
-
-    [...subscriptionsToAction.values()].forEach(subscription => {
-      subscription(formattedIncoming);
-    })
-
-  }
-
-}
-
+};
 
 export default handleIncoming;
