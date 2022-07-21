@@ -6,31 +6,25 @@ const send = async (
   action: OutgoingAction
 ) => {
   if (action.type === OutgoingActionType.SET_FOCUS) {
-    const { genomeId, focus } = action.payload;
+    const { genomeId, focus, shouldJump } = action.payload;
 
-    if (!action.payload.focus) {
-      return;
+    if (shouldJump) {
+      genomeBrowser.jump(`focus:${genomeId}:${focus}`);
+      genomeBrowser.wait();
     }
-    genomeBrowser.jump(`focus:${genomeId}:${focus}`);
-    genomeBrowser.wait();
-    genomeBrowser.switch(['track'], true);
+
     genomeBrowser.switch(['track', 'focus'], true);
     genomeBrowser.switch(['track', 'focus', 'label'], true);
-
-    genomeBrowser.switch(['focus', 'gene'], true);
-    genomeBrowser.switch(['focus', 'gene', focus], true);
-  }
-  if (action.type === OutgoingActionType.SET_FOCUS_LOCATION) {
+    genomeBrowser.switch(['track', 'focus', 'item', 'gene'], focus);
+  } else if (action.type === OutgoingActionType.SET_FOCUS_LOCATION) {
     const { chromosome, startBp, endBp, genomeId, focus } = action.payload;
 
     genomeBrowser.set_stick(`${genomeId}:${chromosome}`);
     genomeBrowser.wait();
-    if (focus) {
-      genomeBrowser.switch(['track'], true);
-      genomeBrowser.switch(['track', 'focus'], true);
 
-      genomeBrowser.switch(['focus', 'gene'], true);
-      genomeBrowser.switch(['focus', 'gene', focus], true);
+    if (focus) {
+      genomeBrowser.switch(['track', 'focus'], true);
+      genomeBrowser.switch(['track', 'focus', 'item', 'gene'], focus);
     }
 
     genomeBrowser.goto(startBp, endBp);
@@ -63,10 +57,18 @@ const send = async (
   } else if (action.type === OutgoingActionType.TURN_ON_SEVERAL_TRANSCRIPTS) {
     for (const track_id of action.payload.track_ids) {
       genomeBrowser.switch(['track', track_id, 'several'], true);
+      if (track_id === 'focus') {
+        // reset transcripts and rely on the genome browser to figure them out
+        genomeBrowser.switch(['track', 'focus', 'enabled-transcripts'], null);
+      }
     }
   } else if (action.type === OutgoingActionType.TURN_OFF_SEVERAL_TRANSCRIPTS) {
     for (const track_id of action.payload.track_ids) {
       genomeBrowser.switch(['track', track_id, 'several'], false);
+      if (track_id === 'focus') {
+        // reset transcripts and rely on the genome browser to figure them out
+        genomeBrowser.switch(['track', 'focus', 'enabled-transcripts'], null);
+      }
     }
   } else if (action.type === OutgoingActionType.SET_VISIBLE_TRANSCRIPTS) {
     const { track_id, transcript_ids } = action.payload;

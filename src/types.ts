@@ -253,6 +253,7 @@ export type BrowserSetFocusAction = {
   payload: {
     focus: string;
     genomeId: string;
+    shouldJump?: boolean;
   };
 };
 
@@ -357,7 +358,7 @@ export type GenomeBrowserType = {
   goto: (left: number, right: number) => void;
   jump: (location: string) => void;
   set_y: (y: number) => void;
-  switch: (path: string[], value: string[] | boolean | null) => void;
+  switch: (path: string[], value: string | string[] | boolean | null) => void;
   set_switch: (path: string[]) => void;
   clear_switch: (path: string[]) => void;
   set_message_reporter: (callback: (...action: [type: IncomingActionType, payload: any]) => void) => void;
