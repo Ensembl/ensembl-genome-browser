@@ -229,7 +229,7 @@ export type SetVisibleTranscripts = {
   type: OutgoingActionType.SET_VISIBLE_TRANSCRIPTS;
   payload: {
     track_id: string;
-    transcript_ids: string[];
+    transcript_ids: string[] | null;
   };
 };
 
