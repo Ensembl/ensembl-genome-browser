@@ -351,6 +351,14 @@ export type Subscribe = (...args: SubscribeArgs) => {
   unsubscribe: () => void
 };
 
+export type PrimitiveValue = string | number | boolean | null;
+export type ArrayValue = PrimitiveValue[] | JSONValue[];
+export type PrimitiveOrArrayValue = PrimitiveValue | ArrayValue;
+
+export type JSONValue = PrimitiveOrArrayValue | {
+  [key: string]: PrimitiveOrArrayValue | JSONValue;
+};
+
 export type GenomeBrowserType = {
   go: (config_object: any) => void;
   set_stick: (stickId: string) => void;
