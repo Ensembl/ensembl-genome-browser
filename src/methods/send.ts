@@ -6,9 +6,9 @@ const send = async (
   action: OutgoingAction
 ) => {
   if (action.type === OutgoingActionType.SET_FOCUS) {
-    const { genomeId, focus, shouldJump } = action.payload;
+    const { genomeId, focus, bringIntoView } = action.payload;
 
-    if (shouldJump) {
+    if (bringIntoView) {
       genomeBrowser.jump(`focus:${genomeId}:${focus}`);
       genomeBrowser.wait();
     }

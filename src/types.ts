@@ -253,7 +253,7 @@ export type BrowserSetFocusAction = {
   payload: {
     focus: string;
     genomeId: string;
-    shouldJump?: boolean;
+    bringIntoView?: boolean;
   };
 };
 
