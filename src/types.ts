@@ -158,6 +158,7 @@ export type ReportVisibleTranscriptsAction = {
   payload: {
     track_id: string;
     transcript_ids: string[];
+    gene_id: string;
   };
 };
 
