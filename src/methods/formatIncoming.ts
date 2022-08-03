@@ -18,15 +18,18 @@ const formatIncoming = (actionType: IncomingActionType, payload: any) => {
   }
 
   if (actionType === IncomingActionType.VISIBLE_TRANSCRIPTS) {
-    const transcript_ids = payload.summary.find(
+    const focusTrackSummary = payload.summary.find(
       (track: any) => track['switch-id'] === 'focus'
-    )['transcripts-shown'];
+    );
+    const transcript_ids = focusTrackSummary['transcripts-shown'] ?? [];
+    const gene_id = focusTrackSummary.id;
 
     return {
       type: actionType,
       payload: {
         track_id: 'focus',
-        transcript_ids
+        transcript_ids,
+        gene_id
       }
     } as ReportVisibleTranscriptsAction;
   }

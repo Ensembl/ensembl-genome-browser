@@ -158,6 +158,7 @@ export type ReportVisibleTranscriptsAction = {
   payload: {
     track_id: string;
     transcript_ids: string[];
+    gene_id: string;
   };
 };
 
@@ -229,7 +230,7 @@ export type SetVisibleTranscripts = {
   type: OutgoingActionType.SET_VISIBLE_TRANSCRIPTS;
   payload: {
     track_id: string;
-    transcript_ids: string[];
+    transcript_ids: string[] | null;
   };
 };
 
@@ -253,6 +254,7 @@ export type BrowserSetFocusAction = {
   payload: {
     focus: string;
     genomeId: string;
+    bringIntoView?: boolean;
   };
 };
 
@@ -350,6 +352,14 @@ export type Subscribe = (...args: SubscribeArgs) => {
   unsubscribe: () => void
 };
 
+export type PrimitiveValue = string | number | boolean | null;
+export type ArrayValue = PrimitiveValue[] | JSONValue[];
+export type PrimitiveOrArrayValue = PrimitiveValue | ArrayValue;
+
+export type JSONValue = PrimitiveOrArrayValue | {
+  [key: string]: PrimitiveOrArrayValue | JSONValue;
+};
+
 export type GenomeBrowserType = {
   go: (config_object: any) => void;
   set_stick: (stickId: string) => void;
@@ -357,8 +367,7 @@ export type GenomeBrowserType = {
   goto: (left: number, right: number) => void;
   jump: (location: string) => void;
   set_y: (y: number) => void;
-  set_switch: (path: string[]) => void;
-  clear_switch: (path: string[]) => void;
+  switch: (path: string[], value: JSONValue) => void;
   set_message_reporter: (callback: (...action: [type: IncomingActionType, payload: any]) => void) => void;
 };
 
