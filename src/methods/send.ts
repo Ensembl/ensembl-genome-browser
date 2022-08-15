@@ -15,7 +15,10 @@ const send = async (
 
     genomeBrowser.switch(['track', 'focus'], true);
     genomeBrowser.switch(['track', 'focus', 'label'], true);
-    genomeBrowser.switch(['track', 'focus', 'item', 'gene'], focus);
+    genomeBrowser.switch(['track', 'focus', 'item', 'gene'], {
+      'genome_id': genomeId,
+      'item_id': focus
+    });
   } else if (action.type === OutgoingActionType.SET_FOCUS_LOCATION) {
     const { chromosome, startBp, endBp, genomeId, focus } = action.payload;
 
@@ -24,7 +27,10 @@ const send = async (
 
     if (focus) {
       genomeBrowser.switch(['track', 'focus'], true);
-      genomeBrowser.switch(['track', 'focus', 'item', 'gene'], focus);
+      genomeBrowser.switch(['track', 'focus', 'item', 'gene'], {
+        'genome_id': genomeId,
+        'item_id': focus
+      });
     }
 
     genomeBrowser.goto(startBp, endBp);
