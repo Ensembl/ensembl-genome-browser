@@ -21,7 +21,7 @@ const formatIncoming = (actionType: IncomingActionType, payload: any) => {
     const focusTrackSummary = payload.summary.find(
       (track: any) => track['switch-id'] === 'focus'
     );
-    const transcript_ids = focusTrackSummary['transcripts-shown'] ?? [];
+    const transcript_ids = focusTrackSummary['transcripts-shown'];
     const gene_id = focusTrackSummary.id;
 
     return {
