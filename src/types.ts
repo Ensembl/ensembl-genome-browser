@@ -75,18 +75,21 @@ export type ZmenuContentBlock = {
 export type ZmenuContentLine = ZmenuContentBlock[]
 
 export type ZmenuContentTranscriptMetadata = {
+  versioned_id: string;
+  unversioned_id: string;
   designation: string;
   strand: string;
   transcript_biotype: string;
-  transcript_id: string;
   track: string;
   type: ZmenuFeatureType.TRANSCRIPT;
-  gene_id: string;
+  gene_id: string; // refers to gene's versioned stabled id
 };
 
 export type ZmenuContentGeneMetadata = {
-  id: string;
   symbol: string;
+  name: string;
+  unversioned_id: string;
+  versioned_id: string;
   track: string;
   type: ZmenuFeatureType.GENE;
 };
