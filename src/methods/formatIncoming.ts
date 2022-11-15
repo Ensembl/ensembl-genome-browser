@@ -9,7 +9,7 @@ import {
 
 export type ZmenuContent = (ZmenuContentGene | ZmenuContentTranscript)[];
 
-const formatIncoming = (actionType: IncomingActionType, payload: any) => {
+const formatIncoming = (actionType: IncomingActionType | 'out-of-date', payload: any) => {
   if (actionType === IncomingActionType.TRACK_SUMMARY) {
     return {
       type: actionType,
@@ -32,6 +32,18 @@ const formatIncoming = (actionType: IncomingActionType, payload: any) => {
         gene_id
       }
     } as ReportVisibleTranscriptsAction;
+  }
+
+  if (actionType === 'out-of-date') {
+    // This is a temporary code change, which we expect to go away soon.
+    // At the moment, genome browser reports that the client version is out of date by sending the "out-of-date" string as an incoming action type.
+    // In the future, we expect it to change the message to actionType: 'error', payload: some_json in one of the next releases
+    return {
+      type: 'error',
+      payload: {
+        type: 'BadVersion'
+      }
+    }
   }
 
   return {

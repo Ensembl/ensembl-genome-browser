@@ -1,4 +1,4 @@
-import {
+import type {
   ConfigData,
   GenomeBrowserType,
   IncomingActionType,
@@ -27,7 +27,7 @@ class EnsemblGenomeBrowser {
   };
 
   handleIncoming: (
-    ...action: [type: IncomingActionType | 'error', payload: any]
+    ...action: [type: IncomingActionType, payload: any]
   ) => void = () => undefined;
 
   formatIncoming: (actionType: IncomingActionType, payload: any) => any = () =>
@@ -41,7 +41,7 @@ class EnsemblGenomeBrowser {
     this.send = (action: OutgoingAction) =>
       send(this.genomeBrowser as GenomeBrowserType, action);
     this.handleIncoming = (
-      ...action: [type: IncomingActionType | 'error', payload: any]
+      ...action: [type: IncomingActionType, payload: any]
     ) => handleIncoming(this.subscriptions, ...action);
     this.subscribe = (...args: SubscribeArgs) =>
       subscribe(this.subscriptions, ...args);
