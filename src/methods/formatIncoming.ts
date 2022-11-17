@@ -39,7 +39,7 @@ const formatIncoming = (actionType: IncomingActionType | 'out-of-date', payload:
     // At the moment, genome browser reports that the client version is out of date by sending the "out-of-date" string as an incoming action type.
     // In the future, we expect it to change the message to actionType: 'error', payload: some_json in one of the next releases
     return {
-      type: 'error',
+      type: 'out-of-date', // this will become an error type when genome browser learns to send proper error messages
       payload: {
         type: 'BadVersion'
       }

@@ -30,7 +30,8 @@ export enum IncomingActionType {
   TRACK_SUMMARY = 'track_summary',
   ZMENU_CREATE = 'zmenu',
   VISIBLE_TRANSCRIPTS = 'visible_transcripts',
-  ERROR = 'error'
+  ERROR = 'error',
+  OUT_OF_DATE = 'out-of-date' // TODO: this is temporary; will need to fix this
 }
 
 
@@ -396,6 +397,6 @@ export type GenomeBrowserError =
   | VersionMismatchError;
 
 export type GenomeBrowserErrorAction = {
-  type: IncomingActionType.ERROR;
+  type: IncomingActionType.OUT_OF_DATE; // TODO: change this to IncomingActionType.ERROR when genome browser learns to send proper error messages
   payload: GenomeBrowserError;
 };
