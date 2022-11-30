@@ -3,7 +3,7 @@ import formatIncoming from './formatIncoming';
 
 const handleIncoming = (
   subscriptions: Subscriptions,
-  ...action: [type: IncomingActionType | 'error', payload: any]
+  ...action: [type: IncomingActionType, payload: any]
 ) => {
   const [type, payload] = action;
 

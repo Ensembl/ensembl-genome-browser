@@ -29,7 +29,9 @@ export enum IncomingActionType {
   SCROLL_POSITION = 'scroll_position',
   TRACK_SUMMARY = 'track_summary',
   ZMENU_CREATE = 'zmenu',
-  VISIBLE_TRANSCRIPTS = 'visible_transcripts'
+  VISIBLE_TRANSCRIPTS = 'visible_transcripts',
+  ERROR = 'error',
+  OUT_OF_DATE = 'out-of-date' // TODO: this is temporary; will need to fix this
 }
 
 
@@ -339,7 +341,8 @@ export type IncomingAction =
   | UpdateCogPositionAction
   | UpdateTrackSummaryAction
   | ZmenuCreateAction
-  | ReportVisibleTranscriptsAction;
+  | ReportVisibleTranscriptsAction
+  | GenomeBrowserErrorAction;
 
 export type SubscribeArgs =
   | [BrowserCurrentLocationUpdateAction['type'], (action: BrowserCurrentLocationUpdateAction) => void]
@@ -347,7 +350,8 @@ export type SubscribeArgs =
   | [UpdateCogPositionAction['type'], (action: UpdateCogPositionAction) => void]
   | [UpdateTrackSummaryAction['type'], (action: UpdateTrackSummaryAction) => void]
   | [ZmenuCreateAction['type'], (action: ZmenuCreateAction) => void]
-  | [ReportVisibleTranscriptsAction['type'], (action: ReportVisibleTranscriptsAction) => void];
+  | [ReportVisibleTranscriptsAction['type'], (action: ReportVisibleTranscriptsAction) => void]
+  | [GenomeBrowserErrorAction['type'], (action: GenomeBrowserErrorAction) => void];
 
 export type Subscriptions = Map<IncomingActionType, Set<(action: any) => void>>;
 
@@ -379,4 +383,20 @@ export type ConfigData = {
   backend_url?: string;
   target_element_id?: string;
   "debug.show-incoming-messages"?: string;
+};
+
+export enum GenomeBrowserErrorType {
+  BAD_VERSION = 'BadVersion' // genome browser client is out of date with the backend
 }
+
+export type VersionMismatchError = {
+  type: GenomeBrowserErrorType.BAD_VERSION;
+};
+
+export type GenomeBrowserError =
+  | VersionMismatchError;
+
+export type GenomeBrowserErrorAction = {
+  type: IncomingActionType.OUT_OF_DATE; // TODO: change this to IncomingActionType.ERROR when genome browser learns to send proper error messages
+  payload: GenomeBrowserError;
+};

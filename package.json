@@ -1,6 +1,6 @@
 {
   "name": "@ensembl/ensembl-genome-browser",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Ensembl standalone genome browser",
   "type": "module",
   "main": "dist/bundle-cjs.cjs",
