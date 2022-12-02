@@ -270,9 +270,11 @@ export type BrowserSetFocusLocationAction = {
     chromosome: string;
     endBp: number;
     startBp: number;
-    focus: string | null;
     genomeId: string;
-
+    focus?: {
+      id: string;
+      type: string;
+    } | null;
   };
 };
 

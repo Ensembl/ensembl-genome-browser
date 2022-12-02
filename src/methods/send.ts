@@ -11,23 +11,16 @@ const send = async (
   action: OutgoingAction
 ) => {
   if (action.type === OutgoingActionType.SET_FOCUS) {
-    setFocusObject(action, genomeBrowser);
+    setFocusObject(action.payload, genomeBrowser);
   } else if (action.type === OutgoingActionType.SET_FOCUS_LOCATION) {
     // This action fires when we want to set both (1) the focus object, and
     // (2) the location where the user is, which may or may not be the same as the location of the focus object
     const { chromosome, startBp, endBp, genomeId, focus } = action.payload;
-
     genomeBrowser.set_stick(`${genomeId}:${chromosome}`);
-    genomeBrowser.wait();
 
     if (focus) {
-      genomeBrowser.switch(['track', 'focus'], true);
-      genomeBrowser.switch(['track', 'focus', 'item', 'gene'], {
-        'genome_id': genomeId,
-        'item_id': focus
-      });
+      setFocusObject({ genomeId, focusId: focus.id, focusType: focus.type }, genomeBrowser);
     }
-
     genomeBrowser.goto(startBp, endBp);
   } else if (action.type === OutgoingActionType.TURN_ON_TRACKS) {
     for (const track_id of action.payload.track_ids) {
@@ -88,18 +81,18 @@ const send = async (
   }
 };
 
-const setFocusObject = (action: BrowserSetFocusAction, genomeBrowser: GenomeBrowserType) => {
-  const { focusType } = action.payload;
+const setFocusObject = (payload: BrowserSetFocusAction['payload'], genomeBrowser: GenomeBrowserType) => {
+  const { focusType } = payload;
 
   if (focusType === 'gene') {
-    setFocusGene(action, genomeBrowser);
+    setFocusGene(payload, genomeBrowser);
   } else if (focusType === 'location') {
-    setFocusLocation(action, genomeBrowser);
+    setFocusLocation(payload, genomeBrowser);
   }
 };
 
-const setFocusGene = (action: BrowserSetFocusAction, genomeBrowser: GenomeBrowserType) => {
-  const { genomeId, focusId, bringIntoView } = action.payload;
+const setFocusGene = (payload: BrowserSetFocusAction['payload'], genomeBrowser: GenomeBrowserType) => {
+  const { genomeId, focusId, bringIntoView } = payload;
 
   if (bringIntoView) {
     genomeBrowser.jump(`focus:${genomeId}:${focusId}`);
@@ -114,9 +107,9 @@ const setFocusGene = (action: BrowserSetFocusAction, genomeBrowser: GenomeBrowse
   });
 };
 
-const setFocusLocation = (action: BrowserSetFocusAction, genomeBrowser: GenomeBrowserType) => {
+const setFocusLocation = (payload: BrowserSetFocusAction['payload'], genomeBrowser: GenomeBrowserType) => {
   // NOTE: This is a temporary function, until the genome browser is released with proper support of genome locations
-  const { genomeId, focusId, bringIntoView } = action.payload;
+  const { genomeId, focusId, bringIntoView } = payload;
   const locationRegex = /(.+):(\d+)-(\d+)/;
   const [, regionName, start, end] = locationRegex.exec(focusId) ?? [];
   if (!regionName && start && end) {
