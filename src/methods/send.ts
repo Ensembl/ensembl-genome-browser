@@ -4,7 +4,6 @@ import {
   type OutgoingAction,
   type BrowserSetFocusAction
 } from '../types';
-import {  } from '../types';
 
 const send = async (
   genomeBrowser: GenomeBrowserType,
