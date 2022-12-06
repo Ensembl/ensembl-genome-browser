@@ -107,7 +107,7 @@ const setFocusGene = (payload: BrowserSetFocusAction['payload'], genomeBrowser: 
 };
 
 const setFocusLocation = (payload: BrowserSetFocusAction['payload'], genomeBrowser: GenomeBrowserType) => {
-  // NOTE: This is a temporary function, until the genome browser is released with proper support of genome locations
+  // NOTE: This is a temporary function, until the genome browser is released with proper support of focus locations
   const { genomeId, focusId, bringIntoView } = payload;
   const locationRegex = /(.+):(\d+)-(\d+)/;
   const [, regionName, start, end] = locationRegex.exec(focusId) ?? [];
