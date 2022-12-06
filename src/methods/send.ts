@@ -111,7 +111,7 @@ const setFocusLocation = (payload: BrowserSetFocusAction['payload'], genomeBrows
   const { genomeId, focusId, bringIntoView } = payload;
   const locationRegex = /(.+):(\d+)-(\d+)/;
   const [, regionName, start, end] = locationRegex.exec(focusId) ?? [];
-  if (!regionName && start && end) {
+  if (!regionName || !start || !end) {
     return;
   }
   genomeBrowser.set_stick(`${genomeId}:${regionName}`);
