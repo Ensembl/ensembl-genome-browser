@@ -257,7 +257,8 @@ export type TurnOffTranscriptLabelsAction = {
 export type BrowserSetFocusAction = {
   type: OutgoingActionType.SET_FOCUS;
   payload: {
-    focus: string;
+    focusId: string;
+    focusType: string;
     genomeId: string;
     bringIntoView?: boolean;
   };
@@ -269,9 +270,11 @@ export type BrowserSetFocusLocationAction = {
     chromosome: string;
     endBp: number;
     startBp: number;
-    focus: string | null;
     genomeId: string;
-
+    focus?: {
+      id: string;
+      type: string;
+    } | null;
   };
 };
 
