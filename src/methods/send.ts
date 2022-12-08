@@ -107,23 +107,26 @@ const setFocusGene = (payload: BrowserSetFocusAction['payload'], genomeBrowser: 
 };
 
 const setFocusLocation = (payload: BrowserSetFocusAction['payload'], genomeBrowser: GenomeBrowserType) => {
-  // NOTE: This is a temporary function, until the genome browser is released with proper support of focus locations
   const { genomeId, focusId, bringIntoView } = payload;
   const locationRegex = /(.+):(\d+)-(\d+)/;
   const [, regionName, start, end] = locationRegex.exec(focusId) ?? [];
   if (!regionName || !start || !end) {
     return;
   }
-  genomeBrowser.set_stick(`${genomeId}:${regionName}`);
-
-  // NOTE: the line below is certainly temporary.
-  // When an updated version of genome browser is released, it will have a "track" for a focus location, although it will only result in display of vertical dotted red lines
-  genomeBrowser.switch(['track', 'focus'], false);
 
   const startNum = parseInt(start);
   const endNum = parseInt(end);
 
+  genomeBrowser.switch(['track', 'focus'], true);
+  genomeBrowser.switch(['track', 'focus', 'item', 'location'], {
+    genome_id: genomeId,
+    region_name: regionName,
+    start: startNum,
+    end: endNum
+  });
+
   if (bringIntoView) {
+    genomeBrowser.set_stick(`${genomeId}:${regionName}`);
     genomeBrowser.goto(startNum, endNum);
   }
 };
