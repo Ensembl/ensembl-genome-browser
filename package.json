@@ -1,6 +1,6 @@
 {
   "name": "@ensembl/ensembl-genome-browser",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "Ensembl standalone genome browser",
   "type": "module",
   "main": "dist/bundle-cjs.cjs",
@@ -40,7 +40,7 @@
     "Genome",
     "browser"
   ],
-  "author": "Manoj Pandian Sakthivel",
+  "author": "EMBL-EBI",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Ensembl/ensembl-genome-browser/issues"

@@ -28,7 +28,7 @@ export enum IncomingActionType {
   TARGET_POSITION = 'target_position',
   SCROLL_POSITION = 'scroll_position',
   TRACK_SUMMARY = 'track_summary',
-  ZMENU_CREATE = 'zmenu',
+  HOTSPOT = 'hotspot',
   VISIBLE_TRANSCRIPTS = 'visible_transcripts',
   ERROR = 'error',
   OUT_OF_DATE = 'out-of-date' // TODO: this is temporary; will need to fix this
@@ -50,6 +50,29 @@ export type TrackSummaryList = TrackSummary[];
 export type AnchorCoordinates = {
   x: number;
   y: number;
+};
+
+export type HotspotPayload =
+  | TranscriptsLozengePayload
+  | ZmenuCreatePayload;
+
+export type HotspotContent = ZmenuContent[] | TranscriptsLozengeContent[]; // sadly, this must be an array, even though semantically, in some payloads this doesn't make sense
+
+export type HotspotVariety = ZmenuPayloadVariety[] | TranscriptsLozengeVariety[]; // sadly, this too must be an array
+
+export type TranscriptsLozengePayload = AnchorCoordinates & {
+  content: TranscriptsLozengeContent[];
+  variety: TranscriptsLozengeVariety[];
+};
+
+export type TranscriptsLozengeContent = {
+  currently_all: boolean;
+  focus: boolean;
+  id: string; // stable id of the gene
+};
+
+export type TranscriptsLozengeVariety = {
+  type: 'lozenge'
 };
 
 export enum Markup {
@@ -113,13 +136,14 @@ export enum ZmenuPayloadVarietyType {
 }
 
 export type ZmenuPayloadVariety = {
-  type: ZmenuPayloadVarietyType
-}
+  type: 'zmenu';
+  'zmenu-type': ZmenuPayloadVarietyType
+};
 
 export type ZmenuCreatePayload = AnchorCoordinates & {
-  content: ZmenuContent[],
-  variety: ZmenuPayloadVariety[]
-}
+  content: ZmenuContent[];
+  variety: ZmenuPayloadVariety[];
+};
 
 export type PositionUpdatePayload = {
   stick: string
@@ -152,12 +176,6 @@ export type UpdateTrackSummaryAction = {
   payload: TrackSummaryList;
 };
 
-
-export type ZmenuCreateAction = {
-  type: IncomingActionType.ZMENU_CREATE;
-  payload: ZmenuCreatePayload
-};
-
 export type ReportVisibleTranscriptsAction = {
   type: IncomingActionType.VISIBLE_TRANSCRIPTS;
   payload: {
@@ -165,6 +183,11 @@ export type ReportVisibleTranscriptsAction = {
     transcript_ids: string[];
     gene_id: string;
   };
+};
+
+export type HotspotAction = {
+  type: IncomingActionType.HOTSPOT;
+  payload: HotspotPayload
 };
 
 export type BrowserToggleTracksAction = {
@@ -343,7 +366,7 @@ export type IncomingAction =
   | BrowserTargetLocationUpdateAction
   | UpdateCogPositionAction
   | UpdateTrackSummaryAction
-  | ZmenuCreateAction
+  | HotspotAction
   | ReportVisibleTranscriptsAction
   | GenomeBrowserErrorAction;
 
@@ -352,7 +375,7 @@ export type SubscribeArgs =
   | [BrowserTargetLocationUpdateAction['type'], (action: BrowserTargetLocationUpdateAction) => void]
   | [UpdateCogPositionAction['type'], (action: UpdateCogPositionAction) => void]
   | [UpdateTrackSummaryAction['type'], (action: UpdateTrackSummaryAction) => void]
-  | [ZmenuCreateAction['type'], (action: ZmenuCreateAction) => void]
+  | [HotspotAction['type'], (action: HotspotAction) => void]
   | [ReportVisibleTranscriptsAction['type'], (action: ReportVisibleTranscriptsAction) => void]
   | [GenomeBrowserErrorAction['type'], (action: GenomeBrowserErrorAction) => void];
 
