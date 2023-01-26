@@ -20,7 +20,7 @@ const allSubscriptions = new Map<
 class EnsemblGenomeBrowser {
   genomeBrowser: GenomeBrowserType | null = null;
   subscriptions = allSubscriptions;
-  send: (action: OutgoingAction) => Promise<void> = async () => undefined;
+  send: (action: OutgoingAction) => void = () => undefined;
 
   subscribe: Subscribe = () => {
     return { unsubscribe: () => undefined };

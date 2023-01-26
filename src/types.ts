@@ -19,7 +19,8 @@ export enum OutgoingActionType {
   TURN_OFF_TRANSCRIPT_LABELS = 'turn_off_transcript_labels',
   ZMENU_ENTER = 'zmenu-enter',
   ZOOM_IN = 'zoom_in',
-  ZOOM_OUT = 'zoom_out'
+  ZOOM_OUT = 'zoom_out',
+  MARK_TRACK_GROUP = 'mark_track_group'
 }
 
 export enum IncomingActionType {
@@ -54,11 +55,8 @@ export type AnchorCoordinates = {
 
 export type HotspotPayload =
   | TranscriptsLozengePayload
-  | ZmenuCreatePayload;
-
-export type HotspotContent = ZmenuContent[] | TranscriptsLozengeContent[]; // sadly, this must be an array, even though semantically, in some payloads this doesn't make sense
-
-export type HotspotVariety = ZmenuPayloadVariety[] | TranscriptsLozengeVariety[]; // sadly, this too must be an array
+  | ZmenuCreatePayload
+  | TrackLegendHotspotPayload;
 
 export type TranscriptsLozengePayload = AnchorCoordinates & {
   content: TranscriptsLozengeContent[];
@@ -72,7 +70,21 @@ export type TranscriptsLozengeContent = {
 };
 
 export type TranscriptsLozengeVariety = {
-  type: 'lozenge'
+  type: string; // 'lozenge'
+};
+
+export type TrackLegendHotspotPayload = AnchorCoordinates & {
+  variety: TrackLegendHotspotVariety[];
+  content: TrackLegendHotspotContent[];
+  start: boolean; // true on mouse in; false on mouse out
+};
+
+export type TrackLegendHotspotVariety = {
+  type: string; // 'track-hover'
+};
+
+export type TrackLegendHotspotContent = {
+  track: string; // track id
 };
 
 export enum Markup {
@@ -136,7 +148,7 @@ export enum ZmenuPayloadVarietyType {
 }
 
 export type ZmenuPayloadVariety = {
-  type: 'zmenu';
+  type: string; //'zmenu'
   'zmenu-type': ZmenuPayloadVarietyType
 };
 
@@ -338,6 +350,11 @@ export type ZoomOutAction = {
   payload: { zoom_by: number };
 };
 
+export type MarkTrackGroupAction = {
+  type: OutgoingActionType.MARK_TRACK_GROUP,
+  payload: { track_group: string }
+};
+
 export type OutgoingAction =
   | BrowserToggleTracksAction
   | TurnOnTracksAction
@@ -359,7 +376,8 @@ export type OutgoingAction =
   | MoveLeftAction
   | MoveRightAction
   | ZoomInAction
-  | ZoomOutAction;
+  | ZoomOutAction
+  | MarkTrackGroupAction;
 
 export type IncomingAction =
   | BrowserCurrentLocationUpdateAction
