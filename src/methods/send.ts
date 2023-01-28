@@ -96,7 +96,7 @@ const setFocusGene = (payload: BrowserSetFocusAction['payload'], genomeBrowser: 
   const { genomeId, focusId, bringIntoView } = payload;
 
   if (bringIntoView) {
-    genomeBrowser.jump(`focus:${genomeId}:${focusId}`);
+    genomeBrowser.jump(`focus:gene:${genomeId}:${focusId}`);
     genomeBrowser.wait();
   }
 
