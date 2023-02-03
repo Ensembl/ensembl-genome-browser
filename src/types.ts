@@ -19,7 +19,8 @@ export enum OutgoingActionType {
   TURN_OFF_TRANSCRIPT_LABELS = 'turn_off_transcript_labels',
   ZMENU_ENTER = 'zmenu-enter',
   ZOOM_IN = 'zoom_in',
-  ZOOM_OUT = 'zoom_out'
+  ZOOM_OUT = 'zoom_out',
+  MARK_TRACK_GROUP = 'mark_track_group'
 }
 
 export enum IncomingActionType {
@@ -28,7 +29,7 @@ export enum IncomingActionType {
   TARGET_POSITION = 'target_position',
   SCROLL_POSITION = 'scroll_position',
   TRACK_SUMMARY = 'track_summary',
-  ZMENU_CREATE = 'zmenu',
+  HOTSPOT = 'hotspot',
   VISIBLE_TRANSCRIPTS = 'visible_transcripts',
   ERROR = 'error',
   OUT_OF_DATE = 'out-of-date' // TODO: this is temporary; will need to fix this
@@ -50,6 +51,40 @@ export type TrackSummaryList = TrackSummary[];
 export type AnchorCoordinates = {
   x: number;
   y: number;
+};
+
+export type HotspotPayload =
+  | TranscriptsLozengePayload
+  | ZmenuCreatePayload
+  | TrackLegendHotspotPayload;
+
+export type TranscriptsLozengePayload = AnchorCoordinates & {
+  content: TranscriptsLozengeContent[];
+  variety: TranscriptsLozengeVariety[];
+};
+
+export type TranscriptsLozengeContent = {
+  currently_all: boolean;
+  focus: boolean;
+  id: string; // stable id of the gene
+};
+
+export type TranscriptsLozengeVariety = {
+  type: string; // 'lozenge'
+};
+
+export type TrackLegendHotspotPayload = AnchorCoordinates & {
+  variety: TrackLegendHotspotVariety[];
+  content: TrackLegendHotspotContent[];
+  start: boolean; // true on mouse in; false on mouse out
+};
+
+export type TrackLegendHotspotVariety = {
+  type: string; // 'track-hover'
+};
+
+export type TrackLegendHotspotContent = {
+  track: string; // track id
 };
 
 export enum Markup {
@@ -113,13 +148,14 @@ export enum ZmenuPayloadVarietyType {
 }
 
 export type ZmenuPayloadVariety = {
-  type: ZmenuPayloadVarietyType
-}
+  type: string; //'zmenu'
+  'zmenu-type': ZmenuPayloadVarietyType
+};
 
 export type ZmenuCreatePayload = AnchorCoordinates & {
-  content: ZmenuContent[],
-  variety: ZmenuPayloadVariety[]
-}
+  content: ZmenuContent[];
+  variety: ZmenuPayloadVariety[];
+};
 
 export type PositionUpdatePayload = {
   stick: string
@@ -152,12 +188,6 @@ export type UpdateTrackSummaryAction = {
   payload: TrackSummaryList;
 };
 
-
-export type ZmenuCreateAction = {
-  type: IncomingActionType.ZMENU_CREATE;
-  payload: ZmenuCreatePayload
-};
-
 export type ReportVisibleTranscriptsAction = {
   type: IncomingActionType.VISIBLE_TRANSCRIPTS;
   payload: {
@@ -165,6 +195,11 @@ export type ReportVisibleTranscriptsAction = {
     transcript_ids: string[];
     gene_id: string;
   };
+};
+
+export type HotspotAction = {
+  type: IncomingActionType.HOTSPOT;
+  payload: HotspotPayload
 };
 
 export type BrowserToggleTracksAction = {
@@ -315,6 +350,11 @@ export type ZoomOutAction = {
   payload: { zoom_by: number };
 };
 
+export type MarkTrackGroupAction = {
+  type: OutgoingActionType.MARK_TRACK_GROUP,
+  payload: { track_group: string }
+};
+
 export type OutgoingAction =
   | BrowserToggleTracksAction
   | TurnOnTracksAction
@@ -336,14 +376,15 @@ export type OutgoingAction =
   | MoveLeftAction
   | MoveRightAction
   | ZoomInAction
-  | ZoomOutAction;
+  | ZoomOutAction
+  | MarkTrackGroupAction;
 
 export type IncomingAction =
   | BrowserCurrentLocationUpdateAction
   | BrowserTargetLocationUpdateAction
   | UpdateCogPositionAction
   | UpdateTrackSummaryAction
-  | ZmenuCreateAction
+  | HotspotAction
   | ReportVisibleTranscriptsAction
   | GenomeBrowserErrorAction;
 
@@ -352,7 +393,7 @@ export type SubscribeArgs =
   | [BrowserTargetLocationUpdateAction['type'], (action: BrowserTargetLocationUpdateAction) => void]
   | [UpdateCogPositionAction['type'], (action: UpdateCogPositionAction) => void]
   | [UpdateTrackSummaryAction['type'], (action: UpdateTrackSummaryAction) => void]
-  | [ZmenuCreateAction['type'], (action: ZmenuCreateAction) => void]
+  | [HotspotAction['type'], (action: HotspotAction) => void]
   | [ReportVisibleTranscriptsAction['type'], (action: ReportVisibleTranscriptsAction) => void]
   | [GenomeBrowserErrorAction['type'], (action: GenomeBrowserErrorAction) => void];
 

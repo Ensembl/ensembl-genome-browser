@@ -5,7 +5,7 @@ import {
   type BrowserSetFocusAction
 } from '../types';
 
-const send = async (
+const send = (
   genomeBrowser: GenomeBrowserType,
   action: OutgoingAction
 ) => {
@@ -77,6 +77,8 @@ const send = async (
     for (const track_id of action.payload.track_ids) {
       genomeBrowser.switch(['track', track_id, 'transcript-label'], false);
     }
+  } else if (action.type === OutgoingActionType.MARK_TRACK_GROUP) {
+    genomeBrowser.switch(['settings', 'tab-selected'], action.payload.track_group);
   }
 };
 
@@ -94,7 +96,7 @@ const setFocusGene = (payload: BrowserSetFocusAction['payload'], genomeBrowser: 
   const { genomeId, focusId, bringIntoView } = payload;
 
   if (bringIntoView) {
-    genomeBrowser.jump(`focus:${genomeId}:${focusId}`);
+    genomeBrowser.jump(`focus:gene:${genomeId}:${focusId}`);
     genomeBrowser.wait();
   }
 
