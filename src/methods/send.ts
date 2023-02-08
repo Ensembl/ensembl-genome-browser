@@ -87,6 +87,8 @@ const setFocusObject = (payload: BrowserSetFocusAction['payload'], genomeBrowser
 
   if (focusType === 'gene') {
     setFocusGene(payload, genomeBrowser);
+  } else if (focusType === 'variant') {
+    setFocusVariant(payload, genomeBrowser);
   } else if (focusType === 'location') {
     setFocusLocation(payload, genomeBrowser);
   }
@@ -105,6 +107,30 @@ const setFocusGene = (payload: BrowserSetFocusAction['payload'], genomeBrowser: 
   genomeBrowser.switch(['track', 'focus', 'item', 'gene'], {
     'genome_id': genomeId,
     'item_id': focusId
+  });
+};
+
+const setFocusVariant = (payload: BrowserSetFocusAction['payload'], genomeBrowser: GenomeBrowserType) => {
+  const { genomeId, focusId, bringIntoView } = payload;
+
+//   To get this to integrated, etc, though, when it's the right time, here's how you turn it on
+//         genome_browser.switch(["track","focus","item","variant"],{
+//           "genome_id": "a7335667-93e7-11ec-a39d-005056b38ce3", 
+//           "variant_id": "rs779377781"
+//         });
+// and here's how you jump:
+// focus:variant:a7335667-93e7-11ec-a39d-005056b38ce3:rs779377781
+
+  if (bringIntoView) {
+    genomeBrowser.jump(`focus:variant:${genomeId}:${focusId}`);
+    genomeBrowser.wait();
+  }
+
+  genomeBrowser.switch(['track', 'focus'], true);
+  genomeBrowser.switch(['track', 'focus', 'label'], true);
+  genomeBrowser.switch(['track', 'focus', 'item', 'variant'], {
+    genome_id: genomeId,
+    variant_id: focusId
   });
 };
 
