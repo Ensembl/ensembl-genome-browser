@@ -77,6 +77,9 @@ const send = (
     for (const track_id of action.payload.track_ids) {
       genomeBrowser.switch(['track', track_id, 'transcript-label'], false);
     }
+  } else if (action.type === OutgoingActionType.TOGGLE_FOCUS_VARIANT_TRACK_SETTING) {
+    const { setting_name, is_on } = action.payload;
+    genomeBrowser.switch(['track', 'focus', 'variant', setting_name], is_on);
   } else if (action.type === OutgoingActionType.MARK_TRACK_GROUP) {
     genomeBrowser.switch(['settings', 'tab-selected'], action.payload.track_group);
   }
