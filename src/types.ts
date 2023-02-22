@@ -43,8 +43,8 @@ export type CogScrollPayload = {
 
 export type TrackSummary = {
   "switch-id": string,
-  offset: string,
-  height: string
+  offset: number,
+  height: number
 }
 
 export type TrackSummaryList = TrackSummary[];
