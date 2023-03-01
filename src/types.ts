@@ -17,6 +17,7 @@ export enum OutgoingActionType {
   SET_VISIBLE_TRANSCRIPTS = 'set_visible_transcripts',
   TURN_ON_TRANSCRIPT_LABELS = 'turn_on_transcript_labels',
   TURN_OFF_TRANSCRIPT_LABELS = 'turn_off_transcript_labels',
+  TOGGLE_FOCUS_VARIANT_TRACK_SETTING = 'toggle_focus_variant_track_setting',
   ZMENU_ENTER = 'zmenu-enter',
   ZOOM_IN = 'zoom_in',
   ZOOM_OUT = 'zoom_out',
@@ -42,8 +43,8 @@ export type CogScrollPayload = {
 
 export type TrackSummary = {
   "switch-id": string,
-  offset: string,
-  height: string
+  offset: number,
+  height: number
 }
 
 export type TrackSummaryList = TrackSummary[];
@@ -289,6 +290,14 @@ export type TurnOffTranscriptLabelsAction = {
   };
 };
 
+export type ToggleFocusVariantTrackSettingAction = {
+  type: OutgoingActionType.TOGGLE_FOCUS_VARIANT_TRACK_SETTING;
+  payload: {
+    setting_name: string;
+    is_on: boolean;
+  }
+}
+
 export type BrowserSetFocusAction = {
   type: OutgoingActionType.SET_FOCUS;
   payload: {
@@ -368,6 +377,7 @@ export type OutgoingAction =
   | SetVisibleTranscripts
   | TurnOnTranscriptLabelsAction
   | TurnOffTranscriptLabelsAction
+  | ToggleFocusVariantTrackSettingAction
   | ZmenuEnterAction
   | BrowserSetFocusLocationAction
   | BrowserSetFocusAction

@@ -77,6 +77,9 @@ const send = (
     for (const track_id of action.payload.track_ids) {
       genomeBrowser.switch(['track', track_id, 'transcript-label'], false);
     }
+  } else if (action.type === OutgoingActionType.TOGGLE_FOCUS_VARIANT_TRACK_SETTING) {
+    const { setting_name, is_on } = action.payload;
+    genomeBrowser.switch(['track', 'focus', 'variant', setting_name], is_on);
   } else if (action.type === OutgoingActionType.MARK_TRACK_GROUP) {
     genomeBrowser.switch(['settings', 'tab-selected'], action.payload.track_group);
   }
@@ -87,6 +90,8 @@ const setFocusObject = (payload: BrowserSetFocusAction['payload'], genomeBrowser
 
   if (focusType === 'gene') {
     setFocusGene(payload, genomeBrowser);
+  } else if (focusType === 'variant') {
+    setFocusVariant(payload, genomeBrowser);
   } else if (focusType === 'location') {
     setFocusLocation(payload, genomeBrowser);
   }
@@ -105,6 +110,22 @@ const setFocusGene = (payload: BrowserSetFocusAction['payload'], genomeBrowser: 
   genomeBrowser.switch(['track', 'focus', 'item', 'gene'], {
     'genome_id': genomeId,
     'item_id': focusId
+  });
+};
+
+const setFocusVariant = (payload: BrowserSetFocusAction['payload'], genomeBrowser: GenomeBrowserType) => {
+  const { genomeId, focusId, bringIntoView } = payload;
+
+  if (bringIntoView) {
+    genomeBrowser.jump(`focus:variant:${genomeId}:${focusId}`);
+    genomeBrowser.wait();
+  }
+
+  genomeBrowser.switch(['track', 'focus'], true);
+  genomeBrowser.switch(['track', 'focus', 'label'], true);
+  genomeBrowser.switch(['track', 'focus', 'item', 'variant'], {
+    genome_id: genomeId,
+    variant_id: focusId
   });
 };
 
