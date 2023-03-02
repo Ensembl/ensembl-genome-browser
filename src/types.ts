@@ -97,7 +97,8 @@ export enum Markup {
 
 export enum ZmenuFeatureType {
   GENE = 'gene',
-  TRANSCRIPT = 'transcript'
+  TRANSCRIPT = 'transcript',
+  VARIANT = 'variant'
 }
 
 export type ZmenuContentItem = {
@@ -132,6 +133,15 @@ export type ZmenuContentGeneMetadata = {
   type: ZmenuFeatureType.GENE;
 };
 
+export type ZmenuContentVariantMetadata = {
+  alleles: string;
+  consequence: string;
+  id: string;
+  position: string; // formatted as "region:start-end". NOTE: start and end coordinates have commas in them
+  variety: string; // e.g. SNV, INS... Do we have a full list of such varieties?
+  type: ZmenuFeatureType.VARIANT;
+};
+
 export type ZmenuContentGene = {
   data: ZmenuContentLine[];
   metadata: ZmenuContentGeneMetadata;
@@ -142,10 +152,16 @@ export type ZmenuContentTranscript = {
   metadata: ZmenuContentTranscriptMetadata;
 };
 
-export type ZmenuContent = ZmenuContentGene | ZmenuContentTranscript;
+export type ZmenuContentVariant = {
+  data: ZmenuContentLine[];
+  metadata: ZmenuContentVariantMetadata;
+};
+
+export type ZmenuContent = ZmenuContentGene | ZmenuContentTranscript | ZmenuContentVariant;
 
 export enum ZmenuPayloadVarietyType {
-  GENE_AND_ONE_TRANSCRIPT = "gene-and-one-transcript"
+  GENE_AND_ONE_TRANSCRIPT = 'gene-and-one-transcript',
+  VARIANT = 'variant'
 }
 
 export type ZmenuPayloadVariety = {
