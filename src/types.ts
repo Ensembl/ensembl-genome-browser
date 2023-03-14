@@ -74,10 +74,18 @@ export type TranscriptsLozengeVariety = {
   type: string; // 'lozenge'
 };
 
+export type HotspotArea = {
+  bottom: number;
+  left: number;
+  right: number;
+  top: number;
+}
+
 export type TrackLegendHotspotPayload = AnchorCoordinates & {
   variety: TrackLegendHotspotVariety[];
   content: TrackLegendHotspotContent[];
   start: boolean; // true on mouse in; false on mouse out
+  "hotspot-area": HotspotArea;
 };
 
 export type TrackLegendHotspotVariety = {
